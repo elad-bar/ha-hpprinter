@@ -200,14 +200,60 @@ class ProductStatusDynData(HPPrinterData):
         super().__init__(host, port, is_ssl, data_type)
 
 
-usage_data = ProductUsageDynPrinterData("")
+hostname = "192.168.1.30"
+
+usage_data = ProductUsageDynPrinterData(hostname)
 usage_data.update()
 print(usage_data.data)
 
-status_data = ProductStatusDynData("")
+status_data = ProductStatusDynData(hostname)
 status_data.update()
 print(status_data.data)
 
-consumable_data = ConsumableConfigDynPrinterData("")
+consumable_data = ConsumableConfigDynPrinterData(hostname)
 consumable_data.update()
 print(consumable_data.data)
+
+root = usage_data.data.get("ProductUsageDyn", {})
+printer_data = root.get("PrinterSubunit", {})
+consumables_data = root.get("ConsumableSubunit", {})
+printer_consumables = consumables_data.get("Consumable", {})
+total_printed = printer_data.get("TotalImpressions", {})
+total_printed_pages = total_printed.get("#text", 0)
+color_printed_pages = printer_data.get("ColorImpressions", 0)
+monochrome_printed_pages = printer_data.get("MonochromeImpressions", 0)
+printer_jams = printer_data.get("Jams", 0)
+cancelled_print_jobs = printer_data.get("TotalFrontPanelCancelPresses", {})
+cancelled_print_jobs_number = printer_data.get("#text", 0)
+
+state = total_printed_pages
+print(state)
+
+attributes = {
+    "Color": color_printed_pages,
+    "Monochrome": monochrome_printed_pages,
+    "Jams": printer_jams,
+    "Cancelled": cancelled_print_jobs_number
+}
+
+print(attributes)
+
+for key in printer_consumables:
+    printer_consumable_data = printer_consumables[key]
+
+    color = printer_consumable_data.get("MarkerColor", "Unknown")
+    head_type = printer_consumable_data.get("ConsumableTypeEnum", "Unknown")
+    station = printer_consumable_data.get("ConsumableStation", "Unknown")
+    remaining = printer_consumable_data.get("ConsumableRawPercentageLevelRemaining", 0)
+
+    state = remaining
+
+    print(state)
+
+    attributes = {
+        "Color": color,
+        "Type": head_type,
+        "Station": station
+    }
+
+    print(attributes)
