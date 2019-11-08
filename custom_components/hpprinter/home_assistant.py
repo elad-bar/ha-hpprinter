@@ -57,7 +57,8 @@ class HPPrinterHomeAssistant:
         data = self._hp_data.data
         root = data.get("ProductUsageDyn", {})
         printer_data = root.get("PrinterSubunit", {})
-        printer_consumables = printer_data.get("Consumable", {})
+        consumables_data = root.get("ConsumableSubunit", {})
+        printer_consumables = consumables_data.get("Consumable", {})
 
         self.create_printer_sensor(printer_data)
 
@@ -76,7 +77,8 @@ class HPPrinterHomeAssistant:
         color_printed_pages = printer_data.get("ColorImpressions", 0)
         monochrome_printed_pages = printer_data.get("MonochromeImpressions", 0)
         printer_jams = printer_data.get("Jams", 0)
-        cancelled_print_jobs = printer_data.get("TotalFrontPanelCancelPresses", 0)
+        cancelled_print_jobs = printer_data.get("TotalFrontPanelCancelPresses", {})
+        cancelled_print_jobs_number = cancelled_print_jobs.get("#text", 0)
 
         state = total_printed_pages
 
@@ -84,7 +86,9 @@ class HPPrinterHomeAssistant:
             "Color": color_printed_pages,
             "Monochrome": monochrome_printed_pages,
             "Jams": printer_jams,
-            "Cancelled": cancelled_print_jobs
+            "Cancelled": cancelled_print_jobs_number,
+            "unit_of_measurement": "pages",
+            "friendly_name": f"{self._name} Printer"
         }
 
         self._hass.states.set(entity_id, state, attributes)
@@ -102,7 +106,9 @@ class HPPrinterHomeAssistant:
         attributes = {
             "Color": color,
             "Type": head_type,
-            "Station": station
+            "Station": station,
+            "unit_of_measurement": "%",
+            "friendly_name": f"{self._name} {color} {head_type}"
         }
 
         self._hass.states.set(entity_id, state, attributes)

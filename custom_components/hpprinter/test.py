@@ -224,7 +224,7 @@ color_printed_pages = printer_data.get("ColorImpressions", 0)
 monochrome_printed_pages = printer_data.get("MonochromeImpressions", 0)
 printer_jams = printer_data.get("Jams", 0)
 cancelled_print_jobs = printer_data.get("TotalFrontPanelCancelPresses", {})
-cancelled_print_jobs_number = printer_data.get("#text", 0)
+cancelled_print_jobs_number = cancelled_print_jobs.get("#text", 0)
 
 state = total_printed_pages
 print(state)
