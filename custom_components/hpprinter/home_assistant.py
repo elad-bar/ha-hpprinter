@@ -70,7 +70,9 @@ class HPPrinterHomeAssistant:
         # scanner = root.get("ScannerEngineSubunit", {})
 
     def create_printer_sensor(self, printer_data):
-        entity_id = SENSOR_ENTITY_ID.format(slugify(self._name), "printer")
+        sensor_name = f"{self._name} Printer"
+
+        entity_id = f"sensor.{slugify(sensor_name)}"
 
         total_printed = printer_data.get("TotalImpressions", {})
         total_printed_pages = total_printed.get("#text", 0)
@@ -88,7 +90,7 @@ class HPPrinterHomeAssistant:
             "Jams": printer_jams,
             "Cancelled": cancelled_print_jobs_number,
             "unit_of_measurement": "pages",
-            "friendly_name": f"{self._name} Printer"
+            "friendly_name": sensor_name
         }
 
         self._hass.states.set(entity_id, state, attributes)
@@ -99,7 +101,9 @@ class HPPrinterHomeAssistant:
         station = printer_consumable_data.get("ConsumableStation", "Unknown")
         remaining = printer_consumable_data.get("ConsumableRawPercentageLevelRemaining", 0)
 
-        entity_id = SENSOR_ENTITY_ID.format(slugify(self._name), color.lower())
+        sensor_name = f"{self._name} {color} {head_type}"
+
+        entity_id = f"sensor.{slugify(sensor_name)}"
 
         state = remaining
 
@@ -108,7 +112,7 @@ class HPPrinterHomeAssistant:
             "Type": head_type,
             "Station": station,
             "unit_of_measurement": "%",
-            "friendly_name": f"{self._name} {color} {head_type}"
+            "friendly_name": sensor_name
         }
 
         self._hass.states.set(entity_id, state, attributes)
