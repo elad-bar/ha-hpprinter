@@ -1,16 +1,17 @@
-<h1>Integration to HP Printers</h1>
-<p>integration is using the web API of the printer</p>
-<br/>
-<h2>Configuration</h2>
+# Integration to HP Printers
+integration is using the web API of the printer
+
+## Configuration
 ```
 hpprinter:
    host: hostname / IP
    name: printer name (Optional - Default - HP Printer)
 ```
 
-<h2>Output</h2>
-<p>Following sensors will be created</p>
-<h3>Printer details</h3>
+## Output
+Following sensors will be created
+
+### Printer details
 ```
 State: # of pages printed
 Attributes:
@@ -20,8 +21,9 @@ Attributes:
     Cancelled - # of print jobs that were cancelled
 ```
 
-<h3>Scanner details</h3>
-<p>Will work only when printer is all-in-one</p>
+### Scanner details
+Will work only when printer is all-in-one
+
 ```
 State: # of pages scanned
 Attributes:
@@ -32,8 +34,9 @@ Attributes:
     Mispick - # of scanned documents failed to take the document from the feeder
 ```
 
-<h3>Cartridges details</h3>
-<p>Per cartridge</p>
+### Cartridges details
+Per cartridge
+   
 ```
 State: Remaining level %
 Attributes:
@@ -41,4 +44,3 @@ Attributes:
     Type - Ink / Toner / Print head
     Station - Position of the cartridge
 ```
-
