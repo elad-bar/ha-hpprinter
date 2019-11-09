@@ -123,7 +123,9 @@ class HPPrinterHomeAssistant:
             "Duplex": duplex_sheets_count,
             "Flatbed": flatbed_images,
             "Jams": scanner_jams,
-            "Mispick": scanner_mispick
+            "Mispick": scanner_mispick,
+            "unit_of_measurement": "pages",
+            "friendly_name": sensor_name
         }
 
         self._hass.states.set(entity_id, state, attributes)
