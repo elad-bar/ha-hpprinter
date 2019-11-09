@@ -55,18 +55,25 @@ class HPPrinterHomeAssistant:
 
         data = self._hp_data.data
         root = data.get("ProductUsageDyn", {})
-        printer_data = root.get("PrinterSubunit", {})
-        consumables_data = root.get("ConsumableSubunit", {})
-        printer_consumables = consumables_data.get("Consumable", {})
+        printer_data = root.get("PrinterSubunit")
+        scanner_data = root.get("ScannerEngineSubunit")
+        consumables_data = root.get("ConsumableSubunit")
 
-        self.create_printer_sensor(printer_data)
+        if printer_data is not None:
+            self.create_printer_sensor(printer_data)
 
-        for key in printer_consumables:
-            consumable = printer_consumables[key]
+        if scanner_data is not None:
+            self.create_scanner_sensor(scanner_data)
 
-            self.create_ink_sensor(consumable)
+        if consumables_data is not None:
+            printer_consumables = consumables_data.get("Consumable")
 
-        # scanner = root.get("ScannerEngineSubunit", {})
+            if printer_consumables is not None:
+                for key in printer_consumables:
+                    consumable = printer_consumables.get(key)
+
+                    if consumable is not None:
+                        self.create_ink_sensor(consumable)
 
     def create_printer_sensor(self, printer_data):
         sensor_name = f"{self._name} Printer"
@@ -90,6 +97,33 @@ class HPPrinterHomeAssistant:
             "Cancelled": cancelled_print_jobs_number,
             "unit_of_measurement": "pages",
             "friendly_name": sensor_name
+        }
+
+        self._hass.states.set(entity_id, state, attributes)
+
+    def create_scanner_sensor(self, scanner_data):
+        sensor_name = f"{self._name} Scanner"
+
+        entity_id = f"sensor.{slugify(sensor_name)}"
+
+        scan_images = scanner_data.get("ScanImages", {})
+        scan_images_count = scan_images.get("#text", 0)
+        adf_images = scanner_data.get("AdfImages", {})
+        adf_images_count = adf_images.get("#text", 0)
+        duplex_sheets = scanner_data.get("DuplexSheets", {})
+        duplex_sheets_count = duplex_sheets.get("#text", 0)
+        flatbed_images = scanner_data.get("FlatbedImages", 0)
+        scanner_jams = scanner_data.get("JamEvents", 0)
+        scanner_mispick = scanner_data.get("MispickEvents", 0)
+
+        state = scan_images_count
+
+        attributes = {
+            "ADF": adf_images_count,
+            "Duplex": duplex_sheets_count,
+            "Flatbed": flatbed_images,
+            "Jams": scanner_jams,
+            "Mispick": scanner_mispick
         }
 
         self._hass.states.set(entity_id, state, attributes)

@@ -217,6 +217,7 @@ print(consumable_data.data)
 root = usage_data.data.get("ProductUsageDyn", {})
 printer_data = root.get("PrinterSubunit", {})
 consumables_data = root.get("ConsumableSubunit", {})
+scanner_data = root.get("ScannerEngineSubunit", {})
 printer_consumables = consumables_data.get("Consumable", {})
 total_printed = printer_data.get("TotalImpressions", {})
 total_printed_pages = total_printed.get("#text", 0)
@@ -234,6 +235,29 @@ attributes = {
     "Monochrome": monochrome_printed_pages,
     "Jams": printer_jams,
     "Cancelled": cancelled_print_jobs_number
+}
+
+print(attributes)
+
+scan_images = scanner_data.get("ScanImages", {})
+scan_images_count = scan_images.get("#text", 0)
+adf_images = scanner_data.get("AdfImages", {})
+adf_images_count = adf_images.get("#text", 0)
+duplex_sheets = scanner_data.get("DuplexSheets", {})
+duplex_sheets_count = duplex_sheets.get("#text", 0)
+flatbed_images = scanner_data.get("FlatbedImages", {})
+scanner_jams = scanner_data.get("JamEvents", {})
+scanner_mispick = scanner_data.get("MispickEvents", {})
+
+state = scan_images_count
+print(state)
+
+attributes = {
+    "ADF": adf_images_count,
+    "Duplex": duplex_sheets_count,
+    "Flatbed": flatbed_images,
+    "Jams": scanner_jams,
+    "Mispick": scanner_mispick
 }
 
 print(attributes)
