@@ -37,16 +37,22 @@ def setup(hass, config):
         host = conf.get(CONF_HOST)
         name = conf.get(CONF_NAME, DEFAULT_NAME)
 
-        hp_data = ProductUsageDynPrinterData(host)
+        if host is None:
+            ha = HPPrinterHomeAssistant(hass, None, name, None)
 
-        ha = HPPrinterHomeAssistant(hass, scan_interval, name, hp_data)
+            ha.notify_error_message("Host was not configured correctly")
 
-        hass.data[DATA_HP_PRINTER] = hp_data
+        else:
+            hp_data = ProductUsageDynPrinterData(host)
 
-        ha.initialize()
+            ha = HPPrinterHomeAssistant(hass, scan_interval, name, hp_data)
 
-        initialized = True
-        _LOGGER.debug(f"HP Printer domain is loaded")
+            hass.data[DATA_HP_PRINTER] = hp_data
+
+            ha.initialize()
+
+            initialized = True
+            _LOGGER.debug(f"HP Printer domain is loaded")
 
     except Exception as ex:
         exc_type, exc_obj, tb = sys.exc_info()
