@@ -51,7 +51,6 @@ class HPPrinterHomeAssistant:
             notification_id=NOTIFICATION_ID)
 
     def update(self):
-        print(self._hp_data.data)
         self._hp_data.update()
 
         data = self._hp_data.data
