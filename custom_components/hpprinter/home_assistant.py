@@ -81,7 +81,11 @@ class HPPrinterHomeAssistant:
         entity_id = f"sensor.{slugify(sensor_name)}"
 
         total_printed = printer_data.get("TotalImpressions", {})
-        total_printed_pages = total_printed.get("#text", 0)
+        if isinstance(total_printed, dict):
+            total_printed_pages = total_printed.get("#text", 0)
+        else:
+            total_printed_pages = total_printed
+
         color_printed_pages = printer_data.get("ColorImpressions", 0)
         monochrome_printed_pages = printer_data.get("MonochromeImpressions", 0)
         printer_jams = printer_data.get("Jams", 0)
