@@ -81,16 +81,13 @@ class HPPrinterHomeAssistant:
         entity_id = f"sensor.{slugify(sensor_name)}"
 
         total_printed = printer_data.get("TotalImpressions", {})
-        if isinstance(total_printed, dict):
-            total_printed_pages = total_printed.get("#text", 0)
-        else:
-            total_printed_pages = total_printed
+        total_printed_pages = self.clean_parameter(total_printed)
 
         color_printed_pages = printer_data.get("ColorImpressions", 0)
         monochrome_printed_pages = printer_data.get("MonochromeImpressions", 0)
         printer_jams = printer_data.get("Jams", 0)
         cancelled_print_jobs = printer_data.get("TotalFrontPanelCancelPresses", {})
-        cancelled_print_jobs_number = cancelled_print_jobs.get("#text", 0)
+        cancelled_print_jobs_number = self.clean_parameter(cancelled_print_jobs)
 
         state = total_printed_pages
 
@@ -111,11 +108,14 @@ class HPPrinterHomeAssistant:
         entity_id = f"sensor.{slugify(sensor_name)}"
 
         scan_images = scanner_data.get("ScanImages", {})
-        scan_images_count = scan_images.get("#text", 0)
+        scan_images_count = self.clean_parameter(scan_images)
+
         adf_images = scanner_data.get("AdfImages", {})
-        adf_images_count = adf_images.get("#text", 0)
+        adf_images_count = self.clean_parameter(adf_images)
+
         duplex_sheets = scanner_data.get("DuplexSheets", {})
-        duplex_sheets_count = duplex_sheets.get("#text", 0)
+        duplex_sheets_count = self.clean_parameter(duplex_sheets)
+
         flatbed_images = scanner_data.get("FlatbedImages", 0)
         scanner_jams = scanner_data.get("JamEvents", 0)
         scanner_mispick = scanner_data.get("MispickEvents", 0)
@@ -155,3 +155,12 @@ class HPPrinterHomeAssistant:
         }
 
         self._hass.states.set(entity_id, state, attributes)
+
+    @staticmethod
+    def clean_parameter(data_item):
+        if isinstance(data_item, str):
+            result = data_item
+        else:
+            result = data_item.get("#text", 0)
+
+        return result
