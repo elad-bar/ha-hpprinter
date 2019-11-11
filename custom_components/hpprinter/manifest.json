@@ -4,5 +4,5 @@
     "documentation": "https://github.com/elad-bar/ha-hpprinter/blob/master/README.md",
     "dependencies": [],
     "codeowners": ["@elad-bar"],
-    "requirements": []
+    "requirements": ["xmltodict==0.4"]
 }
