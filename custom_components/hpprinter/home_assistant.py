@@ -80,10 +80,15 @@ class HPPrinterHomeAssistant:
 
         entity_id = f"sensor.{slugify(sensor_name)}"
 
-        total_printed_pages = self.clean_parameter(printer_data, "TotalImpressions")
+        total_printed_pages = self.clean_parameter(printer_data, "TotalImpressions", "0")
+
         color_printed_pages = self.clean_parameter(printer_data, "ColorImpressions")
         monochrome_printed_pages = self.clean_parameter(printer_data, "MonochromeImpressions")
+
         printer_jams = self.clean_parameter(printer_data, "Jams")
+        if printer_jams == "N/A":
+            printer_jams = self.clean_parameter(printer_data, "JamEvents", "0")
+
         cancelled_print_jobs_number = self.clean_parameter(printer_data, "TotalFrontPanelCancelPresses")
 
         state = total_printed_pages
@@ -108,8 +113,19 @@ class HPPrinterHomeAssistant:
         adf_images_count = self.clean_parameter(scanner_data, "AdfImages")
         duplex_sheets_count = self.clean_parameter(scanner_data, "DuplexSheets")
         flatbed_images = self.clean_parameter(scanner_data, "FlatbedImages")
-        scanner_jams = self.clean_parameter(scanner_data, "JamEvents")
-        scanner_mispick = self.clean_parameter(scanner_data, "MispickEvents")
+        scanner_jams = self.clean_parameter(scanner_data, "JamEvents", "0")
+        scanner_mispick = self.clean_parameter(scanner_data, "MispickEvents", "0")
+
+        if scan_images_count == 'N/A':
+            new_scan_images_count = 0
+
+            if adf_images_count != "N/A" and int(adf_images_count) > 0:
+                new_scan_images_count = int(adf_images_count)
+
+            if flatbed_images != "N/A" and int(flatbed_images) > 0:
+                new_scan_images_count = new_scan_images_count + int(flatbed_images)
+
+            scan_images_count = new_scan_images_count
 
         state = scan_images_count
 
@@ -148,13 +164,13 @@ class HPPrinterHomeAssistant:
         self._hass.states.set(entity_id, state, attributes)
 
     @staticmethod
-    def clean_parameter(data_item, data_key):
+    def clean_parameter(data_item, data_key, default_value="N/A"):
         result = data_item.get(data_key, {})
 
         if not isinstance(result, str):
             result = result.get("#text", 0)
 
         if not isinstance(result, str):
-            result = 'Unknown'
+            result = default_value
 
         return result

@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import sys
-import logging
+# import logging
 
 import requests
 import xmltodict
@@ -46,10 +46,12 @@ API_DATA_SOURCE = True
 
 
 class Logger:
-    def debug(self, message):
+    @staticmethod
+    def debug(message):
         print(f"DEBUG - {message}")
 
-    def error(self, message):
+    @staticmethod
+    def error(message):
         print(f"ERROR - {message}")
 
 
@@ -74,12 +76,12 @@ class HPPrinterData:
         try:
             _LOGGER.debug(f"Updating {self._data_type} from {self._host}")
 
-            printer_data = self.get_data_from_printer()
+            data = self.get_data_from_printer()
 
             result = {}
 
-            for root_key in printer_data:
-                root_item = printer_data[root_key]
+            for root_key in data:
+                root_item = data[root_key]
 
                 item = self.extract_data(root_item, root_key)
 
@@ -170,16 +172,16 @@ class HPPrinterData:
             for current_item in data_item:
                 next_item_key = item_key
                 item = {}
-                for key in current_item:
-                    next_item = current_item[key]
+                for current_key in current_item:
+                    next_item = current_item[current_key]
 
-                    item_data = self.extract_data(next_item, key)
+                    item_data = self.extract_data(next_item, current_key)
 
                     if item_data is not None:
-                        item[key] = item_data
+                        item[current_key] = item_data
 
-                        if key in keys:
-                            next_item_key = f'{next_item_key}_{item[key]}'
+                        if current_key in keys:
+                            next_item_key = f'{next_item_key}_{item[current_key]}'
 
                 if len(keys) == 0:
                     next_item_key = f'{next_item_key}_{index}'
@@ -195,14 +197,15 @@ class HPPrinterData:
 
             _LOGGER.error(f'Failed to extract from array {item_key} of {data_item}, Error: {ex}, Line: {line_number}')
 
-    def clean_parameter(self, data_item, data_key):
+    @staticmethod
+    def clean_parameter(data_item, data_key, default_value="N/A"):
         result = data_item.get(data_key, {})
 
         if not isinstance(result, str):
             result = result.get("#text", 0)
 
         if not isinstance(result, str):
-            result = 'Unknown'
+            result = default_value
 
         return result
 
@@ -250,10 +253,14 @@ consumables_data = root.get("ConsumableSubunit", {})
 scanner_data = root.get("ScannerEngineSubunit", {})
 printer_consumables = consumables_data.get("Consumable", {})
 
-total_printed_pages = usage_data.clean_parameter(printer_data, "TotalImpressions")
+total_printed_pages = usage_data.clean_parameter(printer_data, "TotalImpressions", "0")
 color_printed_pages = usage_data.clean_parameter(printer_data, "ColorImpressions")
 monochrome_printed_pages = usage_data.clean_parameter(printer_data, "MonochromeImpressions")
 printer_jams = usage_data.clean_parameter(printer_data, "Jams")
+
+if printer_jams == "N/A":
+    printer_jams = usage_data.clean_parameter(printer_data, "JamEvents", "0")
+
 cancelled_print_jobs_number = usage_data.clean_parameter(printer_data, "TotalFrontPanelCancelPresses")
 
 state = total_printed_pages
@@ -270,11 +277,22 @@ _LOGGER.debug(attributes)
 
 scan_images_count = usage_data.clean_parameter(scanner_data, "ScanImages")
 adf_images_count = usage_data.clean_parameter(scanner_data, "AdfImages")
-duplex_sheets_count = usage_data.clean_parameter(scanner_data, "DuplexSheets")
-
 flatbed_images = usage_data.clean_parameter(scanner_data, "FlatbedImages")
-scanner_jams = usage_data.clean_parameter(scanner_data, "JamEvents")
-scanner_mispick = usage_data.clean_parameter(scanner_data, "MispickEvents")
+
+duplex_sheets_count = usage_data.clean_parameter(scanner_data, "DuplexSheets")
+scanner_jams = usage_data.clean_parameter(scanner_data, "JamEvents", "0")
+scanner_mispick = usage_data.clean_parameter(scanner_data, "MispickEvents", "0")
+
+if scan_images_count == 'N/A':
+    new_scan_images_count = 0
+
+    if adf_images_count != "N/A" and int(adf_images_count) > 0:
+        new_scan_images_count = int(adf_images_count)
+
+    if flatbed_images != "N/A" and int(flatbed_images) > 0:
+        new_scan_images_count = new_scan_images_count + int(flatbed_images)
+
+    scan_images_count = new_scan_images_count
 
 state = scan_images_count
 _LOGGER.debug(state)
