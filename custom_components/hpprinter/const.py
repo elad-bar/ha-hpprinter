@@ -25,7 +25,8 @@ IGNORE_ITEMS = [
     "@xmlns:ad",
     "@xmlns:psdyn",
     "@xmlns:pscat",
-    "@xmlns:locid"
+    "@xmlns:locid",
+    "PECounter"
 ]
 
 ARRAY_KEYS = {
