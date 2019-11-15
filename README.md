@@ -4,7 +4,7 @@ integration is using the web API of the printer
 ## Configuration
 ```
 hpprinter:
-    devies:
+    devices:
         - host: hostname / IP
           name: printer name (Optional - Default - HP Printer)
 ```
