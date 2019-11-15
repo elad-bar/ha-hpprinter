@@ -135,7 +135,7 @@ class HPPrinterHomeAssistant:
         sensor_name = f"{name} {key}"
         entity_id = f"sensor.{slugify(sensor_name)}"
 
-        state = cartridge.get(HP_DEVICE_CARTRIDGE_STATE)
+        state = cartridge.get(HP_DEVICE_CARTRIDGE_STATE, 0)
 
         attributes = {
             "unit_of_measurement": "%",
