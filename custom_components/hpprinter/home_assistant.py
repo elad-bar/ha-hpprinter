@@ -3,6 +3,7 @@ Support for Blue Iris.
 For more details about this platform, please refer to the documentation at
 https://home-assistant.io/components/hpprinter/
 """
+import sys
 import logging
 
 from homeassistant.const import (EVENT_HOMEASSISTANT_START)
@@ -28,9 +29,18 @@ class HPPrinterHomeAssistant:
 
             self.update()
 
-        track_time_interval(self._hass, refresh_data, self._scan_interval)
+        def save_debug_data(service):
+            """Call BlueIris to refresh information."""
+            _LOGGER.debug(f"Saving debug data {DOMAIN} ({service})")
 
-        self._hass.bus.listen_once(EVENT_HOMEASSISTANT_START, refresh_data)
+            self._hp_data.reload_data(self.store_data)
+
+        if self._hp_data is not None:
+            self._hass.services.register(DOMAIN, 'save_debug_data', save_debug_data)
+
+            track_time_interval(self._hass, refresh_data, self._scan_interval)
+
+            self._hass.bus.listen_once(EVENT_HOMEASSISTANT_START, refresh_data)
 
     def notify_error(self, ex, line_number):
         _LOGGER.error(f"Error while initializing {DOMAIN}, exception: {ex},"
@@ -50,127 +60,90 @@ class HPPrinterHomeAssistant:
             title=NOTIFICATION_TITLE,
             notification_id=NOTIFICATION_ID)
 
-    def update(self):
-        self._hp_data.update()
+    def store_data(self, file, content):
+        try:
+            path = self._hass.config.path(file)
 
-        data = self._hp_data.data
-        root = data.get("ProductUsageDyn", {})
-        printer_data = root.get("PrinterSubunit")
-        scanner_data = root.get("ScannerEngineSubunit")
-        consumables_data = root.get("ConsumableSubunit")
+            with open(path, 'w+') as out:
+                out.write(content)
+
+        except Exception as ex:
+            exc_type, exc_obj, tb = sys.exc_info()
+            line_number = tb.tb_lineno
+
+            _LOGGER.error(f'Failed to log {file} data, Error: {ex}, Line: {line_number}')
+
+    def update(self):
+        data = self._hp_data.get_data()
+
+        cartridges_data = data.get(HP_DEVICE_CARTRIDGES)
+
+        self.create_printer_sensor(data)
+        self.create_scanner_sensor(data)
+
+        if cartridges_data is not None:
+            for key in cartridges_data:
+                cartridge = cartridges_data.get(key)
+
+                if cartridge is not None:
+                    self.create_cartridge_sensor(data, cartridge, key)
+
+    def create_printer_sensor(self, data):
+        printer_data = data.get(HP_DEVICE_PRINTER)
 
         if printer_data is not None:
-            self.create_printer_sensor(printer_data)
+            name = data.get("Name", DEFAULT_NAME)
+            sensor_name = f"{name} {HP_DEVICE_PRINTER}"
+            entity_id = f"sensor.{slugify(sensor_name)}"
+
+            state = printer_data.get(HP_DEVICE_PRINTER_STATE)
+
+            attributes = {
+                "unit_of_measurement": "Pages",
+                "friendly_name": sensor_name
+            }
+
+            for key in printer_data:
+                if key != HP_DEVICE_PRINTER_STATE:
+                    attributes[key] = printer_data[key]
+
+            self._hass.states.set(entity_id, state, attributes)
+
+    def create_scanner_sensor(self, data):
+        scanner_data = data.get(HP_DEVICE_SCANNER)
 
         if scanner_data is not None:
-            self.create_scanner_sensor(scanner_data)
+            name = data.get("Name", DEFAULT_NAME)
+            sensor_name = f"{name} {HP_DEVICE_SCANNER}"
+            entity_id = f"sensor.{slugify(sensor_name)}"
 
-        if consumables_data is not None:
-            printer_consumables = consumables_data.get("Consumable")
+            state = scanner_data.get(HP_DEVICE_SCANNER_STATE)
 
-            if printer_consumables is not None:
-                for key in printer_consumables:
-                    consumable = printer_consumables.get(key)
+            attributes = {
+                "unit_of_measurement": "Pages",
+                "friendly_name": sensor_name
+            }
 
-                    if consumable is not None:
-                        self.create_ink_sensor(consumable)
+            for key in scanner_data:
+                if key != HP_DEVICE_SCANNER_STATE:
+                    attributes[key] = scanner_data[key]
 
-    def create_printer_sensor(self, printer_data):
-        sensor_name = f"{self._name} Printer"
+            self._hass.states.set(entity_id, state, attributes)
 
+    def create_cartridge_sensor(self, data, cartridge, key):
+        name = data.get("Name", DEFAULT_NAME)
+        sensor_name = f"{name} {key}"
         entity_id = f"sensor.{slugify(sensor_name)}"
 
-        total_printed_pages = self.clean_parameter(printer_data, "TotalImpressions", "0")
-
-        color_printed_pages = self.clean_parameter(printer_data, "ColorImpressions")
-        monochrome_printed_pages = self.clean_parameter(printer_data, "MonochromeImpressions")
-
-        printer_jams = self.clean_parameter(printer_data, "Jams")
-        if printer_jams == "N/A":
-            printer_jams = self.clean_parameter(printer_data, "JamEvents", "0")
-
-        cancelled_print_jobs_number = self.clean_parameter(printer_data, "TotalFrontPanelCancelPresses")
-
-        state = total_printed_pages
+        state = cartridge.get(HP_DEVICE_CARTRIDGE_STATE)
 
         attributes = {
-            "Color": color_printed_pages,
-            "Monochrome": monochrome_printed_pages,
-            "Jams": printer_jams,
-            "Cancelled": cancelled_print_jobs_number,
-            "unit_of_measurement": "pages",
-            "friendly_name": sensor_name
-        }
-
-        self._hass.states.set(entity_id, state, attributes)
-
-    def create_scanner_sensor(self, scanner_data):
-        sensor_name = f"{self._name} Scanner"
-
-        entity_id = f"sensor.{slugify(sensor_name)}"
-
-        scan_images_count = self.clean_parameter(scanner_data, "ScanImages")
-        adf_images_count = self.clean_parameter(scanner_data, "AdfImages")
-        duplex_sheets_count = self.clean_parameter(scanner_data, "DuplexSheets")
-        flatbed_images = self.clean_parameter(scanner_data, "FlatbedImages")
-        scanner_jams = self.clean_parameter(scanner_data, "JamEvents", "0")
-        scanner_mispick = self.clean_parameter(scanner_data, "MispickEvents", "0")
-
-        if scan_images_count == 'N/A':
-            new_scan_images_count = 0
-
-            if adf_images_count != "N/A" and int(adf_images_count) > 0:
-                new_scan_images_count = int(adf_images_count)
-
-            if flatbed_images != "N/A" and int(flatbed_images) > 0:
-                new_scan_images_count = new_scan_images_count + int(flatbed_images)
-
-            scan_images_count = new_scan_images_count
-
-        state = scan_images_count
-
-        attributes = {
-            "ADF": adf_images_count,
-            "Duplex": duplex_sheets_count,
-            "Flatbed": flatbed_images,
-            "Jams": scanner_jams,
-            "Mispick": scanner_mispick,
-            "unit_of_measurement": "pages",
-            "friendly_name": sensor_name
-        }
-
-        self._hass.states.set(entity_id, state, attributes)
-
-    def create_ink_sensor(self, printer_consumable_data):
-        color = self.clean_parameter(printer_consumable_data, "MarkerColor")
-        head_type = self.clean_parameter(printer_consumable_data, "ConsumableTypeEnum")
-        station = self.clean_parameter(printer_consumable_data, "ConsumableStation")
-        remaining = self.clean_parameter(printer_consumable_data, "ConsumableRawPercentageLevelRemaining")
-
-        sensor_name = f"{self._name} {color} {head_type}"
-
-        entity_id = f"sensor.{slugify(sensor_name)}"
-
-        state = remaining
-
-        attributes = {
-            "Color": color,
-            "Type": head_type,
-            "Station": station,
             "unit_of_measurement": "%",
             "friendly_name": sensor_name
         }
 
+        for key in cartridge:
+            if key != HP_DEVICE_CARTRIDGE_STATE:
+                attributes[key] = cartridge[key]
+
         self._hass.states.set(entity_id, state, attributes)
-
-    @staticmethod
-    def clean_parameter(data_item, data_key, default_value="N/A"):
-        result = data_item.get(data_key, {})
-
-        if not isinstance(result, str):
-            result = result.get("#text", 0)
-
-        if not isinstance(result, str):
-            result = default_value
-
-        return result

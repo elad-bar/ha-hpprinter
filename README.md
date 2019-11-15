@@ -4,8 +4,9 @@ integration is using the web API of the printer
 ## Configuration
 ```
 hpprinter:
-   host: hostname / IP
-   name: printer name (Optional - Default - HP Printer)
+    devies:
+        - host: hostname / IP
+          name: printer name (Optional - Default - HP Printer)
 ```
 
 ## Output
@@ -43,4 +44,20 @@ Attributes:
     Color
     Type - Ink / Toner / Print head
     Station - Position of the cartridge
+    Product Number
+    Serial Number
+    Manufactured By
+    Manufactured At
+    Warranty Expiration Date
+    Installed At
 ```
+
+## Services:
+### hpprinter.save_debug_data
+Stores the XML and JSON of each request and final JSON to files, Path in CONFIG_PATH/*,
+Files that will be generated:
+ - ProductUsageDyn.XML - Raw XML from HP Printer of Usage Details
+ - ProductUsageDyn.json - JSON based on the Raw XML after transformed by the component
+ - ConsumableConfigDyn.XML - Raw XML from HP Printer of consumable details
+ - ConsumableConfigDyn.json - JSON based on the Raw XML after transformed by the component
+ - Final.json - JSON based on the 2 JSONs above, merged into simpler data structure for the HA to create sensor based on

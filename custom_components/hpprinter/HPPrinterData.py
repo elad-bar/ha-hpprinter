@@ -1,5 +1,6 @@
 import sys
 import logging
+import json
 
 import requests
 import xmltodict
@@ -22,11 +23,11 @@ class HPPrinterData:
     def data(self):
         return self._data
 
-    def update(self):
+    def get_data(self, store=None):
         try:
             _LOGGER.debug(f"Updating {self._data_type} from {self._host}")
 
-            printer_data = self.get_data_from_printer()
+            printer_data = self.get_data_from_printer(store)
 
             result = {}
 
@@ -40,13 +41,20 @@ class HPPrinterData:
 
             self._data = result
 
+            if store is not None:
+                json_data = json.dumps(self._data)
+
+                store(f"{self._data_type}.json", json_data)
+
         except Exception as ex:
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
 
             _LOGGER.error(f'Failed to update data ({self._data_type}) and parse it, Error: {ex}, Line: {line_number}')
 
-    def get_data_from_printer(self):
+        return self._data
+
+    def get_data_from_printer(self, store=None):
         try:
             _LOGGER.debug(f"Retrieving {self._data_type} from {self._host}")
 
@@ -54,6 +62,10 @@ class HPPrinterData:
             response.raise_for_status()
 
             content = response.text
+
+            if store is not None:
+                store(f"{self._data_type}.xml", content)
+
             for ns in NAMESPACES_TO_REMOVE:
                 content = content.replace(f'{ns}:', '')
 
@@ -105,8 +117,9 @@ class HPPrinterData:
         except Exception as ex:
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
+            error_details = f"Error: {ex}, Line: {line_number}"
 
-            _LOGGER.error(f'Failed to extract from dictionary {item_key} of {data_item}, Error: {ex}, Line: {line_number}')
+            _LOGGER.error(f'Failed to extract from dictionary {item_key} of {data_item}, {error_details}')
 
     def extract_array(self, data_item, item_key):
         try:
@@ -141,6 +154,18 @@ class HPPrinterData:
             line_number = tb.tb_lineno
 
             _LOGGER.error(f'Failed to extract from array {item_key} of {data_item}, Error: {ex}, Line: {line_number}')
+
+    @staticmethod
+    def clean_parameter(data_item, data_key, default_value="N/A"):
+        result = data_item.get(data_key, {})
+
+        if not isinstance(result, str):
+            result = result.get("#text", 0)
+
+        if not isinstance(result, str):
+            result = default_value
+
+        return result
 
 
 class ConsumableConfigDynPrinterData(HPPrinterData):

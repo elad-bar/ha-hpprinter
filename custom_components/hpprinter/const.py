@@ -36,3 +36,22 @@ ARRAY_KEYS = {
 }
 
 ARRAY_AS_DEFAULT = ["AlertDetailsUserAction", "ConsumableStateAction"]
+
+HP_DEVICE_PRINTER = "Printer"
+HP_DEVICE_SCANNER = "Scanner"
+HP_DEVICE_CARTRIDGES = "Cartridges"
+
+HP_DEVICE_PRINTER_STATE = "Total"
+HP_DEVICE_SCANNER_STATE = "Total"
+HP_DEVICE_CARTRIDGE_STATE = "Remaining"
+
+HP_HEAD_TYPE_INK = "ink"
+HP_HEAD_TYPE_PRINT_HEAD = "printhead"
+
+HP_INK_MAPPING = {
+    "C": "Cyan",
+    "Y": "Yellow",
+    "M": "Magenta",
+    "K": "Black",
+    "CMY": "CyanMagentaYellow"
+}
