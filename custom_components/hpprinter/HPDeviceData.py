@@ -238,6 +238,8 @@ class HPDeviceData:
             if head_type == HP_HEAD_TYPE_PRINT_HEAD:
                 cartridge["Color"] = color
                 cartridge["Type"] = head_type
+                cartridge[HP_DEVICE_CARTRIDGE_STATE] = 0
+
             else:
                 cartridge["Product Number"] = product_number
                 cartridge["Serial Number"] = serial_number
