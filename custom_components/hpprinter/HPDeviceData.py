@@ -217,7 +217,10 @@ class HPDeviceData:
             if head_type == HP_HEAD_TYPE_PRINT_HEAD:
                 color = consumable_label_code
             else:
-                color = HP_INK_MAPPING[consumable_label_code]
+                color = HP_INK_MAPPING.get(consumable_label_code, consumable_label_code)
+
+                if color == consumable_label_code:
+                    _LOGGER.warning(f"Color mapping for {consumable_label_code} not available")
 
             cartridge_key = f"{head_type} {color}"
 
@@ -258,7 +261,8 @@ class HPDeviceData:
         except Exception as ex:
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
-            error_details = f"Error: {ex}, Line: {line_number}"
+
+            error_details = f"Error: {str(ex)}, Line: {line_number}"
 
             _LOGGER.error(f'Failed to set printer consumable data ({self._name} @{self._host}), {error_details}')
 
