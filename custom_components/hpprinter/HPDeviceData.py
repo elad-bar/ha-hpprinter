@@ -220,7 +220,7 @@ class HPDeviceData:
                 color = HP_INK_MAPPING.get(consumable_label_code, consumable_label_code)
 
                 if color == consumable_label_code:
-                    _LOGGER.warning(f"Color mapping for {consumable_label_code} not available")
+                    _LOGGER.warning(f"Head type {head_type} color mapping for {consumable_label_code} not available")
 
             cartridge_key = f"{head_type} {color}"
 
