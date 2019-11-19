@@ -12,7 +12,10 @@ hpprinter:
 ## Output
 Following sensors will be created
 
-### Printer details
+### Device status - Binary Sensor
+State: connected?
+
+### Printer details - Sensor
 ```
 State: # of pages printed
 Attributes:
@@ -22,7 +25,7 @@ Attributes:
     Cancelled - # of print jobs that were cancelled
 ```
 
-### Scanner details
+### Scanner details - Sensor
 Will work only when printer is all-in-one
 
 ```
@@ -35,7 +38,7 @@ Attributes:
     Mispick - # of scanned documents failed to take the document from the feeder
 ```
 
-### Cartridges details
+### Cartridges details - Sensor
 Per cartridge
    
 ```
