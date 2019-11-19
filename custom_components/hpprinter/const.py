@@ -37,6 +37,7 @@ ARRAY_KEYS = {
 
 ARRAY_AS_DEFAULT = ["AlertDetailsUserAction", "ConsumableStateAction"]
 
+HP_DEVICE_STATUS = "Status"
 HP_DEVICE_PRINTER = "Printer"
 HP_DEVICE_SCANNER = "Scanner"
 HP_DEVICE_CARTRIDGES = "Cartridges"
@@ -44,6 +45,8 @@ HP_DEVICE_CARTRIDGES = "Cartridges"
 HP_DEVICE_PRINTER_STATE = "Total"
 HP_DEVICE_SCANNER_STATE = "Total"
 HP_DEVICE_CARTRIDGE_STATE = "Remaining"
+
+HP_DEVICE_IS_ONLINE = "IsOnline"
 
 HP_HEAD_TYPE_INK = "ink"
 HP_HEAD_TYPE_PRINT_HEAD = "printhead"
