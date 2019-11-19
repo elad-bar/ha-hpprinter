@@ -6,7 +6,7 @@ https://home-assistant.io/components/hpprinter/
 import sys
 import logging
 
-from homeassistant.const import (EVENT_HOMEASSISTANT_START)
+from homeassistant.const import (EVENT_HOMEASSISTANT_START, STATE_ON, STATE_OFF)
 from homeassistant.helpers.event import track_time_interval
 from homeassistant.util import slugify
 
@@ -96,10 +96,13 @@ class HPPrinterHomeAssistant:
         sensor_name = f"{name} {HP_DEVICE_STATUS}"
         entity_id = f"binary_sensor.{slugify(sensor_name)}"
 
-        state = printer_status
+        state = STATE_OFF
+        if printer_status:
+            state = STATE_ON
 
         attributes = {
-            "friendly_name": sensor_name
+            "friendly_name": sensor_name,
+            "device_class": "connectivity"
         }
 
         self._hass.states.set(entity_id, state, attributes)
