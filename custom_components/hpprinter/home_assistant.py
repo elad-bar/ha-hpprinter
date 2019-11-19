@@ -33,7 +33,7 @@ class HPPrinterHomeAssistant:
             """Call BlueIris to refresh information."""
             _LOGGER.debug(f"Saving debug data {DOMAIN} ({service})")
 
-            self._hp_data.reload_data(self.store_data)
+            self._hp_data.get_data(self.store_data)
 
         if self._hp_data is not None:
             self._hass.services.register(DOMAIN, 'save_debug_data', save_debug_data)
