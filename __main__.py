@@ -18,6 +18,13 @@ class Logger:
     def store_data(file, content):
         print(f"{file} - {content}")
 
+    @staticmethod
+    def data_provider(data_type):
+        with open(f'{data_type}.json') as json_file:
+            data = json.load(json_file)
+
+            return data
+
 
 if __name__ == '__main__':
     # execute only if run as the entry point into the program
@@ -26,7 +33,7 @@ if __name__ == '__main__':
     hostname = "192.168.1.30"
 
     device_data = HPDeviceData(hostname, "HP7740")
-    data = device_data.get_data()  # _LOGGER.store_data)
+    data = device_data.get_data(_LOGGER.store_data)
 
     json_data = json.dumps(data)
     _LOGGER.debug(json_data)

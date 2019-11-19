@@ -10,12 +10,13 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class HPPrinterData:
-    def __init__(self, host, port=80, is_ssl=False, data_type=None):
+    def __init__(self, host, port=80, is_ssl=False, data_type=None, external_data_provider=None):
         self._host = host
         self._port = port
         self._protocol = "https" if is_ssl else "http"
         self._data_type = data_type
         self._data = None
+        self._external_data_provider = external_data_provider
 
         self._url = f'{self._protocol}://{self._host}:{self._port}/DevMgmt/{self._data_type}.xml'
 
@@ -29,7 +30,10 @@ class HPPrinterData:
 
             _LOGGER.debug(f"Updating {self._data_type} from {self._host}")
 
-            printer_data = self.get_data_from_printer(store)
+            if self._external_data_provider is None:
+                printer_data = self.get_data_from_printer(store)
+            else:
+                printer_data = self._external_data_provider(self._data_type)
 
             result = {}
 
@@ -176,21 +180,21 @@ class HPPrinterData:
 
 
 class ConsumableConfigDynPrinterData(HPPrinterData):
-    def __init__(self, host, port=80, is_ssl=False):
+    def __init__(self, host, port=80, is_ssl=False, external_data_provider=None):
         data_type = "ConsumableConfigDyn"
 
-        super().__init__(host, port, is_ssl, data_type)
+        super().__init__(host, port, is_ssl, data_type, external_data_provider)
 
 
 class ProductUsageDynPrinterData(HPPrinterData):
-    def __init__(self, host, port=80, is_ssl=False):
+    def __init__(self, host, port=80, is_ssl=False, external_data_provider=None):
         data_type = "ProductUsageDyn"
 
-        super().__init__(host, port, is_ssl, data_type)
+        super().__init__(host, port, is_ssl, data_type, external_data_provider)
 
 
 class ProductStatusDynData(HPPrinterData):
-    def __init__(self, host, port=80, is_ssl=False):
+    def __init__(self, host, port=80, is_ssl=False, external_data_provider=None):
         data_type = "ProductStatusDyn"
 
-        super().__init__(host, port, is_ssl, data_type)
+        super().__init__(host, port, is_ssl, data_type, external_data_provider)

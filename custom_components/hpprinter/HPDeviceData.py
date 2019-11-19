@@ -4,9 +4,9 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class HPDeviceData:
-    def __init__(self, host, name):
-        self._usage_data_manager = ProductUsageDynPrinterData(host)
-        self._consumable_data_manager = ConsumableConfigDynPrinterData(host)
+    def __init__(self, host, name, external_data_provider=None):
+        self._usage_data_manager = ProductUsageDynPrinterData(host, external_data_provider=external_data_provider)
+        self._consumable_data_manager = ConsumableConfigDynPrinterData(host, external_data_provider=external_data_provider)
 
         self._name = name
         self._host = host
@@ -174,7 +174,7 @@ class HPDeviceData:
             should_create_cartridges = False
             should_create_cartridge = False
 
-            cartridges = self._device_data.get(HP_DEVICE_CARTRIDGES, {})
+            cartridges = self._device_data.get(HP_DEVICE_CARTRIDGES)
             if cartridges is None:
                 cartridges = {}
                 should_create_cartridges = True
