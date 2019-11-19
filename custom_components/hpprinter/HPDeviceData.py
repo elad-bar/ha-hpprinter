@@ -15,7 +15,8 @@ class HPDeviceData:
         self._consumable_data = None
 
         self._device_data = {
-            "Name": name
+            "Name": name,
+            HP_DEVICE_IS_ONLINE: False
         }
 
     def update(self):
@@ -28,8 +29,13 @@ class HPDeviceData:
             self._usage_data = self._usage_data_manager.get_data(store)
             self._consumable_data = self._consumable_data_manager.get_data(store)
 
-            self.set_usage_data()
-            self.set_consumable_data()
+            is_online = self._usage_data is not None and self._consumable_data is not None
+
+            if is_online:
+                self.set_usage_data()
+                self.set_consumable_data()
+
+            self._device_data[HP_DEVICE_IS_ONLINE] = is_online
 
             if store is not None:
                 json_data = json.dumps(self._device_data)
@@ -168,7 +174,7 @@ class HPDeviceData:
             should_create_cartridges = False
             should_create_cartridge = False
 
-            cartridges = self._device_data.get(HP_DEVICE_CARTRIDGES)
+            cartridges = self._device_data.get(HP_DEVICE_CARTRIDGES, {})
             if cartridges is None:
                 cartridges = {}
                 should_create_cartridges = True

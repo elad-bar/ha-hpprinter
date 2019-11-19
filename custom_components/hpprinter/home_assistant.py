@@ -78,6 +78,7 @@ class HPPrinterHomeAssistant:
 
         cartridges_data = data.get(HP_DEVICE_CARTRIDGES)
 
+        self.create_status_sensor(data)
         self.create_printer_sensor(data)
         self.create_scanner_sensor(data)
 
@@ -87,6 +88,21 @@ class HPPrinterHomeAssistant:
 
                 if cartridge is not None:
                     self.create_cartridge_sensor(data, cartridge, key)
+
+    def create_status_sensor(self, data):
+        printer_status = data.get(HP_DEVICE_IS_ONLINE, False)
+
+        name = data.get("Name", DEFAULT_NAME)
+        sensor_name = f"{name} {HP_DEVICE_STATUS}"
+        entity_id = f"binary_sensor.{slugify(sensor_name)}"
+
+        state = printer_status
+
+        attributes = {
+            "friendly_name": sensor_name
+        }
+
+        self._hass.states.set(entity_id, state, attributes)
 
     def create_printer_sensor(self, data):
         printer_data = data.get(HP_DEVICE_PRINTER)

@@ -25,26 +25,29 @@ class HPPrinterData:
 
     def get_data(self, store=None):
         try:
+            self._data = None
+
             _LOGGER.debug(f"Updating {self._data_type} from {self._host}")
 
             printer_data = self.get_data_from_printer(store)
 
             result = {}
 
-            for root_key in printer_data:
-                root_item = printer_data[root_key]
+            if printer_data is not None:
+                for root_key in printer_data:
+                    root_item = printer_data[root_key]
 
-                item = self.extract_data(root_item, root_key)
+                    item = self.extract_data(root_item, root_key)
 
-                if item is not None:
-                    result[root_key] = item
+                    if item is not None:
+                        result[root_key] = item
 
-            self._data = result
+                self._data = result
 
-            if store is not None:
-                json_data = json.dumps(self._data)
+                if store is not None:
+                    json_data = json.dumps(self._data)
 
-                store(f"{self._data_type}.json", json_data)
+                    store(f"{self._data_type}.json", json_data)
 
         except Exception as ex:
             exc_type, exc_obj, tb = sys.exc_info()
@@ -55,6 +58,8 @@ class HPPrinterData:
         return self._data
 
     def get_data_from_printer(self, store=None):
+        result = None
+
         try:
             _LOGGER.debug(f"Retrieving {self._data_type} from {self._host}")
 
@@ -71,13 +76,15 @@ class HPPrinterData:
 
             json_data = xmltodict.parse(content)
 
-            return json_data
+            result = json_data
 
         except Exception as ex:
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
 
             _LOGGER.error(f'Failed to retrieve data ({self._data_type}) from printer, Error: {ex}, Line: {line_number}')
+
+        return result
 
     def extract_data(self, data_item, data_item_key):
         try:
