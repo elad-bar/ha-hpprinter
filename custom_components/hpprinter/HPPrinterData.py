@@ -86,7 +86,7 @@ class HPPrinterData:
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
 
-            _LOGGER.error(f'Failed to retrieve data ({self._data_type}) from printer, Error: {ex}, Line: {line_number}')
+            _LOGGER.info(f'Cannot retrieve data ({self._data_type}) from printer, Error: {ex}, Line: {line_number}')
 
         return result
 
