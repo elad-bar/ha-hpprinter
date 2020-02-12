@@ -1,10 +1,10 @@
 # Integration to HP Printers
 
-#### Integration configuration of the HP Printer (Support multiple)
-```
-name: custom name
-host: hostname or ip
-```
+#### Configuration
+Configuration support multiple HP Printer devices through Configuration -> Integrations
+
+\* Custom component doesn't support YAML configuration!, in case you have used it via configuration.yaml, please remove it <br/>
+\* In case labels in Configuration -> Integrations -> Add new are note being displayed, please delete the custom component and re-download it   
 
 #### Components:
 ###### Device status - Binary Sensor

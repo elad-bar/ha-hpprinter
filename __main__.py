@@ -32,7 +32,7 @@ if __name__ == '__main__':
 
     hostname = "192.168.1.30"
 
-    device_data = HPDeviceData(hostname, "HP7740")
+    device_data = HPDeviceData(None, hostname, "HP7740")
     data = device_data.get_data() #_LOGGER.store_data)
 
     json_data = json.dumps(data)
