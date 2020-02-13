@@ -64,7 +64,14 @@ ARRAY_KEYS = {
     "EmailAlertCategories": ["AlertCategory"]
 }
 
-ARRAY_AS_DEFAULT = ["AlertDetailsUserAction", "ConsumableStateAction", "AlertCategory", "ResourceURI", "Language"]
+ARRAY_AS_DEFAULT = [
+    "AlertDetailsUserAction",
+    "ConsumableStateAction",
+    "AlertCategory",
+    "ResourceURI",
+    "Language",
+    "AutoOnEvent"
+]
 
 HP_DEVICE_STATUS = "Status"
 HP_DEVICE_PRINTER = "Printer"
