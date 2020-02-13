@@ -29,7 +29,7 @@ class HPPrinterlowHandler(config_entries.ConfigFlow):
 
         if user_input is not None:
             return self.async_create_entry(
-                title=DEFAULT_NAME,
+                title=user_input.get(CONF_NAME, DEFAULT_NAME),
                 data={
                     CONF_NAME: user_input.get(CONF_NAME, DEFAULT_NAME),
                     CONF_HOST: user_input.get(CONF_HOST)
