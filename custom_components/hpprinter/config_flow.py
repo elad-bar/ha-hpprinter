@@ -23,7 +23,7 @@ class HPPrinterlowHandler(config_entries.ConfigFlow):
         _LOGGER.debug(f"Starting async_step_user of {DOMAIN}")
 
         fields = {
-            vol.Optional(CONF_NAME, default=DEFAULT_NAME): str,
+            vol.Required(CONF_NAME, default=DEFAULT_NAME): str,
             vol.Required(CONF_HOST): str
         }
 
