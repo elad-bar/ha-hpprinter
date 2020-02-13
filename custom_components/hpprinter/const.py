@@ -70,7 +70,8 @@ ARRAY_AS_DEFAULT = [
     "AlertCategory",
     "ResourceURI",
     "Language",
-    "AutoOnEvent"
+    "AutoOnEvent",
+    "DaysOfWeek"
 ]
 
 HP_DEVICE_STATUS = "Status"
