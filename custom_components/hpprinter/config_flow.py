@@ -12,7 +12,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @config_entries.HANDLERS.register(DOMAIN)
-class HPPrinterlowHandler(config_entries.ConfigFlow):
+class HPPrinterFlowHandler(config_entries.ConfigFlow):
     """Handle a HPPrinter config flow."""
 
     VERSION = 1
