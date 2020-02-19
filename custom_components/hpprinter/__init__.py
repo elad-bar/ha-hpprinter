@@ -11,7 +11,7 @@ from homeassistant.core import HomeAssistant
 
 from .const import *
 from .HPDeviceData import *
-from .home_assistant import HPPrinterHomeAssistant, _get_printers
+from .home_assistant import HPPrinterHomeAssistant, _get_printer
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -53,11 +53,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Unload a config entry."""
     entry_data = entry.data
-    data = _get_printers(hass)
     name = entry_data.get(CONF_NAME)
+    printer = _get_printer(hass, name)
 
-    if name in data:
-        printer = data[name]
+    if printer is not None:
         await printer.async_remove()
 
         del hass.data[DATA_HP_PRINTER][name]
@@ -71,9 +70,7 @@ async def async_options_updated(hass: HomeAssistant, entry: ConfigEntry):
     """Triggered by config entry options updates."""
     entry_data = entry.data
     name = entry_data.get(CONF_NAME)
-    data = _get_printers(hass)
+    printer = _get_printer(hass, name)
 
-    if name in data:
-        printer = data[name]
-
+    if printer is not None:
         printer.options = entry.options

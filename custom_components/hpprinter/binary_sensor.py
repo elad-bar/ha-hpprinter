@@ -14,7 +14,7 @@ from homeassistant.helpers import device_registry as dr
 
 from homeassistant.helpers.entity import Entity
 
-from .home_assistant import _get_printers
+from .home_assistant import _get_printer
 from .const import *
 
 _LOGGER = logging.getLogger(__name__)
@@ -32,8 +32,7 @@ async def async_setup_entry(hass, config_entry, async_add_devices):
         name = entry_data.get(CONF_NAME)
         entities = []
 
-        printers = _get_printers(hass)
-        printer = printers.get(name)
+        printer = _get_printer(hass, name)
 
         if printer is not None:
             entities_data = printer.get_entities(CURRENT_DOMAIN)
@@ -62,8 +61,7 @@ async def async_unload_entry(hass, config_entry):
     entry_data = config_entry.data
     name = entry_data.get(CONF_NAME)
 
-    printers = _get_printers(hass)
-    printer = printers.get(name)
+    printer = _get_printer(hass, name)
 
     if printer is not None:
         printer.set_domain_entities_state(CURRENT_DOMAIN, False)
@@ -143,10 +141,9 @@ class PrinterBinarySensor(Entity):
     async def async_update_data(self):
         _LOGGER.debug(f"{CURRENT_DOMAIN} update_data: {self.name} | {self.unique_id}")
 
-        printers = _get_printers(self._hass)
-        if self._printer_name in printers:
-            printer = printers[self._printer_name]
-            self._entity = printer.get_binary_sensor(self.name)
+        printer = _get_printer(self._hass, self._printer_name)
+        if printer is not None:
+            self._entity = printer.get_entity(CURRENT_DOMAIN, self.name)
 
             if self._entity is None:
                 self._entity = {}

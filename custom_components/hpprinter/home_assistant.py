@@ -123,7 +123,7 @@ class HPPrinterHomeAssistant:
         """Call BlueIris to refresh information."""
         _LOGGER.debug(f"Saving debug data {DOMAIN} ({service_data})")
 
-        self._hp_data.get_data(self.store_data)
+        self._hass.async_create_task(self._hp_data.get_data(self.store_data))
 
     def store_data(self, file, content):
         try:
@@ -161,7 +161,7 @@ class HPPrinterHomeAssistant:
         if self._is_first_time_online:
             self._is_first_time_online = False
 
-            await self.async_update_entry(self._config_entry(), False)
+            await self.async_update_entry(self._config_entry, False)
 
         await self.discover_all()
 
@@ -314,10 +314,14 @@ class HPPrinterHomeAssistant:
         self.set_entity(DOMAIN_SENSOR, sensor_name, entity)
 
 
-def _get_printers(hass: HomeAssistant, name):
+def _get_printer(hass: HomeAssistant, name) -> HPPrinterHomeAssistant:
     if DATA_HP_PRINTER not in hass.data:
         hass.data[DATA_HP_PRINTER] = {}
 
     printers = hass.data[DATA_HP_PRINTER]
+    printer = None
 
-    return printers
+    if name in printers:
+        printer = printers[name]
+
+    return printer
