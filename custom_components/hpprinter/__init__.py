@@ -3,6 +3,8 @@ This component provides support for HP Printers.
 For more details about this component, please refer to the documentation at
 https://home-assistant.io/components/hpprinter/
 """
+import logging
+
 from homeassistant.config_entries import ConfigEntry
 
 from homeassistant.core import HomeAssistant
@@ -54,14 +56,9 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
     data = _get_printers(hass)
     name = entry_data.get(CONF_NAME)
 
-    unload = hass.config_entries.async_forward_entry_unload
-
     if name in data:
         printer = data[name]
         await printer.async_remove()
-
-        hass.async_create_task(unload(entry, DOMAIN_BINARY_SENSOR))
-        hass.async_create_task(unload(entry, DOMAIN_SENSOR))
 
         del hass.data[DATA_HP_PRINTER][name]
 
