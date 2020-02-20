@@ -16,6 +16,12 @@ to generate debug files, please use `hpprinter.save_debug_data` service (details
 State: connected?
 ```
 
+#### Components:
+###### Device status - Sensor
+```
+State: Status of printer (Off, On, Printing, Scanning, Copying, Canceling Job)
+```
+
 ###### Printer details - Sensor
 ```
 State: # of pages printed
@@ -62,4 +68,6 @@ Files that will be generated:
  - ConsumableConfigDyn.json - JSON based on the Raw XML of consumable details after transformed by the component
  - ProductConfigDyn.XML - Raw XML from HP Printer of Config Details
  - ProductConfigDyn.json - JSON based on the Raw XML of Config Details after transformed by the component
+ - ProductStatusDyn.XML - Raw XML from HP Printer of Status Details
+ - ProductStatusDyn.json - JSON based on the Raw XML of Status Details after transformed by the component
  - Final.json - JSON based on the 2 JSONs above, merged into simpler data structure for the HA to create sensor based on
