@@ -61,3 +61,7 @@ target/
 ConsumableConfigDyn.json
 ProductConfigDyn.json
 ProductUsageDyn.json
+ConsumableConfigDyn.xml
+final.json
+ProductConfigDyn.xml
+ProductUsageDyn.xml

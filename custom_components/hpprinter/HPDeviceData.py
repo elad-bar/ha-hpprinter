@@ -114,7 +114,7 @@ class HPDeviceData:
                     printer_consumables = consumables_data.get("Consumable")
 
                     if printer_consumables is not None:
-                        if "ConsumableStation" in printer_consumables:
+                        if "ConsumableTypeEnum" in printer_consumables:
                             self.set_printer_consumable_usage_data(printer_consumables)
                         else:
                             for key in printer_consumables:
