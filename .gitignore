@@ -58,7 +58,4 @@ docs/_build/
 target/
 
 /.idea
-*/ConsumableConfigDyn.*
-*/ProductConfigDyn.*
-*/ProductUsageDyn.*
-*/final.json
+samples/
