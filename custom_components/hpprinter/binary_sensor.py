@@ -77,7 +77,6 @@ class PrinterBinarySensor(Entity):
         self._hass = hass
         self._printer_name = printer_name
         self._entity = entity
-        self._printer_name = printer_name
         self._remove_dispatcher = None
 
     @property

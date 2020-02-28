@@ -6,6 +6,11 @@ Configuration support multiple HP Printer devices through Configuration -> Integ
 \* Custom component doesn't support YAML configuration!, in case you have used it via configuration.yaml, please remove it <br/>
 \* In case labels in Configuration -> Integrations -> Add new are note being displayed, please delete the custom component and re-download it   
 
+Added configuration check before applying new integration, it can fail in the following scenarios:
+* Destination is not reachable
+* Printer is offline
+* Integration doesn't support the API used by the printer
+
 #### Troubleshooting
 Before open an issue, please generate all debug XML / JSON files and attached them to the issue,
 to generate debug files, please use `hpprinter.save_debug_data` service (details below)

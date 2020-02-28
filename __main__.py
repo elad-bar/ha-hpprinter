@@ -21,7 +21,7 @@ class Test:
     async def async_parse(self, hass):
         hostname = "192.168.1.30"
 
-        device_data = HPDeviceData(hass, hostname, "HP7740") #  , self.data_provider)
+        device_data = HPDeviceData(hass, hostname, "HP7740", self.data_provider)
         self._data = await device_data.get_data()
 
         json_data = json.dumps(self._data)
@@ -33,7 +33,7 @@ class Test:
 
     @staticmethod
     def data_provider(data_type):
-        with open(f'samples/HPLJ M401dne/{data_type}.json') as json_file:
+        with open(f'samples/hp_8715/{data_type}.json') as json_file:
             data = json.load(json_file)
 
             return data
