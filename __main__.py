@@ -1,18 +1,31 @@
 #!/usr/bin/python3
 import json
-# import logging
-
+import logging
+from homeassistant.core import HomeAssistant
+import asyncio
 from custom_components.hpprinter.HPDeviceData import *
 
+logging.basicConfig(level=logging.DEBUG,
+                    filename='component.log',
+                    filemode='w')
 
-class Logger:
-    @staticmethod
-    def debug(message):
-        print(f"DEBUG - {message}")
+_LOGGER = logging.getLogger(__name__)
 
-    @staticmethod
-    def error(message):
-        print(f"ERROR - {message}")
+
+class Test:
+    def __init__(self):
+        _LOGGER.info("Started")
+
+        self._data = None
+
+    async def async_parse(self, hass):
+        hostname = "192.168.1.30"
+
+        device_data = HPDeviceData(hass, hostname, "HP7740", self.data_provider)
+        self._data = await device_data.get_data()
+
+        json_data = json.dumps(self._data)
+        _LOGGER.debug(json_data)
 
     @staticmethod
     def store_data(file, content):
@@ -20,7 +33,7 @@ class Logger:
 
     @staticmethod
     def data_provider(data_type):
-        with open(f'{data_type}.json') as json_file:
+        with open(f'samples/hp_8715/{data_type}.json') as json_file:
             data = json.load(json_file)
 
             return data
@@ -28,14 +41,12 @@ class Logger:
 
 if __name__ == '__main__':
     # execute only if run as the entry point into the program
-    _LOGGER = Logger()  # logging.getLogger(__name__)
 
-    hostname = "192.168.1.30"
 
-    device_data = HPDeviceData(hostname, "HP7740")
-    data = device_data.get_data() #_LOGGER.store_data)
+    t = Test()
+    hass = HomeAssistant()
 
-    json_data = json.dumps(data)
-    _LOGGER.debug(json_data)
+    hass.loop.run_until_complete(t.async_parse(hass))
+
 
 

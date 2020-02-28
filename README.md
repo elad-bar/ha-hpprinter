@@ -1,15 +1,30 @@
 # Integration to HP Printers
 
-#### Integration configuration of the HP Printer (Support multiple)
-```
-name: custom name
-host: hostname or ip
-```
+#### Configuration
+Configuration support multiple HP Printer devices through Configuration -> Integrations
+
+\* Custom component doesn't support YAML configuration!, in case you have used it via configuration.yaml, please remove it <br/>
+\* In case labels in Configuration -> Integrations -> Add new are note being displayed, please delete the custom component and re-download it   
+
+Added configuration check before applying new integration, it can fail in the following scenarios:
+* Destination is not reachable
+* Printer is offline
+* Integration doesn't support the API used by the printer
+
+#### Troubleshooting
+Before open an issue, please generate all debug XML / JSON files and attached them to the issue,
+to generate debug files, please use `hpprinter.save_debug_data` service (details below)
 
 #### Components:
 ###### Device status - Binary Sensor
 ```
 State: connected?
+```
+
+#### Components:
+###### Device status - Sensor
+```
+State: Status of printer (Off, On, Printing, Scanning, Copying, Canceling Job)
 ```
 
 ###### Printer details - Sensor
@@ -53,7 +68,11 @@ Attributes:
 Stores the XML and JSON of each request and final JSON to files, Path in CONFIG_PATH/*,
 Files that will be generated:
  - ProductUsageDyn.XML - Raw XML from HP Printer of Usage Details
- - ProductUsageDyn.json - JSON based on the Raw XML after transformed by the component
+ - ProductUsageDyn.json - JSON based on the Raw XML of Usage Details after transformed by the component
  - ConsumableConfigDyn.XML - Raw XML from HP Printer of consumable details
- - ConsumableConfigDyn.json - JSON based on the Raw XML after transformed by the component
+ - ConsumableConfigDyn.json - JSON based on the Raw XML of consumable details after transformed by the component
+ - ProductConfigDyn.XML - Raw XML from HP Printer of Config Details
+ - ProductConfigDyn.json - JSON based on the Raw XML of Config Details after transformed by the component
+ - ProductStatusDyn.XML - Raw XML from HP Printer of Status Details
+ - ProductStatusDyn.json - JSON based on the Raw XML of Status Details after transformed by the component
  - Final.json - JSON based on the 2 JSONs above, merged into simpler data structure for the HA to create sensor based on
