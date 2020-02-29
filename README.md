@@ -6,6 +6,11 @@ Configuration support multiple HP Printer devices through Configuration -> Integ
 \* Custom component doesn't support YAML configuration!, in case you have used it via configuration.yaml, please remove it <br/>
 \* In case labels in Configuration -> Integrations -> Add new are note being displayed, please delete the custom component and re-download it   
 
+Added configuration check before applying new integration, it can fail in the following scenarios:
+* Destination is not reachable
+* Printer is offline
+* Integration doesn't support the API used by the printer
+
 #### Troubleshooting
 Before open an issue, please generate all debug XML / JSON files and attached them to the issue,
 to generate debug files, please use `hpprinter.save_debug_data` service (details below)
@@ -14,6 +19,12 @@ to generate debug files, please use `hpprinter.save_debug_data` service (details
 ###### Device status - Binary Sensor
 ```
 State: connected?
+```
+
+#### Components:
+###### Device status - Sensor
+```
+State: Status of printer (Off, On, Printing, Scanning, Copying, Canceling Job)
 ```
 
 ###### Printer details - Sensor
@@ -62,4 +73,6 @@ Files that will be generated:
  - ConsumableConfigDyn.json - JSON based on the Raw XML of consumable details after transformed by the component
  - ProductConfigDyn.XML - Raw XML from HP Printer of Config Details
  - ProductConfigDyn.json - JSON based on the Raw XML of Config Details after transformed by the component
+ - ProductStatusDyn.XML - Raw XML from HP Printer of Status Details
+ - ProductStatusDyn.json - JSON based on the Raw XML of Status Details after transformed by the component
  - Final.json - JSON based on the 2 JSONs above, merged into simpler data structure for the HA to create sensor based on

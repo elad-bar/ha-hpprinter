@@ -1,13 +1,12 @@
 #!/usr/bin/python3
 import json
-# import logging
+import logging
 from homeassistant.core import HomeAssistant
 import asyncio
 from custom_components.hpprinter.HPDeviceData import *
+
 logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
-                    datefmt='%m-%d %H:%M',
-                    filename='myapp.log',
+                    filename='component.log',
                     filemode='w')
 
 _LOGGER = logging.getLogger(__name__)
@@ -22,7 +21,7 @@ class Test:
     async def async_parse(self, hass):
         hostname = "192.168.1.30"
 
-        device_data = HPDeviceData(hass, hostname, "HP7740")
+        device_data = HPDeviceData(hass, hostname, "HP7740", self.data_provider)
         self._data = await device_data.get_data()
 
         json_data = json.dumps(self._data)
@@ -34,7 +33,7 @@ class Test:
 
     @staticmethod
     def data_provider(data_type):
-        with open(f'{data_type}.json') as json_file:
+        with open(f'samples/hp_8715/{data_type}.json') as json_file:
             data = json.load(json_file)
 
             return data
