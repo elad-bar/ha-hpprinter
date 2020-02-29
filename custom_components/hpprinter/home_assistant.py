@@ -35,18 +35,15 @@ class HPPrinterHomeAssistant:
         self._last_update = None
         self._is_first_time_online = True
         self._data = {}
+        self._device_info = None
 
     @property
     def name(self):
         return self._name
 
     @property
-    def device_model(self):
-        return self._data.get(ENTITY_MODEL, self.name)
-
-    @property
-    def device_model_family(self):
-        return self._data.get(ENTITY_MODEL_FAMILY, self.name)
+    def device_info(self):
+        return self._device_info
 
     def initialize(self):
         if self._hp_data is not None:
@@ -61,6 +58,21 @@ class HPPrinterHomeAssistant:
 
         self._hass.async_create_task(self.async_init_entry())
 
+    def generate_device_info(self):
+        device_model = self._data.get(ENTITY_MODEL, self.name)
+        device_model_family = self._data.get(ENTITY_MODEL_FAMILY, self.name)
+
+        device_id = f"{DEFAULT_NAME}-{self._name}-{device_model_family}"
+
+        self._device_info = {
+            "identifiers": {
+                (DOMAIN, device_id)
+            },
+            "name": device_model_family,
+            "manufacturer": MANUFACTURER,
+            "model": device_model
+        }
+
     async def async_remove(self):
         _LOGGER.debug(f"async_remove called")
 
@@ -73,6 +85,16 @@ class HPPrinterHomeAssistant:
 
         self._hass.async_create_task(unload(self._config_entry, DOMAIN_BINARY_SENSOR))
         self._hass.async_create_task(unload(self._config_entry, DOMAIN_SENSOR))
+
+        device_identifiers = self._device_info.get("identifiers")
+        device_connections = self._device_info.get("connections", {})
+
+        device_reg = await dr.async_get_registry(self._hass)
+
+        device = device_reg.async_get_device(device_identifiers, device_connections)
+
+        if device is not None:
+            device_reg.async_remove_device(device.id)
 
     async def async_update_entry(self, entry, clear_all):
         _LOGGER.info(f"async_update_entry: {entry}")
@@ -177,6 +199,8 @@ class HPPrinterHomeAssistant:
         await self.discover_all()
 
     async def discover_all(self):
+        self.generate_device_info()
+
         for domain in [DOMAIN_SENSOR, DOMAIN_BINARY_SENSOR]:
             await self.discover(domain)
 

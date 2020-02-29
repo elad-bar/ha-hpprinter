@@ -87,16 +87,7 @@ class PrinterBinarySensor(Entity):
 
     @property
     def device_info(self):
-        device_id = f"{DEFAULT_NAME}-{self._printer_name}-{self._ha.device_model_family}"
-
-        return {
-            "identifiers": {
-                (DOMAIN, device_id)
-            },
-            "name": self._ha.device_model_family,
-            "manufacturer": MANUFACTURER,
-            ENTITY_MODEL: self._ha.device_model
-        }
+        return self._ha.device_info
 
     @property
     def should_poll(self):
@@ -149,10 +140,5 @@ class PrinterBinarySensor(Entity):
             if self._entity is None:
                 self._entity = {}
                 await self.async_remove()
-
-                dev_id = self.device_info.get("id")
-                device_reg = await dr.async_get_registry(self._hass)
-
-                device_reg.async_remove_device(dev_id)
             else:
                 self.async_schedule_update_ha_state(True)
