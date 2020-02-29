@@ -34,10 +34,19 @@ class HPPrinterHomeAssistant:
         self._should_reload = False
         self._last_update = None
         self._is_first_time_online = True
+        self._data = {}
 
     @property
     def name(self):
         return self._name
+
+    @property
+    def device_model(self):
+        return self._data.get(ENTITY_MODEL, self.name)
+
+    @property
+    def device_model_family(self):
+        return self._data.get(ENTITY_MODEL_FAMILY, self.name)
 
     def initialize(self):
         if self._hp_data is not None:
@@ -141,24 +150,24 @@ class HPPrinterHomeAssistant:
     async def async_update(self, event_time):
         _LOGGER.info(f"Updating {event_time}")
 
-        data = await self._hp_data.get_data()
+        self._data = await self._hp_data.get_data()
 
-        cartridges_data = data.get(HP_DEVICE_CARTRIDGES)
+        cartridges_data = self._data.get(HP_DEVICE_CARTRIDGES)
 
-        is_online = self.create_status_binary_sensor(data)
+        is_online = self.create_status_binary_sensor()
 
-        self.create_status_sensor(data)
+        self.create_status_sensor()
 
         if is_online:
-            self.create_printer_sensor(data)
-            self.create_scanner_sensor(data)
+            self.create_printer_sensor()
+            self.create_scanner_sensor()
 
             if cartridges_data is not None:
                 for key in cartridges_data:
                     cartridge = cartridges_data.get(key)
 
                     if cartridge is not None:
-                        self.create_cartridge_sensor(data, cartridge, key)
+                        self.create_cartridge_sensor(cartridge, key)
 
         if self._is_first_time_online:
             self._is_first_time_online = False
@@ -202,12 +211,11 @@ class HPPrinterHomeAssistant:
         if can_notify:
             async_dispatcher_send(self._hass, signal)
 
-    def create_status_sensor(self, data):
-        is_online = data.get(HP_DEVICE_IS_ONLINE, False)
-        status = data.get(PRINTER_CURRENT_STATUS, "Off")
-        model = data.get(ENTITY_MODEL)
+    def create_status_sensor(self):
+        is_online = self._data.get(HP_DEVICE_IS_ONLINE, False)
+        status = self._data.get(PRINTER_CURRENT_STATUS, "Off")
 
-        name = data.get("Name", DEFAULT_NAME)
+        name = self._data.get("Name", DEFAULT_NAME)
         sensor_name = f"{name} {HP_DEVICE_STATUS}"
 
         icon = "mdi:printer" if is_online else "mdi:printer-off"
@@ -221,17 +229,15 @@ class HPPrinterHomeAssistant:
             ENTITY_NAME: sensor_name,
             ENTITY_STATE: status,
             ENTITY_ATTRIBUTES: attributes,
-            ENTITY_ICON: icon,
-            ENTITY_MODEL: model
+            ENTITY_ICON: icon
         }
 
         self.set_entity(DOMAIN_SENSOR, sensor_name, entity)
 
-    def create_status_binary_sensor(self, data):
-        is_online = data.get(HP_DEVICE_IS_ONLINE, False)
-        model = data.get(ENTITY_MODEL)
+    def create_status_binary_sensor(self):
+        is_online = self._data.get(HP_DEVICE_IS_ONLINE, False)
 
-        name = data.get("Name", DEFAULT_NAME)
+        name = self._data.get("Name", DEFAULT_NAME)
         sensor_name = f"{name} {HP_DEVICE_STATUS}"
 
         icon = "mdi:printer-off"
@@ -248,20 +254,18 @@ class HPPrinterHomeAssistant:
             ENTITY_NAME: sensor_name,
             ENTITY_STATE: is_online,
             ENTITY_ATTRIBUTES: attributes,
-            ENTITY_ICON: icon,
-            ENTITY_MODEL: model
+            ENTITY_ICON: icon
         }
 
         self.set_entity(DOMAIN_BINARY_SENSOR, sensor_name, entity)
 
         return is_online
 
-    def create_printer_sensor(self, data):
-        printer_data = data.get(HP_DEVICE_PRINTER)
-        model = data.get(ENTITY_MODEL)
+    def create_printer_sensor(self):
+        printer_data = self._data.get(HP_DEVICE_PRINTER)
 
         if printer_data is not None:
-            name = data.get("Name", DEFAULT_NAME)
+            name = self._data.get("Name", DEFAULT_NAME)
             sensor_name = f"{name} {HP_DEVICE_PRINTER}"
 
             state = printer_data.get(HP_DEVICE_PRINTER_STATE)
@@ -279,18 +283,16 @@ class HPPrinterHomeAssistant:
                 ENTITY_NAME: sensor_name,
                 ENTITY_STATE: state,
                 ENTITY_ATTRIBUTES: attributes,
-                ENTITY_ICON: PAGES_ICON,
-                ENTITY_MODEL: model
+                ENTITY_ICON: PAGES_ICON
             }
 
             self.set_entity(DOMAIN_SENSOR, sensor_name, entity)
 
-    def create_scanner_sensor(self, data):
-        scanner_data = data.get(HP_DEVICE_SCANNER)
-        model = data.get(ENTITY_MODEL)
+    def create_scanner_sensor(self):
+        scanner_data = self._data.get(HP_DEVICE_SCANNER)
 
         if scanner_data is not None:
-            name = data.get("Name", DEFAULT_NAME)
+            name = self._data.get("Name", DEFAULT_NAME)
             sensor_name = f"{name} {HP_DEVICE_SCANNER}"
 
             state = scanner_data.get(HP_DEVICE_SCANNER_STATE)
@@ -308,15 +310,13 @@ class HPPrinterHomeAssistant:
                 ENTITY_NAME: sensor_name,
                 ENTITY_STATE: state,
                 ENTITY_ATTRIBUTES: attributes,
-                ENTITY_ICON: SCANNER_ICON,
-                ENTITY_MODEL: model
+                ENTITY_ICON: SCANNER_ICON
             }
 
             self.set_entity(DOMAIN_SENSOR, sensor_name, entity)
 
-    def create_cartridge_sensor(self, data, cartridge, key):
-        name = data.get("Name", DEFAULT_NAME)
-        model = data.get(ENTITY_MODEL)
+    def create_cartridge_sensor(self, cartridge, key):
+        name = self._data.get("Name", DEFAULT_NAME)
         sensor_name = f"{name} {key}"
 
         state = cartridge.get(HP_DEVICE_CARTRIDGE_STATE, 0)
@@ -334,8 +334,7 @@ class HPPrinterHomeAssistant:
             ENTITY_NAME: sensor_name,
             ENTITY_STATE: state,
             ENTITY_ATTRIBUTES: attributes,
-            ENTITY_ICON: INK_ICON,
-            ENTITY_MODEL: model
+            ENTITY_ICON: INK_ICON
         }
 
         self.set_entity(DOMAIN_SENSOR, sensor_name, entity)

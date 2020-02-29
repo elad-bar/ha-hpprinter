@@ -76,6 +76,7 @@ class PrinterSensor(Entity):
         self._printer_name = printer_name
         self._entity = entity
         self._remove_dispatcher = None
+        self._ha = _get_printer(self._hass, self._printer_name)
 
     @property
     def unique_id(self) -> Optional[str]:
@@ -84,13 +85,15 @@ class PrinterSensor(Entity):
 
     @property
     def device_info(self):
+        device_id = f"{DEFAULT_NAME}-{self._printer_name}-{self._ha.device_model_family}"
+
         return {
             "identifiers": {
-                (DOMAIN, self.unique_id)
+                (DOMAIN, device_id)
             },
-            "name": self.name,
+            "name": self._ha.device_model_family,
             "manufacturer": MANUFACTURER,
-            ENTITY_MODEL: self._entity.get(ENTITY_MODEL)
+            ENTITY_MODEL: self._ha.device_model
         }
 
     @property
@@ -133,9 +136,8 @@ class PrinterSensor(Entity):
     async def async_update_data(self):
         _LOGGER.debug(f"{CURRENT_DOMAIN} update_data: {self.name} | {self.unique_id}")
 
-        printer = _get_printer(self._hass, self._printer_name)
-        if printer is not None:
-            self._entity = printer.get_entity(CURRENT_DOMAIN, self.name)
+        if self._ha is not None:
+            self._entity = self._ha.get_entity(CURRENT_DOMAIN, self.name)
 
             if self._entity is None:
                 self._entity = {}
