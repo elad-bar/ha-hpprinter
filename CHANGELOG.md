@@ -1,5 +1,12 @@
 # Changelog
 
+## 2020-04-24 #6
+
+**Fixed bugs:**
+
+- Fix [\#39](https://github.com/elad-bar/ha-edgeos/issues/39) [\#46](https://github.com/elad-bar/ha-edgeos/issues/46) missing labels
+- Fix [\#44](https://github.com/elad-bar/ha-edgeos/issues/44) by removing dependency on logger component
+
 ## 2020-04-24 #5
 
 **Implemented enhancements:**

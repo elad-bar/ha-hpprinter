@@ -1,7 +1,6 @@
 import logging
 import sys
 
-from homeassistant.components.logger import DOMAIN as DOMAIN_LOGGER, SERVICE_SET_LEVEL
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 
@@ -9,6 +8,9 @@ from ..managers.home_assistant import HPPrinterHomeAssistant
 from .const import *
 
 _LOGGER = logging.getLogger(__name__)
+
+DOMAIN_LOGGER = "logger"
+SERVICE_SET_LEVEL = "set_level"
 
 
 def clear_ha(hass: HomeAssistant, name):

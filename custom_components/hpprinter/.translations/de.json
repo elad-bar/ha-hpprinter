@@ -1,5 +1,6 @@
 {
   "config": {
+    "title": "HP Drucker",
     "step": {
       "user": {
         "title": "HP Drucker einrichten ",
