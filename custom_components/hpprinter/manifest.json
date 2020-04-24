@@ -1,6 +1,6 @@
 {
     "domain": "hpprinter",
-    "name": "HP Printer Integration",
+    "name": "HP Printer",
     "documentation": "https://github.com/elad-bar/ha-hpprinter/blob/master/README.md",
     "codeowners": ["@elad-bar"],
     "requirements": ["xmltodict==0.4"],
