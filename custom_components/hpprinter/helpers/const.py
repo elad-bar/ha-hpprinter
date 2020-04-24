@@ -11,11 +11,6 @@ SIGNAL_UPDATE_HP_PRINTER = f'updates_{DOMAIN}'
 NOTIFICATION_ID = f'{DOMAIN}_notification'
 NOTIFICATION_TITLE = f'{DEFAULT_NAME} Setup'
 
-<<<<<<< Updated upstream:custom_components/hpprinter/const.py
-SCAN_INTERVAL = timedelta(seconds=10)
-
-=======
->>>>>>> Stashed changes:custom_components/hpprinter/helpers/const.py
 SENSOR_ENTITY_ID = 'sensor.{}_{}'
 BINARY_SENSOR_ENTITY_ID = 'binary_sensor.{}_{}'
 
@@ -30,11 +25,6 @@ ENTITY_STATE = 'state'
 ENTITY_ATTRIBUTES = 'attributes'
 ENTITY_NAME = 'name'
 ENTITY_MODEL = 'model'
-<<<<<<< Updated upstream:custom_components/hpprinter/const.py
-PRINTER_CURRENT_STATUS = 'status'
-ENTITY_MODEL_FAMILY = "model-family"
-
-=======
 ENTITY_MODEL_FAMILY = "model-family"
 ENTITY_DEVICE_NAME = "device-name"
 ENTITY_UNIQUE_ID = "unique-id"
@@ -48,7 +38,6 @@ ENTITY_STATUS_IGNORE = f"{ENTITY_STATUS}-ignore"
 ENTITY_STATUS_CANCELLED = f"{ENTITY_STATUS}-cancelled"
 
 PRINTER_CURRENT_STATUS = "status"
->>>>>>> Stashed changes:custom_components/hpprinter/helpers/const.py
 PRINTER_SENSOR = "Printer"
 
 INK_ICON = 'mdi:cup-water'
@@ -114,13 +103,7 @@ HP_INK_MAPPING = {
     "C": "Cyan",
     "Y": "Yellow",
     "M": "Magenta",
-<<<<<<< Updated upstream:custom_components/hpprinter/const.py
-    "K": "Black",
-    "CMY": "CyanMagentaYellow",
-    "CMYK": "CyanMagentaYellowBlack"
-=======
     "K": "Black"
->>>>>>> Stashed changes:custom_components/hpprinter/helpers/const.py
 }
 
 SIGNAL_UPDATE_BINARY_SENSOR = f"{DEFAULT_NAME}_{DOMAIN_BINARY_SENSOR}_SIGNLE_UPDATE"
@@ -131,17 +114,6 @@ SIGNALS = {
     DOMAIN_SENSOR: SIGNAL_UPDATE_SENSOR
 }
 
-<<<<<<< Updated upstream:custom_components/hpprinter/const.py
-PRINTER_STATUS = {
-    "ready": "On",
-    "scanProcessing": "Scanning",
-    "copying": "Copying",
-    "processing": "Printing",
-    "cancelJob": "Cancelling Job",
-    "inPowerSave": "Idle",
-    "": "Off"
-}
-=======
 LOG_LEVEL_DEFAULT = "Default"
 LOG_LEVEL_DEBUG = "Debug"
 LOG_LEVEL_INFO = "Info"
@@ -155,4 +127,3 @@ LOG_LEVELS = [
     LOG_LEVEL_WARNING,
     LOG_LEVEL_ERROR
 ]
->>>>>>> Stashed changes:custom_components/hpprinter/helpers/const.py

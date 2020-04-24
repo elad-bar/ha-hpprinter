@@ -5,14 +5,9 @@ from homeassistant import config_entries
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import callback
 
-<<<<<<< Updated upstream
-from custom_components.hpprinter import ProductUsageDynPrinterDataAPI
-from .const import *
-=======
 from .helpers import get_ha
 from .helpers.const import *
 from .managers.config_flow_manager import ConfigFlowManager
->>>>>>> Stashed changes
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -43,34 +38,7 @@ class HPPrinterFlowHandler(config_entries.ConfigFlow):
 
         self._config_flow.initialize(self.hass)
 
-        errors = None
-
         if user_input is not None:
-<<<<<<< Updated upstream
-
-            name = user_input.get(CONF_NAME, DEFAULT_NAME)
-            host = user_input.get(CONF_HOST)
-
-            usage_data_manager = ProductUsageDynPrinterDataAPI(self.hass, host)
-            usage_data_manager.initialize()
-
-            if await usage_data_manager.get_data() is None:
-                _LOGGER.warning(f"Failed to access HP Printer ({name})")
-
-                errors = {
-                    "base": "cannot_reach_printer"
-                }
-
-            if errors is None:
-                data = {
-                        CONF_NAME: name,
-                        CONF_HOST: host
-                    }
-
-                return self.async_create_entry(title=name, data=data)
-
-        return self.async_show_form(step_id="user", data_schema=vol.Schema(fields), errors=errors)
-=======
             self._config_flow.update_data(user_input, True)
 
             name = self._config_flow.config_data.name
@@ -101,7 +69,6 @@ class HPPrinterFlowHandler(config_entries.ConfigFlow):
         return self.async_show_form(step_id="user",
                                     data_schema=data_schema,
                                     errors=errors)
->>>>>>> Stashed changes
 
     async def async_step_import(self, info):
         """Import existing configuration from Z-Wave."""

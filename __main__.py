@@ -6,7 +6,7 @@ import asyncio
 from custom_components.hpprinter.managers.HPDeviceData import *
 
 logging.basicConfig(level=logging.DEBUG,
-                    filename='component.log',
+                    filename='myapp.log',
                     filemode='w')
 
 _LOGGER = logging.getLogger(__name__)
@@ -34,7 +34,7 @@ class Test:
 
     @staticmethod
     def data_provider(data_type):
-        with open(f'samples/hp_8715/{data_type}.json') as json_file:
+        with open(f'samples/ink/{data_type}.json') as json_file:
             data = json.load(json_file)
 
             return data

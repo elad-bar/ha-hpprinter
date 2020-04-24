@@ -11,16 +11,6 @@ Look for "HP Printers Integration" and install
 #### Requirements
 * HP Printer supporting XML API
 
-<<<<<<< Updated upstream
-Added configuration check before applying new integration, it can fail in the following scenarios:
-* Destination is not reachable
-* Printer is offline
-* Integration doesn't support the API used by the printer
-
-#### Troubleshooting
-Before open an issue, please generate all debug XML / JSON files and attached them to the issue,
-to generate debug files, please use `hpprinter.save_debug_data` service (details below)
-=======
 #### Basic configuration
 * Configuration should be done via Configuration -> Integrations.
 * In case you are already using that integration with YAML Configuration - please remove it
@@ -58,7 +48,6 @@ Files that will be generated (Prefix to the file is name of the integration):
  - ProductConfigDyn.XML - Raw XML from HP Printer of Config Details
  - ProductConfigDyn.json - JSON based on the Raw XML of Config Details after transformed by the component
  - Final.json - JSON based on the 2 JSONs above, merged into simpler data structure for the HA to create sensor based on
->>>>>>> Stashed changes
 
 ## Components:
 #### Device status - Binary Sensor
@@ -66,17 +55,7 @@ Files that will be generated (Prefix to the file is name of the integration):
 State: connected?
 ```
 
-<<<<<<< Updated upstream
-#### Components:
-###### Device status - Sensor
-```
-State: Status of printer (Off, On, Printing, Scanning, Copying, Canceling Job)
-```
-
-###### Printer details - Sensor
-=======
 #### Printer details - Sensor
->>>>>>> Stashed changes
 ```
 State: # of pages printed
 Attributes:
@@ -110,22 +89,4 @@ Attributes:
     Manufactured At
     Warranty Expiration Date
     Installed At
-<<<<<<< Updated upstream
 ```
-
-#### Services:
-###### hpprinter.save_debug_data
-Stores the XML and JSON of each request and final JSON to files, Path in CONFIG_PATH/*,
-Files that will be generated:
- - ProductUsageDyn.XML - Raw XML from HP Printer of Usage Details
- - ProductUsageDyn.json - JSON based on the Raw XML of Usage Details after transformed by the component
- - ConsumableConfigDyn.XML - Raw XML from HP Printer of consumable details
- - ConsumableConfigDyn.json - JSON based on the Raw XML of consumable details after transformed by the component
- - ProductConfigDyn.XML - Raw XML from HP Printer of Config Details
- - ProductConfigDyn.json - JSON based on the Raw XML of Config Details after transformed by the component
- - ProductStatusDyn.XML - Raw XML from HP Printer of Status Details
- - ProductStatusDyn.json - JSON based on the Raw XML of Status Details after transformed by the component
- - Final.json - JSON based on the 2 JSONs above, merged into simpler data structure for the HA to create sensor based on
-=======
-```
->>>>>>> Stashed changes
