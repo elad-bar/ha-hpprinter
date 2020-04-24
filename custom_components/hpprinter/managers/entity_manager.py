@@ -213,7 +213,6 @@ class EntityManager:
             self.log_exception(ex, f"Failed to update, step: {step}")
 
     def create_status_sensor(self):
-        is_online = self.is_online()
         status = self.data.get(PRINTER_CURRENT_STATUS, "Off")
 
         name = self.data.get("Name", DEFAULT_NAME)
