@@ -3,18 +3,17 @@ This component provides support for HP Printers.
 For more details about this component, please refer to the documentation at
 https://home-assistant.io/components/hpprinter/
 """
-from homeassistant.config_entries import ConfigEntry
-
-from homeassistant.core import HomeAssistant
-
 from custom_components.hpprinter.helpers import (
     async_set_ha,
-    get_ha,
     clear_ha,
+    get_ha,
     handle_log_level,
 )
 from custom_components.hpprinter.helpers.const import *
 from custom_components.hpprinter.managers.HPDeviceData import *
+
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.core import HomeAssistant
 
 _LOGGER = logging.getLogger(__name__)
 

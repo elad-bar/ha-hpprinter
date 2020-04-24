@@ -1,12 +1,12 @@
-import sys
 import logging
+import sys
 
+from homeassistant.components.logger import DOMAIN as DOMAIN_LOGGER, SERVICE_SET_LEVEL
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
-from homeassistant.components.logger import DOMAIN as DOMAIN_LOGGER, SERVICE_SET_LEVEL
 
-from .const import *
 from ..managers.home_assistant import HPPrinterHomeAssistant
+from .const import *
 
 _LOGGER = logging.getLogger(__name__)
 

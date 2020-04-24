@@ -1,15 +1,14 @@
 import logging
 from typing import Optional
+
 import voluptuous as vol
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers import config_validation as cv
 
-
 from .. import LoginError
-from ..helpers.const import *
 from ..api.HPPrinterAPI import ProductConfigDynDataAPI
-
+from ..helpers.const import *
 from ..managers.configuration_manager import ConfigManager
 from ..models.config_data import ConfigData
 

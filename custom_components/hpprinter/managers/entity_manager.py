@@ -1,6 +1,6 @@
-import sys
 import logging
-from typing import Dict, Optional, List
+import sys
+from typing import Dict, List, Optional
 
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_registry import EntityRegistry

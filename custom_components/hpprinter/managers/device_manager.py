@@ -1,4 +1,5 @@
 import logging
+
 from homeassistant.helpers.device_registry import async_get_registry
 
 from ..helpers.const import *

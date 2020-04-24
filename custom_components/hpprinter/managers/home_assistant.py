@@ -4,24 +4,24 @@ For more details about this platform, please refer to the documentation at
 https://home-assistant.io/components/hpprinter/
 """
 from datetime import datetime, timedelta
-import sys
 import logging
+import sys
 from typing import Optional
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.dispatcher import async_dispatcher_send
 from homeassistant.helpers.entity_registry import (
     EntityRegistry,
     async_get_registry as er_async_get_registry,
 )
 from homeassistant.helpers.event import async_call_later, async_track_time_interval
-from homeassistant.helpers.dispatcher import async_dispatcher_send
 
 from ..helpers.const import *
+from ..managers.HPDeviceData import HPDeviceData
 from ..managers.configuration_manager import ConfigManager
 from ..managers.device_manager import DeviceManager
 from ..managers.entity_manager import EntityManager
-from ..managers.HPDeviceData import HPDeviceData
 from ..models.config_data import ConfigData
 
 _LOGGER = logging.getLogger(__name__)

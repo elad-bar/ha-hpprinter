@@ -5,11 +5,11 @@ https://home-assistant.io/components/binary_sensor.blueiris/
 """
 import logging
 
-from homeassistant.const import STATE_ON, STATE_OFF
+from homeassistant.const import STATE_OFF, STATE_ON
 from homeassistant.core import HomeAssistant
 
 from .helpers.const import *
-from .models.base_entity import async_setup_base_entry, HPPrinterEntity
+from .models.base_entity import HPPrinterEntity, async_setup_base_entry
 from .models.entity_data import EntityData
 
 _LOGGER = logging.getLogger(__name__)

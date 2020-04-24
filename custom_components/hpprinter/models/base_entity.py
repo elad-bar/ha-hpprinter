@@ -1,10 +1,9 @@
-import sys
 import logging
-
-from typing import Optional, Any, Callable
+import sys
+from typing import Any, Callable, Optional
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import callback, HomeAssistant
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
 from homeassistant.helpers.entity import Entity
 

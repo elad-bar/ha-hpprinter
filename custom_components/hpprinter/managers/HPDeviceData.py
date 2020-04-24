@@ -1,4 +1,5 @@
 from custom_components.hpprinter.api.HPPrinterAPI import *
+
 from ..models.config_data import ConfigData
 
 _LOGGER = logging.getLogger(__name__)
