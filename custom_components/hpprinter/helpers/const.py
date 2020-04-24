@@ -4,27 +4,39 @@ from homeassistant.components.sensor import DOMAIN as DOMAIN_SENSOR
 from homeassistant.const import CONF_HOST, CONF_NAME, CONF_PORT, CONF_SSL
 
 MANUFACTURER = "HP"
-DEFAULT_NAME = 'HP Printer'
+DEFAULT_NAME = "HP Printer"
 DOMAIN = "hpprinter"
-DATA_HP_PRINTER = f'data_{DOMAIN}'
-SIGNAL_UPDATE_HP_PRINTER = f'updates_{DOMAIN}'
-NOTIFICATION_ID = f'{DOMAIN}_notification'
-NOTIFICATION_TITLE = f'{DEFAULT_NAME} Setup'
+DATA_HP_PRINTER = f"data_{DOMAIN}"
+SIGNAL_UPDATE_HP_PRINTER = f"updates_{DOMAIN}"
+NOTIFICATION_ID = f"{DOMAIN}_notification"
+NOTIFICATION_TITLE = f"{DEFAULT_NAME} Setup"
 
-SENSOR_ENTITY_ID = 'sensor.{}_{}'
-BINARY_SENSOR_ENTITY_ID = 'binary_sensor.{}_{}'
+SENSOR_ENTITY_ID = "sensor.{}_{}"
+BINARY_SENSOR_ENTITY_ID = "binary_sensor.{}_{}"
 
-NAMESPACES_TO_REMOVE = ["ccdyn", "ad", "dd", "dd2", "pudyn", "psdyn", "xsd", "pscat", "locid", "prdcfgdyn2", "prdcfgdyn"]
+NAMESPACES_TO_REMOVE = [
+    "ccdyn",
+    "ad",
+    "dd",
+    "dd2",
+    "pudyn",
+    "psdyn",
+    "xsd",
+    "pscat",
+    "locid",
+    "prdcfgdyn2",
+    "prdcfgdyn",
+]
 
 CONF_STORE_DATA = "store_data"
 CONF_UPDATE_INTERVAL = "update_interval"
 CONF_LOG_LEVEL = "log_level"
 
-ENTITY_ICON = 'icon'
-ENTITY_STATE = 'state'
-ENTITY_ATTRIBUTES = 'attributes'
-ENTITY_NAME = 'name'
-ENTITY_MODEL = 'model'
+ENTITY_ICON = "icon"
+ENTITY_STATE = "state"
+ENTITY_ATTRIBUTES = "attributes"
+ENTITY_NAME = "name"
+ENTITY_MODEL = "model"
 ENTITY_MODEL_FAMILY = "model-family"
 ENTITY_DEVICE_NAME = "device-name"
 ENTITY_UNIQUE_ID = "unique-id"
@@ -40,14 +52,11 @@ ENTITY_STATUS_CANCELLED = f"{ENTITY_STATUS}-cancelled"
 PRINTER_CURRENT_STATUS = "status"
 PRINTER_SENSOR = "Printer"
 
-INK_ICON = 'mdi:cup-water'
-PAGES_ICON = 'mdi:book-open-page-variant'
-SCANNER_ICON = 'mdi:scanner'
+INK_ICON = "mdi:cup-water"
+PAGES_ICON = "mdi:book-open-page-variant"
+SCANNER_ICON = "mdi:scanner"
 
-PROTOCOLS = {
-    True: 'https',
-    False: 'http'
-}
+PROTOCOLS = {True: "https", False: "http"}
 
 IGNORE_ITEMS = [
     "@xsi:schemaLocation",
@@ -65,14 +74,14 @@ IGNORE_ITEMS = [
     "@xmlns:prdcfgdyn",
     "@xmlns:prdcfgdyn2",
     "@xmlns:pudyn",
-    "PECounter"
+    "PECounter",
 ]
 
 ARRAY_KEYS = {
     "UsageByMedia": [],
     "SupportedConsumable": ["ConsumableTypeEnum", "ConsumableLabelCode"],
     "SupportedConsumableInfo": ["ConsumableUsageType"],
-    "EmailAlertCategories": ["AlertCategory"]
+    "EmailAlertCategories": ["AlertCategory"],
 }
 
 ARRAY_AS_DEFAULT = [
@@ -82,7 +91,7 @@ ARRAY_AS_DEFAULT = [
     "ResourceURI",
     "Language",
     "AutoOnEvent",
-    "DaysOfWeek"
+    "DaysOfWeek",
 ]
 
 HP_DEVICE_STATUS = "Status"
@@ -99,19 +108,14 @@ HP_DEVICE_IS_ONLINE = "IsOnline"
 HP_HEAD_TYPE_INK = "ink"
 HP_HEAD_TYPE_PRINT_HEAD = "printhead"
 
-HP_INK_MAPPING = {
-    "C": "Cyan",
-    "Y": "Yellow",
-    "M": "Magenta",
-    "K": "Black"
-}
+HP_INK_MAPPING = {"C": "Cyan", "Y": "Yellow", "M": "Magenta", "K": "Black"}
 
 SIGNAL_UPDATE_BINARY_SENSOR = f"{DEFAULT_NAME}_{DOMAIN_BINARY_SENSOR}_SIGNLE_UPDATE"
 SIGNAL_UPDATE_SENSOR = f"{DEFAULT_NAME}_{DOMAIN_SENSOR}_SIGNLE_UPDATE"
 
 SIGNALS = {
     DOMAIN_BINARY_SENSOR: SIGNAL_UPDATE_BINARY_SENSOR,
-    DOMAIN_SENSOR: SIGNAL_UPDATE_SENSOR
+    DOMAIN_SENSOR: SIGNAL_UPDATE_SENSOR,
 }
 
 LOG_LEVEL_DEFAULT = "Default"
@@ -125,5 +129,5 @@ LOG_LEVELS = [
     LOG_LEVEL_DEBUG,
     LOG_LEVEL_INFO,
     LOG_LEVEL_WARNING,
-    LOG_LEVEL_ERROR
+    LOG_LEVEL_ERROR,
 ]

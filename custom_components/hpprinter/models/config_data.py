@@ -33,7 +33,7 @@ class ConfigData:
             CONF_PORT: self.port,
             CONF_STORE_DATA: self.should_store,
             CONF_UPDATE_INTERVAL: self.update_interval,
-            CONF_LOG_LEVEL: self.log_level
+            CONF_LOG_LEVEL: self.log_level,
         }
 
         to_string = f"{obj}"

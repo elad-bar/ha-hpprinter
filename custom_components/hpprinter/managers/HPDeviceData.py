@@ -10,9 +10,15 @@ class HPDeviceData:
     def __init__(self, hass, config_manager: ConfigManager):
         self._config_manager = config_manager
 
-        self._usage_data_manager = ProductUsageDynPrinterDataAPI(hass, self._config_manager)
-        self._consumable_data_manager = ConsumableConfigDynPrinterDataAPI(hass, self._config_manager)
-        self._product_config_manager = ProductConfigDynDataAPI(hass, self._config_manager)
+        self._usage_data_manager = ProductUsageDynPrinterDataAPI(
+            hass, self._config_manager
+        )
+        self._consumable_data_manager = ConsumableConfigDynPrinterDataAPI(
+            hass, self._config_manager
+        )
+        self._product_config_manager = ProductConfigDynDataAPI(
+            hass, self._config_manager
+        )
 
         self._hass = hass
 
@@ -20,9 +26,7 @@ class HPDeviceData:
         self._consumable_data = None
         self._product_config_data = None
 
-        self.device_data = {
-            HP_DEVICE_IS_ONLINE: False
-        }
+        self.device_data = {HP_DEVICE_IS_ONLINE: False}
 
     @property
     def config_data(self) -> ConfigData:
@@ -44,7 +48,11 @@ class HPDeviceData:
             self._consumable_data = await self._consumable_data_manager.get_data()
             self._product_config_data = await self._product_config_manager.get_data()
 
-            data_list = [self._usage_data, self._consumable_data, self._product_config_data]
+            data_list = [
+                self._usage_data,
+                self._consumable_data,
+                self._product_config_data,
+            ]
             is_online = True
 
             for item in data_list:
@@ -69,7 +77,9 @@ class HPDeviceData:
             line_number = tb.tb_lineno
             error_details = f"Error: {ex}, Line: {line_number}"
 
-            _LOGGER.error(f'Failed to update data ({self.name} @{self.host}) and parse it, {error_details}')
+            _LOGGER.error(
+                f"Failed to update data ({self.name} @{self.host}) and parse it, {error_details}"
+            )
 
     async def store_data(self):
         previous_should_store = self.config_data.should_store
@@ -98,7 +108,9 @@ class HPDeviceData:
             line_number = tb.tb_lineno
             error_details = f"Error: {ex}, Line: {line_number}"
 
-            _LOGGER.error(f'Failed to parse consumable data ({self.name} @{self.host}), {error_details}')
+            _LOGGER.error(
+                f"Failed to parse consumable data ({self.name} @{self.host}), {error_details}"
+            )
 
     def set_product_config_data(self):
         try:
@@ -111,7 +123,9 @@ class HPDeviceData:
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
 
-            _LOGGER.error(f'Failed to parse usage data ({self.name} @{self.host}), Error: {ex}, Line: {line_number}')
+            _LOGGER.error(
+                f"Failed to parse usage data ({self.name} @{self.host}), Error: {ex}, Line: {line_number}"
+            )
 
     def set_usage_data(self):
         try:
@@ -144,20 +158,28 @@ class HPDeviceData:
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
 
-            _LOGGER.error(f'Failed to parse usage data ({self.name} @{self.host}), Error: {ex}, Line: {line_number}')
+            _LOGGER.error(
+                f"Failed to parse usage data ({self.name} @{self.host}), Error: {ex}, Line: {line_number}"
+            )
 
     def set_printer_usage_data(self, printer_data):
         try:
-            total_printed_pages = self.clean_parameter(printer_data, "TotalImpressions", "0")
+            total_printed_pages = self.clean_parameter(
+                printer_data, "TotalImpressions", "0"
+            )
 
             color_printed_pages = self.clean_parameter(printer_data, "ColorImpressions")
-            monochrome_printed_pages = self.clean_parameter(printer_data, "MonochromeImpressions")
+            monochrome_printed_pages = self.clean_parameter(
+                printer_data, "MonochromeImpressions"
+            )
 
             printer_jams = self.clean_parameter(printer_data, "Jams")
             if printer_jams == "N/A":
                 printer_jams = self.clean_parameter(printer_data, "JamEvents", "0")
 
-            cancelled_print_jobs_number = self.clean_parameter(printer_data, "TotalFrontPanelCancelPresses")
+            cancelled_print_jobs_number = self.clean_parameter(
+                printer_data, "TotalFrontPanelCancelPresses"
+            )
 
             self.device_data[HP_DEVICE_PRINTER] = {
                 HP_DEVICE_PRINTER_STATE: total_printed_pages,
@@ -171,7 +193,9 @@ class HPDeviceData:
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
 
-            _LOGGER.error(f'Failed to set printer data ({self.name} @{self.host}), Error: {ex}, Line: {line_number}')
+            _LOGGER.error(
+                f"Failed to set printer data ({self.name} @{self.host}), Error: {ex}, Line: {line_number}"
+            )
 
     def set_scanner_usage_data(self, scanner_data):
         try:
@@ -182,7 +206,7 @@ class HPDeviceData:
             scanner_jams = self.clean_parameter(scanner_data, "JamEvents", "0")
             scanner_mispick = self.clean_parameter(scanner_data, "MispickEvents", "0")
 
-            if scan_images_count == 'N/A':
+            if scan_images_count == "N/A":
                 new_scan_images_count = 0
 
                 if adf_images_count != "N/A" and int(adf_images_count) > 0:
@@ -206,12 +230,16 @@ class HPDeviceData:
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
 
-            _LOGGER.error(f'Failed to set scanner data ({self.name} @{self.host}), Error: {ex}, Line: {line_number}')
+            _LOGGER.error(
+                f"Failed to set scanner data ({self.name} @{self.host}), Error: {ex}, Line: {line_number}"
+            )
 
     def set_printer_consumable_usage_data(self, printer_consumable_data):
         try:
             color = self.clean_parameter(printer_consumable_data, "MarkerColor")
-            head_type = self.clean_parameter(printer_consumable_data, "ConsumableTypeEnum").capitalize()
+            head_type = self.clean_parameter(
+                printer_consumable_data, "ConsumableTypeEnum"
+            ).capitalize()
             station = self.clean_parameter(printer_consumable_data, "ConsumableStation")
 
             cartridge_key = f"{head_type} {color}"
@@ -245,15 +273,27 @@ class HPDeviceData:
             line_number = tb.tb_lineno
             error_details = f"Error: {ex}, Line: {line_number}"
 
-            _LOGGER.error(f'Failed to set printer consumable usage data ({self.name} @{self.host}), {error_details}')
+            _LOGGER.error(
+                f"Failed to set printer consumable usage data ({self.name} @{self.host}), {error_details}"
+            )
 
     def set_printer_consumable_data(self, printer_consumable_data):
         try:
-            consumable_label_code = self.clean_parameter(printer_consumable_data, "ConsumableLabelCode")
-            head_type = self.clean_parameter(printer_consumable_data, "ConsumableTypeEnum").capitalize()
-            product_number = self.clean_parameter(printer_consumable_data, "ProductNumber")
-            serial_number = self.clean_parameter(printer_consumable_data, "SerialNumber")
-            remaining = self.clean_parameter(printer_consumable_data, "ConsumablePercentageLevelRemaining", "0")
+            consumable_label_code = self.clean_parameter(
+                printer_consumable_data, "ConsumableLabelCode"
+            )
+            head_type = self.clean_parameter(
+                printer_consumable_data, "ConsumableTypeEnum"
+            ).capitalize()
+            product_number = self.clean_parameter(
+                printer_consumable_data, "ProductNumber"
+            )
+            serial_number = self.clean_parameter(
+                printer_consumable_data, "SerialNumber"
+            )
+            remaining = self.clean_parameter(
+                printer_consumable_data, "ConsumablePercentageLevelRemaining", "0"
+            )
 
             installation = printer_consumable_data.get("Installation", {})
             installation_data = self.clean_parameter(installation, "Date")
@@ -277,7 +317,9 @@ class HPDeviceData:
                 color = "".join(color_map)
 
                 if color == consumable_label_code:
-                    _LOGGER.warning(f"Head type {head_type} color mapping for {consumable_label_code} not available")
+                    _LOGGER.warning(
+                        f"Head type {head_type} color mapping for {consumable_label_code} not available"
+                    )
 
             cartridge_key = f"{head_type} {color}"
 
@@ -321,7 +363,9 @@ class HPDeviceData:
 
             error_details = f"Error: {str(ex)}, Line: {line_number}"
 
-            _LOGGER.error(f'Failed to set printer consumable data ({self.name} @{self.host}), {error_details}')
+            _LOGGER.error(
+                f"Failed to set printer consumable data ({self.name} @{self.host}), {error_details}"
+            )
 
     @staticmethod
     def clean_parameter(data_item, data_key, default_value="N/A"):

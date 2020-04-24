@@ -18,9 +18,15 @@ class ConfigManager:
         result.host = data.get(CONF_HOST)
         result.port = data.get(CONF_PORT, 80)
         result.ssl = data.get(CONF_SSL, False)
-        result.should_store = self._get_config_data_item(CONF_STORE_DATA, options, data, False)
-        result.update_interval = self._get_config_data_item(CONF_UPDATE_INTERVAL, options, data, 60)
-        result.log_level = self._get_config_data_item(CONF_LOG_LEVEL, options, data, LOG_LEVEL_DEFAULT)
+        result.should_store = self._get_config_data_item(
+            CONF_STORE_DATA, options, data, False
+        )
+        result.update_interval = self._get_config_data_item(
+            CONF_UPDATE_INTERVAL, options, data, 60
+        )
+        result.log_level = self._get_config_data_item(
+            CONF_LOG_LEVEL, options, data, LOG_LEVEL_DEFAULT
+        )
 
         self.config_entry = config_entry
         self.data = result

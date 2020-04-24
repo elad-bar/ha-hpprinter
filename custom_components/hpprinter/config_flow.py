@@ -52,31 +52,26 @@ class HPPrinterFlowHandler(config_entries.ConfigFlow):
                 _LOGGER.warning(f"{DEFAULT_NAME} ({name}) already configured")
 
                 return self.async_abort(
-                    reason="already_configured",
-                    description_placeholders=user_input
+                    reason="already_configured", description_placeholders=user_input
                 )
 
             if errors is None:
                 _LOGGER.info(f"Storing configuration data: {user_input}")
 
-                return self.async_create_entry(
-                    title=name,
-                    data=user_input
-                )
+                return self.async_create_entry(title=name, data=user_input)
 
         data_schema = self._config_flow.get_default_data()
 
-        return self.async_show_form(step_id="user",
-                                    data_schema=data_schema,
-                                    errors=errors)
+        return self.async_show_form(
+            step_id="user", data_schema=data_schema, errors=errors
+        )
 
     async def async_step_import(self, info):
         """Import existing configuration from Z-Wave."""
         _LOGGER.debug(f"Starting async_step_import of {DOMAIN}")
 
         return self.async_create_entry(
-            title="HPPrinter (import from configuration.yaml)",
-            data=info,
+            title="HPPrinter (import from configuration.yaml)", data=info,
         )
 
 
@@ -110,5 +105,5 @@ class HPPrinterOptionsFlowHandler(config_entries.OptionsFlow):
             step_id="hp_printer_additional_settings",
             data_schema=data_schema,
             errors=errors,
-            description_placeholders=self._config_flow.data
+            description_placeholders=self._config_flow.data,
         )

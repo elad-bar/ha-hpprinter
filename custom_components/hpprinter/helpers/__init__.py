@@ -48,8 +48,6 @@ async def handle_log_level(hass: HomeAssistant, entry: ConfigEntry):
     if log_level == LOG_LEVEL_DEFAULT:
         return
 
-    log_level_data = {
-        f"custom_components.{DOMAIN}": log_level.lower()
-    }
+    log_level_data = {f"custom_components.{DOMAIN}": log_level.lower()}
 
     await hass.services.async_call(DOMAIN_LOGGER, SERVICE_SET_LEVEL, log_level_data)

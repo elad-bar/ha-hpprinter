@@ -65,12 +65,10 @@ class DeviceManager:
         device_id = f"{DEFAULT_NAME}-{self.name}-{device_model_family}"
 
         device_info = {
-            "identifiers": {
-                (DOMAIN, device_id)
-            },
+            "identifiers": {(DOMAIN, device_id)},
             "name": device_model_family,
             "manufacturer": MANUFACTURER,
-            "model": device_model
+            "model": device_model,
         }
 
         self.set(DEFAULT_NAME, device_info)

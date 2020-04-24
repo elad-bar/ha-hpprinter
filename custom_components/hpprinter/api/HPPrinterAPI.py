@@ -57,7 +57,9 @@ class HPPrinterAPI:
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
 
-            _LOGGER.error(f"Failed to initialize BlueIris API, error: {ex}, line: {line_number}")
+            _LOGGER.error(
+                f"Failed to initialize BlueIris API, error: {ex}, line: {line_number}"
+            )
 
     async def get_data(self):
         try:
@@ -92,7 +94,9 @@ class HPPrinterAPI:
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
 
-            _LOGGER.error(f'Failed to update data ({self._data_type}) and parse it, Error: {ex}, Line: {line_number}')
+            _LOGGER.error(
+                f"Failed to update data ({self._data_type}) and parse it, Error: {ex}, Line: {line_number}"
+            )
 
         return self._data
 
@@ -100,7 +104,7 @@ class HPPrinterAPI:
         if file_name is None:
             file_name = self._data_type
 
-        with open(f'{self.config_data.name}-{file_name}.{extension}', "w") as file:
+        with open(f"{self.config_data.name}-{file_name}.{extension}", "w") as file:
             file.write(content)
 
     async def async_get(self, throw_exception: bool = False):
@@ -110,7 +114,9 @@ class HPPrinterAPI:
         try:
             _LOGGER.debug(f"Retrieving {self._data_type} from {self.config_data.host}")
 
-            async with self._session.get(self.url, ssl=False, timeout=aiohttp.ClientTimeout(total=10)) as response:
+            async with self._session.get(
+                self.url, ssl=False, timeout=aiohttp.ClientTimeout(total=10)
+            ) as response:
                 status_code = response.status
                 response.raise_for_status()
 
@@ -120,7 +126,7 @@ class HPPrinterAPI:
                     self.save_file("xml", content)
 
                 for ns in NAMESPACES_TO_REMOVE:
-                    content = content.replace(f'{ns}:', '')
+                    content = content.replace(f"{ns}:", "")
 
                 json_data = xmltodict.parse(content)
 
@@ -130,7 +136,9 @@ class HPPrinterAPI:
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
 
-            _LOGGER.info(f'Cannot retrieve data ({self._data_type}) from printer, Error: {ex}, Line: {line_number}')
+            _LOGGER.info(
+                f"Cannot retrieve data ({self._data_type}) from printer, Error: {ex}, Line: {line_number}"
+            )
 
         if throw_exception and status_code > 399:
             raise LoginError(status_code)
@@ -157,7 +165,9 @@ class HPPrinterAPI:
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
 
-            _LOGGER.error(f'Failed to extract {data_item_key} of {data_item}, Error: {ex}, Line: {line_number}')
+            _LOGGER.error(
+                f"Failed to extract {data_item_key} of {data_item}, Error: {ex}, Line: {line_number}"
+            )
 
     def extract_ordered_dictionary(self, data_item, item_key):
         try:
@@ -177,7 +187,9 @@ class HPPrinterAPI:
             line_number = tb.tb_lineno
             error_details = f"Error: {ex}, Line: {line_number}"
 
-            _LOGGER.error(f'Failed to extract from dictionary {item_key} of {data_item}, {error_details}')
+            _LOGGER.error(
+                f"Failed to extract from dictionary {item_key} of {data_item}, {error_details}"
+            )
 
     def extract_array(self, data_item, item_key):
         try:
@@ -197,10 +209,10 @@ class HPPrinterAPI:
                         item[key] = item_data
 
                         if key in keys:
-                            next_item_key = f'{next_item_key}_{item[key]}'
+                            next_item_key = f"{next_item_key}_{item[key]}"
 
                 if len(keys) == 0:
-                    next_item_key = f'{next_item_key}_{index}'
+                    next_item_key = f"{next_item_key}_{index}"
 
                 result[next_item_key] = item
 
@@ -211,7 +223,9 @@ class HPPrinterAPI:
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
 
-            _LOGGER.error(f'Failed to extract from array {item_key} of {data_item}, Error: {ex}, Line: {line_number}')
+            _LOGGER.error(
+                f"Failed to extract from array {item_key} of {data_item}, Error: {ex}, Line: {line_number}"
+            )
 
     @staticmethod
     def clean_parameter(data_item, data_key, default_value="N/A"):

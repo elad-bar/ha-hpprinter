@@ -50,7 +50,7 @@ class EntityManager:
     def set_domain_component(self, domain, async_add_entities, component):
         self.domain_component_manager[domain] = {
             "async_add_entities": async_add_entities,
-            "component": component
+            "component": component,
         }
 
     def is_device_name_in_use(self, device_name):
@@ -109,7 +109,9 @@ class EntityManager:
 
             self.entities[domain][name] = data
         except Exception as ex:
-            self.log_exception(ex, f'Failed to set_entity, domain: {domain}, name: {name}')
+            self.log_exception(
+                ex, f"Failed to set_entity, domain: {domain}, name: {name}"
+            )
 
     async def create_components(self):
         cartridges_data = self.data.get(HP_DEVICE_CARTRIDGES)
@@ -161,7 +163,9 @@ class EntityManager:
 
                     entity = entities[entity_key]
 
-                    entity_id = self.entity_registry.async_get_entity_id(domain, DOMAIN, entity.unique_id)
+                    entity_id = self.entity_registry.async_get_entity_id(
+                        domain, DOMAIN, entity.unique_id
+                    )
 
                     if entity.status == ENTITY_STATUS_CREATED:
                         if entity.unique_id in entities_to_delete:
@@ -169,7 +173,9 @@ class EntityManager:
 
                         step = f"Mark as created - {domain} -> {entity_key}"
 
-                        entity_component = domain_component(self.hass, self.config_data.name, entity)
+                        entity_component = domain_component(
+                            self.hass, self.config_data.name, entity
+                        )
 
                         if entity_id is not None:
                             entity_component.entity_id = entity_id
@@ -178,7 +184,9 @@ class EntityManager:
                             restored = state.attributes.get("restored", False)
 
                             if restored:
-                                _LOGGER.info(f"Entity {entity.name} restored | {entity_id}")
+                                _LOGGER.info(
+                                    f"Entity {entity.name} restored | {entity_id}"
+                                )
                                 entities_to_add.append(entity_component)
                         else:
                             entities_to_add.append(entity_component)
@@ -202,7 +210,7 @@ class EntityManager:
                             await self.ha.delete_entity(domain, entity.name)
 
         except Exception as ex:
-            self.log_exception(ex, f'Failed to update, step: {step}')
+            self.log_exception(ex, f"Failed to update, step: {step}")
 
     def create_status_sensor(self):
         is_online = self.is_online()
@@ -216,10 +224,7 @@ class EntityManager:
 
         icon = self.get_printer_icon()
 
-        attributes = {
-            "friendly_name": entity_name,
-            "device_class": "connectivity"
-        }
+        attributes = {"friendly_name": entity_name, "device_class": "connectivity"}
 
         entity = EntityData()
 
@@ -258,10 +263,7 @@ class EntityManager:
         device_name = DEFAULT_NAME
         icon = self.get_printer_icon()
 
-        attributes = {
-            "friendly_name": entity_name,
-            "device_class": "connectivity"
-        }
+        attributes = {"friendly_name": entity_name, "device_class": "connectivity"}
 
         entity = EntityData()
 
@@ -285,10 +287,7 @@ class EntityManager:
 
             state = printer_data.get(HP_DEVICE_PRINTER_STATE)
 
-            attributes = {
-                "unit_of_measurement": "Pages",
-                "friendly_name": entity_name
-            }
+            attributes = {"unit_of_measurement": "Pages", "friendly_name": entity_name}
 
             for key in printer_data:
                 if key != HP_DEVICE_PRINTER_STATE:
@@ -316,10 +315,7 @@ class EntityManager:
 
             state = scanner_data.get(HP_DEVICE_SCANNER_STATE)
 
-            attributes = {
-                "unit_of_measurement": "Pages",
-                "friendly_name": entity_name
-            }
+            attributes = {"unit_of_measurement": "Pages", "friendly_name": entity_name}
 
             for key in scanner_data:
                 if key != HP_DEVICE_SCANNER_STATE:
@@ -344,10 +340,7 @@ class EntityManager:
 
         state = cartridge.get(HP_DEVICE_CARTRIDGE_STATE, 0)
 
-        attributes = {
-            "unit_of_measurement": "%",
-            "friendly_name": entity_name
-        }
+        attributes = {"unit_of_measurement": "%", "friendly_name": entity_name}
 
         for key in cartridge:
             if key != HP_DEVICE_CARTRIDGE_STATE:
@@ -369,4 +362,4 @@ class EntityManager:
         exc_type, exc_obj, tb = sys.exc_info()
         line_number = tb.tb_lineno
 
-        _LOGGER.error(f'{message}, Error: {str(ex)}, Line: {line_number}')
+        _LOGGER.error(f"{message}, Error: {str(ex)}, Line: {line_number}")

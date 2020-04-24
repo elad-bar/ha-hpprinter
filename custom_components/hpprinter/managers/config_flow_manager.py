@@ -89,7 +89,7 @@ class ConfigFlowManager:
     def get_default_data():
         fields = {
             vol.Required(CONF_NAME, default=DEFAULT_NAME): str,
-            vol.Required(CONF_HOST): str
+            vol.Required(CONF_HOST): str,
         }
 
         data_schema = vol.Schema(fields)
@@ -101,8 +101,12 @@ class ConfigFlowManager:
 
         fields = {
             vol.Optional(CONF_STORE_DATA, default=config_data.should_store): bool,
-            vol.Required(CONF_UPDATE_INTERVAL, default=config_data.update_interval): cv.positive_int,
-            vol.Required(CONF_LOG_LEVEL, default=config_data.log_level): vol.In(LOG_LEVELS)
+            vol.Required(
+                CONF_UPDATE_INTERVAL, default=config_data.update_interval
+            ): cv.positive_int,
+            vol.Required(CONF_LOG_LEVEL, default=config_data.log_level): vol.In(
+                LOG_LEVELS
+            ),
         }
 
         data_schema = vol.Schema(fields)
@@ -119,21 +123,16 @@ class ConfigFlowManager:
         try:
             if await api.async_get(True) is None:
                 _LOGGER.warning(f"Failed to access {DEFAULT_NAME} ({config_data.host})")
-                errors = {
-                    "base": "error_400"
-                }
+                errors = {"base": "error_400"}
         except LoginError as ex:
-            _LOGGER.warning(f"Failed to access {DEFAULT_NAME} ({config_data.host}) due to error {ex.status_code}")
+            _LOGGER.warning(
+                f"Failed to access {DEFAULT_NAME} ({config_data.host}) due to error {ex.status_code}"
+            )
 
             status_code = ex.status_code
             if status_code not in [400, 404]:
                 status_code = 400
 
-            errors = {
-                "base": f"error_{status_code}"
-            }
+            errors = {"base": f"error_{status_code}"}
 
-        return {
-            "logged-in": errors is None,
-            "errors": errors
-        }
+        return {"logged-in": errors is None, "errors": errors}

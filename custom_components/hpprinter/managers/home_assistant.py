@@ -10,7 +10,10 @@ from typing import Optional
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity_registry import EntityRegistry, async_get_registry as er_async_get_registry
+from homeassistant.helpers.entity_registry import (
+    EntityRegistry,
+    async_get_registry as er_async_get_registry,
+)
 from homeassistant.helpers.event import async_call_later, async_track_time_interval
 from homeassistant.helpers.dispatcher import async_dispatcher_send
 
@@ -98,15 +101,21 @@ class HPPrinterHomeAssistant:
 
     async def _async_init(self, event_time):
         if not self._is_initialized:
-            _LOGGER.info(f"NOT INITIALIZED - Failed finalizing initialization of integration ({self.config_data.host})")
+            _LOGGER.info(
+                f"NOT INITIALIZED - Failed finalizing initialization of integration ({self.config_data.host})"
+            )
             return
 
-        _LOGGER.info(f"Finalizing initialization of integration ({self.config_data.host}) at {event_time}")
+        _LOGGER.info(
+            f"Finalizing initialization of integration ({self.config_data.host}) at {event_time}"
+        )
 
         load = self._hass.config_entries.async_forward_entry_setup
 
         for domain in SIGNALS:
-            self._hass.async_create_task(load(self._config_manager.config_entry, domain))
+            self._hass.async_create_task(
+                load(self._config_manager.config_entry, domain)
+            )
 
         await self.async_update_entry()
 
@@ -124,10 +133,7 @@ class HPPrinterHomeAssistant:
 
             is_interval_changed = previous_interval != current_interval
 
-            if (
-                    is_interval_changed
-                    and self._remove_async_track_time is not None
-            ):
+            if is_interval_changed and self._remove_async_track_time is not None:
                 msg = f"ConfigEntry interval changed from {previous_interval} to {current_interval}"
                 _LOGGER.info(msg)
 
@@ -159,7 +165,9 @@ class HPPrinterHomeAssistant:
         unload = self._hass.config_entries.async_forward_entry_unload
 
         for domain in SIGNALS:
-            self._hass.async_create_task(unload(self._config_manager.config_entry, domain))
+            self._hass.async_create_task(
+                unload(self._config_manager.config_entry, domain)
+            )
 
         await self._device_manager.async_remove()
 
@@ -189,7 +197,7 @@ class HPPrinterHomeAssistant:
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
 
-            _LOGGER.error(f'Failed to async_update, Error: {ex}, Line: {line_number}')
+            _LOGGER.error(f"Failed to async_update, Error: {ex}, Line: {line_number}")
 
         self._is_updating = False
 
@@ -203,7 +211,9 @@ class HPPrinterHomeAssistant:
 
             device_in_use = self.entity_manager.is_device_name_in_use(device_name)
 
-            entity_id = self.entity_registry.async_get_entity_id(domain, DOMAIN, unique_id)
+            entity_id = self.entity_registry.async_get_entity_id(
+                domain, DOMAIN, unique_id
+            )
             self.entity_registry.async_remove(entity_id)
 
             if not device_in_use:
@@ -212,7 +222,7 @@ class HPPrinterHomeAssistant:
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
 
-            _LOGGER.error(f'Failed to delete_entity, Error: {ex}, Line: {line_number}')
+            _LOGGER.error(f"Failed to delete_entity, Error: {ex}, Line: {line_number}")
 
     async def dispatch_all(self):
         if not self._is_initialized:
