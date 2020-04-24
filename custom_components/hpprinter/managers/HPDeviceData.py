@@ -76,10 +76,9 @@ class HPDeviceData:
 
             self.device_data[HP_DEVICE_IS_ONLINE] = is_online
 
-            if self.config_data.should_store:
-                json_data = json.dumps(self.device_data)
+            json_data = json.dumps(self.device_data)
 
-                self._usage_data_manager.save_file("json", json_data, "final")
+            self._usage_data_manager.save_file("json", json_data, "final")
 
         except Exception as ex:
             exc_type, exc_obj, tb = sys.exc_info()
@@ -89,14 +88,6 @@ class HPDeviceData:
             _LOGGER.error(
                 f"Failed to update data ({self.name} @{self.host}) and parse it, {error_details}"
             )
-
-    async def store_data(self):
-        previous_should_store = self.config_data.should_store
-        self.config_data.should_store = True
-
-        await self.update()
-
-        self.config_data.should_store = previous_should_store
 
     def set_consumable_data(self):
         try:

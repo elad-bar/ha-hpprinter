@@ -1,5 +1,11 @@
 # Changelog
 
+## 2020-04-24 #3
+
+**Fixed bugs:**
+
+- Fix saving debug files to save only when `Integration -> Options -> Store...` is checked
+
 ## 2020-04-24 #2
 
 **Fixed bugs:**

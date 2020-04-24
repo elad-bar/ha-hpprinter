@@ -85,10 +85,9 @@ class HPPrinterAPI:
 
                 self._data = result
 
-                if self.config_data.should_store is not None:
-                    json_data = json.dumps(self._data)
+                json_data = json.dumps(self._data)
 
-                    self.save_file("json", json_data)
+                self.save_file("json", json_data)
 
         except Exception as ex:
             exc_type, exc_obj, tb = sys.exc_info()
@@ -101,11 +100,12 @@ class HPPrinterAPI:
         return self._data
 
     def save_file(self, extension, content, file_name: Optional[str] = None):
-        if file_name is None:
-            file_name = self._data_type
+        if self.config_data.should_store:
+            if file_name is None:
+                file_name = self._data_type
 
-        with open(f"{self.config_data.name}-{file_name}.{extension}", "w") as file:
-            file.write(content)
+            with open(f"{self.config_data.name}-{file_name}.{extension}", "w") as file:
+                file.write(content)
 
     async def async_get(self, throw_exception: bool = False):
         result = None
@@ -122,8 +122,7 @@ class HPPrinterAPI:
 
                 content = await response.text()
 
-                if self.config_data.should_store is not None:
-                    self.save_file("xml", content)
+                self.save_file("xml", content)
 
                 for ns in NAMESPACES_TO_REMOVE:
                     content = content.replace(f"{ns}:", "")
