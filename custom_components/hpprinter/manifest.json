@@ -3,6 +3,7 @@
     "name": "HP Printer",
     "documentation": "https://github.com/elad-bar/ha-hpprinter/blob/master/README.md",
     "codeowners": ["@elad-bar"],
+    "dependencies": ["logger"],
     "requirements": ["xmltodict==0.4"],
     "config_flow": true
 }
