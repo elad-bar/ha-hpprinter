@@ -1,9 +1,7 @@
-from datetime import timedelta
-
 from homeassistant.components.binary_sensor import DOMAIN as DOMAIN_BINARY_SENSOR
 from homeassistant.components.sensor import DOMAIN as DOMAIN_SENSOR
 
-from homeassistant.const import (CONF_HOST, CONF_NAME)
+from homeassistant.const import CONF_HOST, CONF_NAME, CONF_PORT, CONF_SSL
 
 MANUFACTURER = "HP"
 DEFAULT_NAME = 'HP Printer'
@@ -13,21 +11,44 @@ SIGNAL_UPDATE_HP_PRINTER = f'updates_{DOMAIN}'
 NOTIFICATION_ID = f'{DOMAIN}_notification'
 NOTIFICATION_TITLE = f'{DEFAULT_NAME} Setup'
 
+<<<<<<< Updated upstream:custom_components/hpprinter/const.py
 SCAN_INTERVAL = timedelta(seconds=10)
 
+=======
+>>>>>>> Stashed changes:custom_components/hpprinter/helpers/const.py
 SENSOR_ENTITY_ID = 'sensor.{}_{}'
 BINARY_SENSOR_ENTITY_ID = 'binary_sensor.{}_{}'
 
 NAMESPACES_TO_REMOVE = ["ccdyn", "ad", "dd", "dd2", "pudyn", "psdyn", "xsd", "pscat", "locid", "prdcfgdyn2", "prdcfgdyn"]
+
+CONF_STORE_DATA = "store_data"
+CONF_UPDATE_INTERVAL = "update_interval"
+CONF_LOG_LEVEL = "log_level"
 
 ENTITY_ICON = 'icon'
 ENTITY_STATE = 'state'
 ENTITY_ATTRIBUTES = 'attributes'
 ENTITY_NAME = 'name'
 ENTITY_MODEL = 'model'
+<<<<<<< Updated upstream:custom_components/hpprinter/const.py
 PRINTER_CURRENT_STATUS = 'status'
 ENTITY_MODEL_FAMILY = "model-family"
 
+=======
+ENTITY_MODEL_FAMILY = "model-family"
+ENTITY_DEVICE_NAME = "device-name"
+ENTITY_UNIQUE_ID = "unique-id"
+
+ENTITY_STATUS = "entity-status"
+ENTITY_STATUS_EMPTY = None
+ENTITY_STATUS_READY = f"{ENTITY_STATUS}-ready"
+ENTITY_STATUS_CREATED = f"{ENTITY_STATUS}-created"
+ENTITY_STATUS_MODIFIED = f"{ENTITY_STATUS}-modified"
+ENTITY_STATUS_IGNORE = f"{ENTITY_STATUS}-ignore"
+ENTITY_STATUS_CANCELLED = f"{ENTITY_STATUS}-cancelled"
+
+PRINTER_CURRENT_STATUS = "status"
+>>>>>>> Stashed changes:custom_components/hpprinter/helpers/const.py
 PRINTER_SENSOR = "Printer"
 
 INK_ICON = 'mdi:cup-water'
@@ -93,9 +114,13 @@ HP_INK_MAPPING = {
     "C": "Cyan",
     "Y": "Yellow",
     "M": "Magenta",
+<<<<<<< Updated upstream:custom_components/hpprinter/const.py
     "K": "Black",
     "CMY": "CyanMagentaYellow",
     "CMYK": "CyanMagentaYellowBlack"
+=======
+    "K": "Black"
+>>>>>>> Stashed changes:custom_components/hpprinter/helpers/const.py
 }
 
 SIGNAL_UPDATE_BINARY_SENSOR = f"{DEFAULT_NAME}_{DOMAIN_BINARY_SENSOR}_SIGNLE_UPDATE"
@@ -106,6 +131,7 @@ SIGNALS = {
     DOMAIN_SENSOR: SIGNAL_UPDATE_SENSOR
 }
 
+<<<<<<< Updated upstream:custom_components/hpprinter/const.py
 PRINTER_STATUS = {
     "ready": "On",
     "scanProcessing": "Scanning",
@@ -115,3 +141,18 @@ PRINTER_STATUS = {
     "inPowerSave": "Idle",
     "": "Off"
 }
+=======
+LOG_LEVEL_DEFAULT = "Default"
+LOG_LEVEL_DEBUG = "Debug"
+LOG_LEVEL_INFO = "Info"
+LOG_LEVEL_WARNING = "Warning"
+LOG_LEVEL_ERROR = "Error"
+
+LOG_LEVELS = [
+    LOG_LEVEL_DEFAULT,
+    LOG_LEVEL_DEBUG,
+    LOG_LEVEL_INFO,
+    LOG_LEVEL_WARNING,
+    LOG_LEVEL_ERROR
+]
+>>>>>>> Stashed changes:custom_components/hpprinter/helpers/const.py

@@ -3,19 +3,14 @@ Support for Blue Iris binary sensors.
 For more details about this platform, please refer to the documentation at
 https://home-assistant.io/components/binary_sensor.blueiris/
 """
-import sys
 import logging
-from typing import Optional
 
 from homeassistant.const import STATE_ON, STATE_OFF
-from homeassistant.core import callback
-from homeassistant.helpers.dispatcher import async_dispatcher_connect
-from homeassistant.helpers import device_registry as dr
+from homeassistant.core import HomeAssistant
 
-from homeassistant.helpers.entity import Entity
-
-from .home_assistant import _get_printer
-from .const import *
+from .helpers.const import *
+from .models.base_entity import async_setup_base_entry, HPPrinterEntity
+from .models.entity_data import EntityData
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -23,52 +18,27 @@ _LOGGER = logging.getLogger(__name__)
 CURRENT_DOMAIN = DOMAIN_BINARY_SENSOR
 
 
-async def async_setup_entry(hass, config_entry, async_add_devices):
-    """Set up the EdgeOS Binary Sensor."""
-    _LOGGER.debug(f"Starting async_setup_entry {CURRENT_DOMAIN}")
+def get_binary_sensor(hass: HomeAssistant, integration_name: str, entity: EntityData):
+    binary_sensor = HPPrinterBinarySensor()
+    binary_sensor.initialize(hass, integration_name, entity, CURRENT_DOMAIN)
 
-    try:
-        entry_data = config_entry.data
-        name = entry_data.get(CONF_NAME)
-        entities = []
+    return binary_sensor
 
-        printer = _get_printer(hass, name)
 
-        if printer is not None:
-            entities_data = printer.get_entities(CURRENT_DOMAIN)
-            for entity_name in entities_data:
-                entity_data = entities_data.get(entity_name)
-
-                entity = PrinterBinarySensor(hass, printer.name, entity_data)
-
-                _LOGGER.debug(f"Setup {CURRENT_DOMAIN}: {entity.name} | {entity.unique_id}")
-
-                entities.append(entity)
-
-        printer.set_domain_entities_state(CURRENT_DOMAIN, True)
-
-        async_add_devices(entities, True)
-    except Exception as ex:
-        exc_type, exc_obj, tb = sys.exc_info()
-        line_number = tb.tb_lineno
-
-        _LOGGER.error(f"Failed to load {CURRENT_DOMAIN}, error: {ex}, line: {line_number}")
+async def async_setup_entry(hass: HomeAssistant, entry, async_add_entities):
+    """Set up EdgeOS based off an entry."""
+    await async_setup_base_entry(
+        hass, entry, async_add_entities, CURRENT_DOMAIN, get_binary_sensor
+    )
 
 
 async def async_unload_entry(hass, config_entry):
     _LOGGER.info(f"async_unload_entry {CURRENT_DOMAIN}: {config_entry}")
 
-    entry_data = config_entry.data
-    name = entry_data.get(CONF_NAME)
-
-    printer = _get_printer(hass, name)
-
-    if printer is not None:
-        printer.set_domain_entities_state(CURRENT_DOMAIN, False)
-
     return True
 
 
+<<<<<<< Updated upstream
 class PrinterBinarySensor(Entity):
     """Representation a binary sensor that is updated by MQTT."""
 
@@ -103,17 +73,22 @@ class PrinterBinarySensor(Entity):
     def icon(self) -> Optional[str]:
         """Return the icon of the sensor."""
         return self._entity.get(ENTITY_ICON)
+=======
+class HPPrinterBinarySensor(HPPrinterEntity):
+    """Representation a binary sensor that is updated by EdgeOS."""
+>>>>>>> Stashed changes
 
     @property
     def is_on(self):
         """Return true if the binary sensor is on."""
-        return bool(self._entity.get(ENTITY_STATE, False))
+        return bool(self.entity.state)
 
     @property
     def state(self):
         """Return the state of the binary sensor."""
         return STATE_ON if self.is_on else STATE_OFF
 
+<<<<<<< Updated upstream
     @property
     def device_state_attributes(self):
         """Return true if the binary sensor is on."""
@@ -142,3 +117,15 @@ class PrinterBinarySensor(Entity):
                 await self.async_remove()
             else:
                 self.async_schedule_update_ha_state(True)
+=======
+    async def async_added_to_hass_local(self):
+        _LOGGER.info(f"Added new {self.name}")
+
+    def _immediate_update(self, previous_state: bool):
+        if previous_state != self.entity.state:
+            _LOGGER.debug(
+                f"{self.name} updated from {previous_state} to {self.entity.state}"
+            )
+
+        super()._immediate_update(previous_state)
+>>>>>>> Stashed changes

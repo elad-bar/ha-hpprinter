@@ -58,4 +58,6 @@ docs/_build/
 target/
 
 /.idea
-samples/
+ConsumableConfigDyn.json
+ProductConfigDyn.json
+ProductUsageDyn.json

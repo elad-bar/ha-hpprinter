@@ -1,36 +1,53 @@
-from .HPPrinterAPI import *
+from custom_components.hpprinter.api.HPPrinterAPI import *
+from ..models.config_data import ConfigData
 
 _LOGGER = logging.getLogger(__name__)
 
 
 class HPDeviceData:
+<<<<<<< Updated upstream:custom_components/hpprinter/HPDeviceData.py
     def __init__(self, hass, host, name, reader=None):
         self._usage_data_manager = ProductUsageDynPrinterDataAPI(hass, host, reader=reader)
         self._consumable_data_manager = ConsumableConfigDynPrinterDataAPI(hass, host, reader=reader)
         self._product_config_manager = ProductConfigDynDataAPI(hass, host, reader=reader)
         self._product_status_manager = ProductStatusDynDataAPI(hass, host, reader=reader)
+=======
+    device_data: dict
+
+    def __init__(self, hass, config_manager: ConfigManager):
+        self._config_manager = config_manager
+
+        self._usage_data_manager = ProductUsageDynPrinterDataAPI(hass, self._config_manager)
+        self._consumable_data_manager = ConsumableConfigDynPrinterDataAPI(hass, self._config_manager)
+        self._product_config_manager = ProductConfigDynDataAPI(hass, self._config_manager)
+>>>>>>> Stashed changes:custom_components/hpprinter/managers/HPDeviceData.py
 
         self._hass = hass
-        self._name = name
-        self._host = host
 
         self._usage_data = None
         self._consumable_data = None
         self._product_config_data = None
         self._product_status_data = None
 
-        self._device_data = {
-            "Name": name,
+        self.device_data = {
             HP_DEVICE_IS_ONLINE: False
         }
 
-    def update(self):
-        data = self.get_data()
+    @property
+    def config_data(self) -> ConfigData:
+        return self._config_manager.data
 
-        return data
+    @property
+    def name(self):
+        return self.config_data.name
 
-    async def get_data(self, store=None):
+    @property
+    def host(self):
+        return self.config_data.host
+
+    async def update(self):
         try:
+<<<<<<< Updated upstream:custom_components/hpprinter/HPDeviceData.py
             self._usage_data = await self._usage_data_manager.get_data(store)
             self._consumable_data = await self._consumable_data_manager.get_data(store)
             self._product_config_data = await self._product_config_manager.get_data(store)
@@ -42,6 +59,13 @@ class HPDeviceData:
                 self._product_config_data,
                 self._product_status_data
             ]
+=======
+            self.device_data["Name"] = self.config_data.name
+
+            self._usage_data = await self._usage_data_manager.get_data()
+            self._consumable_data = await self._consumable_data_manager.get_data()
+            self._product_config_data = await self._product_config_manager.get_data()
+>>>>>>> Stashed changes:custom_components/hpprinter/managers/HPDeviceData.py
 
             is_online = True
 
@@ -56,21 +80,27 @@ class HPDeviceData:
                 self.set_product_config_data()
                 self.set_product_status_data()
 
-            self._device_data[HP_DEVICE_IS_ONLINE] = is_online
+            self.device_data[HP_DEVICE_IS_ONLINE] = is_online
 
-            if store is not None:
-                json_data = json.dumps(self._device_data)
+            if self.config_data.should_store:
+                json_data = json.dumps(self.device_data)
 
-                store("final.json", json_data)
+                self._usage_data_manager.save_file("json", json_data, "final")
 
         except Exception as ex:
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
             error_details = f"Error: {ex}, Line: {line_number}"
 
-            _LOGGER.error(f'Failed to update data ({self._name} @{self._host}) and parse it, {error_details}')
+            _LOGGER.error(f'Failed to update data ({self.name} @{self.host}) and parse it, {error_details}')
 
-        return self._device_data
+    async def store_data(self):
+        previous_should_store = self.config_data.should_store
+        self.config_data.should_store = True
+
+        await self.update()
+
+        self.config_data.should_store = previous_should_store
 
     def set_consumable_data(self):
         try:
@@ -91,13 +121,14 @@ class HPDeviceData:
             line_number = tb.tb_lineno
             error_details = f"Error: {ex}, Line: {line_number}"
 
-            _LOGGER.error(f'Failed to parse consumable data ({self._name} @{self._host}), {error_details}')
+            _LOGGER.error(f'Failed to parse consumable data ({self.name} @{self.host}), {error_details}')
 
     def set_product_config_data(self):
         try:
             if self._product_config_data is not None:
                 root = self._product_config_data.get("ProductConfigDyn", {})
                 product_information = root.get("ProductInformation", {})
+<<<<<<< Updated upstream:custom_components/hpprinter/HPDeviceData.py
                 self._device_data[ENTITY_MODEL] = product_information.get("MakeAndModel")
                 self._device_data[ENTITY_MODEL_FAMILY] = product_information.get("MakeAndModelFamily")
 
@@ -123,12 +154,15 @@ class HPDeviceData:
                             printer_status = self.clean_parameter(status_item, "StatusCategory")
 
                 self._device_data[PRINTER_CURRENT_STATUS] = PRINTER_STATUS.get(printer_status, printer_status)
+=======
+                self.device_data[ENTITY_MODEL] = product_information.get("MakeAndModel")
+>>>>>>> Stashed changes:custom_components/hpprinter/managers/HPDeviceData.py
 
         except Exception as ex:
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
 
-            _LOGGER.error(f'Failed to parse usage data ({self._name} @{self._host}), Error: {ex}, Line: {line_number}')
+            _LOGGER.error(f'Failed to parse usage data ({self.name} @{self.host}), Error: {ex}, Line: {line_number}')
 
     def set_usage_data(self):
         try:
@@ -161,7 +195,7 @@ class HPDeviceData:
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
 
-            _LOGGER.error(f'Failed to parse usage data ({self._name} @{self._host}), Error: {ex}, Line: {line_number}')
+            _LOGGER.error(f'Failed to parse usage data ({self.name} @{self.host}), Error: {ex}, Line: {line_number}')
 
     def set_printer_usage_data(self, printer_data):
         try:
@@ -176,7 +210,7 @@ class HPDeviceData:
 
             cancelled_print_jobs_number = self.clean_parameter(printer_data, "TotalFrontPanelCancelPresses")
 
-            self._device_data[HP_DEVICE_PRINTER] = {
+            self.device_data[HP_DEVICE_PRINTER] = {
                 HP_DEVICE_PRINTER_STATE: total_printed_pages,
                 "Color": color_printed_pages,
                 "Monochrome": monochrome_printed_pages,
@@ -188,7 +222,7 @@ class HPDeviceData:
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
 
-            _LOGGER.error(f'Failed to set printer data ({self._name} @{self._host}), Error: {ex}, Line: {line_number}')
+            _LOGGER.error(f'Failed to set printer data ({self.name} @{self.host}), Error: {ex}, Line: {line_number}')
 
     def set_scanner_usage_data(self, scanner_data):
         try:
@@ -210,7 +244,7 @@ class HPDeviceData:
 
                 scan_images_count = new_scan_images_count
 
-            self._device_data[HP_DEVICE_SCANNER] = {
+            self.device_data[HP_DEVICE_SCANNER] = {
                 HP_DEVICE_SCANNER_STATE: scan_images_count,
                 "ADF": adf_images_count,
                 "Duplex": duplex_sheets_count,
@@ -223,7 +257,7 @@ class HPDeviceData:
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
 
-            _LOGGER.error(f'Failed to set scanner data ({self._name} @{self._host}), Error: {ex}, Line: {line_number}')
+            _LOGGER.error(f'Failed to set scanner data ({self.name} @{self.host}), Error: {ex}, Line: {line_number}')
 
     def set_printer_consumable_usage_data(self, printer_consumable_data):
         try:
@@ -236,7 +270,7 @@ class HPDeviceData:
             should_create_cartridges = False
             should_create_cartridge = False
 
-            cartridges = self._device_data.get(HP_DEVICE_CARTRIDGES)
+            cartridges = self.device_data.get(HP_DEVICE_CARTRIDGES)
             if cartridges is None:
                 cartridges = {}
                 should_create_cartridges = True
@@ -255,14 +289,14 @@ class HPDeviceData:
                 cartridges[cartridge_key] = cartridge
 
             if should_create_cartridges:
-                self._device_data[HP_DEVICE_CARTRIDGES] = cartridges
+                self.device_data[HP_DEVICE_CARTRIDGES] = cartridges
 
         except Exception as ex:
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
             error_details = f"Error: {ex}, Line: {line_number}"
 
-            _LOGGER.error(f'Failed to set printer consumable usage data ({self._name} @{self._host}), {error_details}')
+            _LOGGER.error(f'Failed to set printer consumable usage data ({self.name} @{self.host}), {error_details}')
 
     def set_printer_consumable_data(self, printer_consumable_data):
         try:
@@ -285,7 +319,13 @@ class HPDeviceData:
             if head_type == HP_HEAD_TYPE_PRINT_HEAD:
                 color = consumable_label_code
             else:
-                color = HP_INK_MAPPING.get(consumable_label_code, consumable_label_code)
+                color_map = []
+                for color_letter in consumable_label_code:
+                    mapped_color = HP_INK_MAPPING.get(color_letter, color_letter)
+
+                    color_map.append(mapped_color)
+
+                color = "".join(color_map)
 
                 if color == consumable_label_code:
                     _LOGGER.warning(f"Head type {head_type} color mapping for {consumable_label_code} not available")
@@ -295,7 +335,7 @@ class HPDeviceData:
             should_create_cartridges = False
             should_create_cartridge = False
 
-            cartridges = self._device_data.get(HP_DEVICE_CARTRIDGES)
+            cartridges = self.device_data.get(HP_DEVICE_CARTRIDGES)
             if cartridges is None:
                 cartridges = {}
                 should_create_cartridges = True
@@ -324,7 +364,7 @@ class HPDeviceData:
                 cartridges[cartridge_key] = cartridge
 
             if should_create_cartridges:
-                self._device_data[HP_DEVICE_CARTRIDGES] = cartridges
+                self.device_data[HP_DEVICE_CARTRIDGES] = cartridges
 
         except Exception as ex:
             exc_type, exc_obj, tb = sys.exc_info()
@@ -332,7 +372,7 @@ class HPDeviceData:
 
             error_details = f"Error: {str(ex)}, Line: {line_number}"
 
-            _LOGGER.error(f'Failed to set printer consumable data ({self._name} @{self._host}), {error_details}')
+            _LOGGER.error(f'Failed to set printer consumable data ({self.name} @{self.host}), {error_details}')
 
     @staticmethod
     def clean_parameter(data_item, data_key, default_value="N/A"):
