@@ -1,5 +1,11 @@
 # Changelog
 
+## 2020-04-24 #4
+
+**Fixed bugs:**
+
+- Fix [\#41](https://github.com/elad-bar/ha-edgeos/issues/41) error while loading entities
+
 ## 2020-04-24 #3
 
 **Fixed bugs:**
