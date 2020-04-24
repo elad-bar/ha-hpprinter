@@ -92,6 +92,7 @@ ARRAY_AS_DEFAULT = [
     "DaysOfWeek",
 ]
 
+HP_DEVICE_CONNECTIVITY = "Connectivity"
 HP_DEVICE_STATUS = "Status"
 HP_DEVICE_PRINTER = "Printer"
 HP_DEVICE_SCANNER = "Scanner"

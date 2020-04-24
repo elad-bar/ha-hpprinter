@@ -1,5 +1,15 @@
 # Changelog
 
+## 2020-04-24 #5
+
+**Implemented enhancements:**
+
+- Renamed printer status binary sensor to printer connectivity
+
+**Fixed bugs:**
+
+- Fix [\#42](https://github.com/elad-bar/ha-edgeos/issues/42) printer sensor
+
 ## 2020-04-24 #4
 
 **Fixed bugs:**

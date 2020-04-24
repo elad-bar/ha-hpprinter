@@ -257,7 +257,7 @@ class EntityManager:
         is_online = self.is_online()
 
         name = self.data.get("Name", DEFAULT_NAME)
-        entity_name = f"{name} {HP_DEVICE_STATUS}"
+        entity_name = f"{name} {HP_DEVICE_CONNECTIVITY}"
         unique_id = f"{DEFAULT_NAME}-{DOMAIN_BINARY_SENSOR}-{entity_name}"
         device_name = DEFAULT_NAME
         icon = self.get_printer_icon()
@@ -284,7 +284,7 @@ class EntityManager:
             unique_id = f"{DEFAULT_NAME}-{DOMAIN_SENSOR}-{entity_name}"
             device_name = DEFAULT_NAME
 
-            status = self.data.get(PRINTER_CURRENT_STATUS, "Off")
+            state = printer_data.get(HP_DEVICE_PRINTER_STATE)
 
             attributes = {"unit_of_measurement": "Pages", "friendly_name": entity_name}
 
@@ -299,7 +299,7 @@ class EntityManager:
             entity.attributes = attributes
             entity.icon = PAGES_ICON
             entity.device_name = device_name
-            entity.state = status
+            entity.state = state
 
             self.set_entity(DOMAIN_SENSOR, entity_name, entity)
 
