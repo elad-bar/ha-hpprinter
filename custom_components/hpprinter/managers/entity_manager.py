@@ -284,7 +284,7 @@ class EntityManager:
             unique_id = f"{DEFAULT_NAME}-{DOMAIN_SENSOR}-{entity_name}"
             device_name = DEFAULT_NAME
 
-            state = printer_data.get(HP_DEVICE_PRINTER_STATE)
+            status = self.data.get(PRINTER_CURRENT_STATUS, "Off")
 
             attributes = {"unit_of_measurement": "Pages", "friendly_name": entity_name}
 
@@ -299,7 +299,7 @@ class EntityManager:
             entity.attributes = attributes
             entity.icon = PAGES_ICON
             entity.device_name = device_name
-            entity.state = state
+            entity.state = status
 
             self.set_entity(DOMAIN_SENSOR, entity_name, entity)
 

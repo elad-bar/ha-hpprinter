@@ -129,3 +129,13 @@ LOG_LEVELS = [
     LOG_LEVEL_WARNING,
     LOG_LEVEL_ERROR,
 ]
+
+PRINTER_STATUS = {
+    "ready": "On",
+    "scanProcessing": "Scanning",
+    "copying": "Copying",
+    "processing": "Printing",
+    "cancelJob": "Cancelling Job",
+    "inPowerSave": "Idle",
+    "": "Off",
+}

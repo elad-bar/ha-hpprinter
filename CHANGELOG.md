@@ -1,6 +1,12 @@
 # Changelog
 
-## 2020-04-24
+## 2020-04-24 #2
+
+**Fixed bugs:**
+
+- Fix [\#40](https://github.com/elad-bar/ha-edgeos/issues/40) returned previous logic of extracting printer status
+
+## 2020-04-24 #1
 
 **Implemented enhancements:**
 

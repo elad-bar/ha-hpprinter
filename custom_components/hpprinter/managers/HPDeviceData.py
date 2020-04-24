@@ -20,12 +20,16 @@ class HPDeviceData:
         self._product_config_manager = ProductConfigDynDataAPI(
             hass, self._config_manager
         )
+        self._product_status_manager = ProductStatusDynDataAPI(
+            hass, self._config_manager
+        )
 
         self._hass = hass
 
         self._usage_data = None
         self._consumable_data = None
         self._product_config_data = None
+        self._product_status_data = None
 
         self.device_data = {HP_DEVICE_IS_ONLINE: False}
 
@@ -48,12 +52,15 @@ class HPDeviceData:
             self._usage_data = await self._usage_data_manager.get_data()
             self._consumable_data = await self._consumable_data_manager.get_data()
             self._product_config_data = await self._product_config_manager.get_data()
+            self._product_status_data = await self._product_status_manager.get_data()
 
             data_list = [
                 self._usage_data,
                 self._consumable_data,
                 self._product_config_data,
+                self._product_status_data,
             ]
+
             is_online = True
 
             for item in data_list:
@@ -65,6 +72,7 @@ class HPDeviceData:
                 self.set_usage_data()
                 self.set_consumable_data()
                 self.set_product_config_data()
+                self.set_product_status_data()
 
             self.device_data[HP_DEVICE_IS_ONLINE] = is_online
 
@@ -119,6 +127,35 @@ class HPDeviceData:
                 root = self._product_config_data.get("ProductConfigDyn", {})
                 product_information = root.get("ProductInformation", {})
                 self.device_data[ENTITY_MODEL] = product_information.get("MakeAndModel")
+
+        except Exception as ex:
+            exc_type, exc_obj, tb = sys.exc_info()
+            line_number = tb.tb_lineno
+
+            _LOGGER.error(
+                f"Failed to parse usage data ({self.name} @{self.host}), Error: {ex}, Line: {line_number}"
+            )
+
+    def set_product_status_data(self):
+        try:
+            if self._product_status_data is not None:
+                root = self._product_status_data.get("ProductStatusDyn", {})
+                status = root.get("Status", [])
+                printer_status = ""
+
+                if "StatusCategory" in status:
+                    printer_status = self.clean_parameter(status, "StatusCategory")
+                else:
+                    for item in status:
+                        status_item = status[item]
+                        if "LocString" not in status_item:
+                            printer_status = self.clean_parameter(
+                                status_item, "StatusCategory"
+                            )
+
+                self.device_data[PRINTER_CURRENT_STATUS] = PRINTER_STATUS.get(
+                    printer_status, printer_status
+                )
 
         except Exception as ex:
             exc_type, exc_obj, tb = sys.exc_info()
