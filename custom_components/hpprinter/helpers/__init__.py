@@ -9,9 +9,6 @@ from .const import *
 
 _LOGGER = logging.getLogger(__name__)
 
-DOMAIN_LOGGER = "logger"
-SERVICE_SET_LEVEL = "set_level"
-
 
 def clear_ha(hass: HomeAssistant, name):
     if DATA_HP_PRINTER not in hass.data:

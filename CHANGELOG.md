@@ -4,8 +4,8 @@
 
 **Fixed bugs:**
 
-- Fix [\#39](https://github.com/elad-bar/ha-edgeos/issues/39) [\#46](https://github.com/elad-bar/ha-edgeos/issues/46) missing labels
-- Fix [\#44](https://github.com/elad-bar/ha-edgeos/issues/44) by removing dependency on logger component
+- Fix [\#39](https://github.com/elad-bar/ha-hpprinter/issues/39) [\#46](https://github.com/elad-bar/ha-hpprinter/issues/46) missing labels
+- Fix [\#44](https://github.com/elad-bar/ha-hpprinter/issues/44) by removing dependency on logger component
 
 ## 2020-04-24 #5
 
@@ -15,13 +15,13 @@
 
 **Fixed bugs:**
 
-- Fix [\#42](https://github.com/elad-bar/ha-edgeos/issues/42) printer sensor
+- Fix [\#42](https://github.com/elad-bar/ha-hpprinter/issues/42) printer sensor
 
 ## 2020-04-24 #4
 
 **Fixed bugs:**
 
-- Fix [\#41](https://github.com/elad-bar/ha-edgeos/issues/41) error while loading entities
+- Fix [\#41](https://github.com/elad-bar/ha-hpprinter/issues/41) error while loading entities
 
 ## 2020-04-24 #3
 
@@ -33,15 +33,15 @@
 
 **Fixed bugs:**
 
-- Fix [\#40](https://github.com/elad-bar/ha-edgeos/issues/40) returned previous logic of extracting printer status
+- Fix [\#40](https://github.com/elad-bar/ha-hpprinter/issues/40) returned previous logic of extracting printer status
 
 ## 2020-04-24 #1
 
 **Implemented enhancements:**
 
 - Added changelog
-- Added ability to configure update entities interval in seconds (Integrations -> Integration Name -> Options)  [\#31](https://github.com/elad-bar/ha-edgeos/issues/31)
-- Added validation to add new integration, display error in case printer is unreachable or unsupported [\#15](https://github.com/elad-bar/ha-edgeos/issues/15) [\#11](https://github.com/elad-bar/ha-edgeos/issues/11) 
+- Added ability to configure update entities interval in seconds (Integrations -> Integration Name -> Options)  [\#31](https://github.com/elad-bar/ha-hpprinter/issues/31)
+- Added validation to add new integration, display error in case printer is unreachable or unsupported [\#15](https://github.com/elad-bar/ha-hpprinter/issues/15) [\#11](https://github.com/elad-bar/ha-hpprinter/issues/11) 
 - Moved code to new file structure
 - More logs added for easier debugging
 - Removed service `hpprinter.save_debug_data`
@@ -49,6 +49,6 @@
 
 **Fixed bugs:**
 
-- Fix entities / device / device's area changing names is being reset after restart [\#24](https://github.com/elad-bar/ha-edgeos/issues/24) [\#28](https://github.com/elad-bar/ha-edgeos/issues/28) [\#39](https://github.com/elad-bar/ha-edgeos/issues/39)
-- Moved [Updating 2020-04-14 09:21...] to DEBUG [\#39](https://github.com/elad-bar/ha-edgeos/issues/39)
+- Fix entities / device / device's area changing names is being reset after restart [\#24](https://github.com/elad-bar/ha-hpprinter/issues/24) [\#28](https://github.com/elad-bar/ha-hpprinter/issues/28) [\#39](https://github.com/elad-bar/ha-hpprinter/issues/39)
+- Moved [Updating 2020-04-14 09:21...] to DEBUG [\#39](https://github.com/elad-bar/ha-hpprinter/issues/39)
 
