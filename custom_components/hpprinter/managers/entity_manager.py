@@ -115,21 +115,18 @@ class EntityManager:
 
     async def create_components(self):
         cartridges_data = self.data.get(HP_DEVICE_CARTRIDGES)
-        is_online = self.is_online()
 
         self.create_status_binary_sensor()
         self.create_status_sensor()
+        self.create_printer_sensor()
+        self.create_scanner_sensor()
 
-        if is_online:
-            self.create_printer_sensor()
-            self.create_scanner_sensor()
+        if cartridges_data is not None:
+            for key in cartridges_data:
+                cartridge = cartridges_data.get(key)
 
-            if cartridges_data is not None:
-                for key in cartridges_data:
-                    cartridge = cartridges_data.get(key)
-
-                    if cartridge is not None:
-                        self.create_cartridge_sensor(cartridge, key)
+                if cartridge is not None:
+                    self.create_cartridge_sensor(cartridge, key)
 
     def update(self):
         self.hass.async_create_task(self._async_update())

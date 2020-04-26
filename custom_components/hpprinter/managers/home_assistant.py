@@ -85,6 +85,8 @@ class HPPrinterHomeAssistant:
             self._entity_manager = EntityManager(self._hass, self)
             self._device_manager = DeviceManager(self._hass, self)
 
+            await self._data_manager.initialize()
+
             def internal_async_init(now):
                 self._hass.async_create_task(self._async_init(now))
 

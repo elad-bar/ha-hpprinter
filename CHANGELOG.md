@@ -5,6 +5,7 @@
 **Fixed bugs:**
 
 - Fix disabled entities are getting enabled after periodic update (update interval)
+- Fix offline printer is not updating entities correctly and after restart [\#45](https://github.com/elad-bar/ha-hpprinter/issues/45)  [\#47](https://github.com/elad-bar/ha-hpprinter/issues/47)
 
 ## 2020-04-24 #6
 

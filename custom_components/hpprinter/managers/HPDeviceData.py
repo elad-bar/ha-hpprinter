@@ -1,6 +1,7 @@
 from custom_components.hpprinter.api.HPPrinterAPI import *
 
 from ..models.config_data import ConfigData
+from .storage_manager import StorageManager
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -9,7 +10,10 @@ class HPDeviceData:
     device_data: dict
 
     def __init__(self, hass, config_manager: ConfigManager):
+        self._hass = hass
         self._config_manager = config_manager
+
+        self._storage_manager = StorageManager(self._hass, self._config_manager)
 
         self._usage_data_manager = ProductUsageDynPrinterDataAPI(
             hass, self._config_manager
@@ -24,14 +28,11 @@ class HPDeviceData:
             hass, self._config_manager
         )
 
-        self._hass = hass
-
         self._usage_data = None
         self._consumable_data = None
         self._product_config_data = None
         self._product_status_data = None
-
-        self.device_data = {HP_DEVICE_IS_ONLINE: False}
+        self.device_data = {}
 
     @property
     def config_data(self) -> ConfigData:
@@ -44,6 +45,15 @@ class HPDeviceData:
     @property
     def host(self):
         return self.config_data.host
+
+    async def initialize(self):
+        self.device_data = await self._storage_manager.async_load_from_store()
+
+        if self.device_data is None:
+            self.device_data = {}
+
+        self.device_data[PRINTER_CURRENT_STATUS] = PRINTER_STATUS[""]
+        self.device_data[HP_DEVICE_IS_ONLINE] = False
 
     async def update(self):
         try:
@@ -76,9 +86,8 @@ class HPDeviceData:
 
             self.device_data[HP_DEVICE_IS_ONLINE] = is_online
 
-            json_data = json.dumps(self.device_data)
-
-            self._usage_data_manager.save_file("json", json_data, "final")
+            if is_online:
+                await self._storage_manager.async_save_to_store(self.device_data)
 
         except Exception as ex:
             exc_type, exc_obj, tb = sys.exc_info()
