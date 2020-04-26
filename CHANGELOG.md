@@ -1,5 +1,11 @@
 # Changelog
 
+## 2020-04-26
+
+**Fixed bugs:**
+
+- Fix disabled entities are getting enabled after periodic update (update interval)
+
 ## 2020-04-24 #6
 
 **Fixed bugs:**
