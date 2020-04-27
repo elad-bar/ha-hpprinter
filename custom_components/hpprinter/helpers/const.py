@@ -106,6 +106,8 @@ HP_DEVICE_IS_ONLINE = "IsOnline"
 
 HP_HEAD_TYPE_INK = "ink"
 HP_HEAD_TYPE_PRINT_HEAD = "printhead"
+HP_ORGANIC_PHOTO_CONDUCTOR = "OPC"
+HP_ORGANIC_PHOTO_CONDUCTOR_NAME = "Organic Photo Conductor"
 
 HP_INK_MAPPING = {"C": "Cyan", "Y": "Yellow", "M": "Magenta", "K": "Black"}
 
