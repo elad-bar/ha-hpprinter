@@ -83,6 +83,8 @@ class HPDeviceData:
                 self.set_consumable_data()
                 self.set_product_config_data()
                 self.set_product_status_data()
+            else:
+                self.device_data[PRINTER_CURRENT_STATUS] = PRINTER_STATUS[""]
 
             self.device_data[HP_DEVICE_IS_ONLINE] = is_online
 

@@ -5,6 +5,7 @@
 **Fixed bugs:**
 
 - Fix image drum OPC name [\#51](https://github.com/elad-bar/ha-hpprinter/issues/51)
+- Fix Sensor 'status' stays on after power off  [\#45](https://github.com/elad-bar/ha-hpprinter/issues/45)
 
 ## 2020-04-26
 
