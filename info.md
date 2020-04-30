@@ -26,6 +26,8 @@ Look for "HP Printers Integration" and install
 *Configuration -> Integrations -> {Integration} -> Options* <br />
 
 ```
+Name - Unique
+Host (or IP) 
 Update Interval: Textbox, number of seconds to update entities, default=60
 Log level: Drop-down list, change component's log level (more details below), default=Default
 Should store responses?: Check-box, saves XML and JSON files for debuging purpose, default=False
