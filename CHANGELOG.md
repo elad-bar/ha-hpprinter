@@ -1,6 +1,12 @@
 # Changelog
 
-## 2020-05-06
+## 2020-05-06 #2
+
+**Fixed bugs:**
+
+- Upgrade xmltodict to 0.12.0 [\#60](https://github.com/elad-bar/ha-hpprinter/issues/60)
+
+## 2020-05-06 #1
 
 **Fixed bugs:**
 
