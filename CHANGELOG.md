@@ -2,6 +2,10 @@
 
 ## 2020-05-06
 
+**Fixed bugs:**
+
+- Fix Log is filling with errors [\#57](https://github.com/elad-bar/ha-hpprinter/issues/57)
+
 **Implemented enhancements:**
 
 - More descriptive error message when unable to access printer's API at setup or changing options
