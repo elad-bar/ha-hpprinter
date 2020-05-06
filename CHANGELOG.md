@@ -1,5 +1,11 @@
 # Changelog
 
+## 2020-05-06
+
+**Implemented enhancements:**
+
+- More descriptive error message when unable to access printer's API at setup or changing options
+
 ## 2020-04-30
 
 **Implemented enhancements:**
