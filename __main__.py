@@ -1,6 +1,3 @@
-#!/usr/bin/python3
-import asyncio
-
 from custom_components.hpprinter.managers.HPDeviceData import *
 
 from homeassistant.config_entries import ConfigEntry

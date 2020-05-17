@@ -1,7 +1,7 @@
+from asyncio import sleep
 import json
 import logging
 import sys
-from asyncio import sleep
 from typing import Optional
 
 import aiohttp
@@ -49,7 +49,9 @@ class HPPrinterAPI:
 
     def initialize(self):
         try:
-            self._session = async_create_clientsession(hass=self._hass, auto_cleanup=True)
+            self._session = async_create_clientsession(
+                hass=self._hass, auto_cleanup=True
+            )
 
         except Exception as ex:
             exc_type, exc_obj, tb = sys.exc_info()
