@@ -1,5 +1,11 @@
 # Changelog
 
+## 2020-05-18
+
+**Fixed bugs:**
+
+- Logger component is now part of after_dependencies 
+
 ## 2020-05-06 #2
 
 **Fixed bugs:**
