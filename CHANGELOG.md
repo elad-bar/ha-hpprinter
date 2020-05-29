@@ -1,5 +1,11 @@
 # Changelog
 
+## 2020-05-29
+
+**Fixed bugs:**
+
+- Ignore cartridge with not enough data (avoid cartridges with N/A) 
+
 ## 2020-05-18
 
 **Fixed bugs:**
