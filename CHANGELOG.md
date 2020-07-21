@@ -1,5 +1,11 @@
 # Changelog
 
+## 2020-07-21
+
+**Fixed bugs:**
+
+- Don't block startup of Home Assistant
+
 ## 2020-05-29
 
 **Fixed bugs:**
