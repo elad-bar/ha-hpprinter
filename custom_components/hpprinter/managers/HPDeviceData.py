@@ -431,7 +431,6 @@ class HPDeviceData:
 
     @staticmethod
     def clean_parameter(data_item, data_key, default_value=NOT_AVAILABLE):
-            result = default_value
         try:
             result = data_item.get(data_key, {})
         except AttributeError:
