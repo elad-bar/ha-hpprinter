@@ -431,10 +431,11 @@ class HPDeviceData:
 
     @staticmethod
     def clean_parameter(data_item, data_key, default_value=NOT_AVAILABLE):
-        if data_item is None:
             result = default_value
-        else:
+        try:
             result = data_item.get(data_key, {})
+        except AttributeError:
+            result = default_value
 
         if not isinstance(result, str):
             result = result.get("#text", 0)
