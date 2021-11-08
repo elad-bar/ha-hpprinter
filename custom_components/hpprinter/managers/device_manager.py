@@ -1,6 +1,7 @@
 import logging
 
 from homeassistant.helpers.device_registry import async_get_registry
+from homeassistant.const import ATTR_CONNECTIONS, ATTR_IDENTIFIERS, ATTR_NAME, ATTR_MANUFACTURER, ATTR_MODEL, ATTR_CONFIGURATION_URL
 
 from ..helpers.const import *
 from ..managers.HPDeviceData import HPDeviceData
@@ -66,10 +67,13 @@ class DeviceManager:
         device_id = f"{DEFAULT_NAME}-{self.name}-{device_model_family}"
 
         device_info = {
-            "identifiers": {(DOMAIN, device_id)},
-            "name": device_model_family,
-            "manufacturer": MANUFACTURER,
-            "model": device_model,
+            ATTR_IDENTIFIERS: {(DOMAIN, device_id)},
+            ATTR_NAME: device_model_family,
+            ATTR_MANUFACTURER: MANUFACTURER,
+            ATTR_MODEL: device_model,
         }
+
+        if self.data_manager.device_data[HP_DEVICE_IS_ONLINE]:
+            device_info[ATTR_CONFIGURATION_URL] = f"{PROTOCOLS[self.data_manager.config_data.ssl]}://{self.data_manager.config_data.host}"
 
         self.set(DEFAULT_NAME, device_info)
