@@ -1,6 +1,5 @@
 import logging
 
-from homeassistant.helpers.device_registry import async_get_registry
 from homeassistant.const import (
     ATTR_CONFIGURATION_URL,
     ATTR_IDENTIFIERS,
@@ -8,6 +7,7 @@ from homeassistant.const import (
     ATTR_MODEL,
     ATTR_NAME,
 )
+from homeassistant.helpers.device_registry import async_get_registry
 
 from ..helpers.const import *
 from ..managers.HPDeviceData import HPDeviceData
