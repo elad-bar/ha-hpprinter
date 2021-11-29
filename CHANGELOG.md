@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.2
+
+**Implemented enhancements:**
+
+- Add configuration URL to add VISIT DEVICE link in device page
+
 ## 2020-07-21
 
 **Fixed bugs:**
