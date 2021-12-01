@@ -9,7 +9,6 @@ from custom_components.hpprinter.helpers import (
     get_ha,
     handle_log_level,
 )
-
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_NAME
 from homeassistant.core import HomeAssistant

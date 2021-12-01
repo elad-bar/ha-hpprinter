@@ -9,17 +9,17 @@ Configuration support multiple HP Printer devices through Configuration -> Integ
 Look for "HP Printers Integration" and install
 
 #### Requirements
-* HP Printer supporting XML API 
+* HP Printer supporting XML API
   to check printer's compatibility to the component try to get to the printer's XML API (replace placeholder with real IP / Hostname):
   `http://{IP}//DevMgmt/ProductStatusDyn.xml`
 
 #### Basic configuration
 * Configuration should be done via Configuration -> Integrations.
 * In case you are already using that integration with YAML Configuration - please remove it
-* Integration supports **multiple** devices 
+* Integration supports **multiple** devices
 * In the setup form, the following details are mandatory:
   * Name - Unique
-  * Host (or IP) 
+  * Host (or IP)
 * Upon submitting the form of creating an integration, a request to the printer will take place and will cause failure in case:
   * Unsupported API
   * Invalid server details - when cannot reach host
@@ -29,10 +29,10 @@ Look for "HP Printers Integration" and install
 
 ```
 Name - Unique
-Host (or IP) 
+Host (or IP)
 Update Interval: Textbox, number of seconds to update entities, default=60
 Log level: Drop-down list, change component's log level (more details below), default=Default
-Should store responses?: Check-box, saves XML and JSON files for debuging purpose, default=False
+Should store responses?: Check-box, saves XML and JSON files for debugging purpose, default=False
 ```
 
 ###### Log Level's drop-down

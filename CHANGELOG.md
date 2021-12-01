@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.3
+
+**Implemented enhancements:**
+
+- Added support for VSCode pre-commit
+
 ## 1.0.2
 
 **Implemented enhancements:**
@@ -16,13 +22,13 @@
 
 **Fixed bugs:**
 
-- Ignore cartridge with not enough data (avoid cartridges with N/A) 
+- Ignore cartridge with not enough data (avoid cartridges with N/A)
 
 ## 2020-05-18
 
 **Fixed bugs:**
 
-- Logger component is now part of after_dependencies 
+- Logger component is now part of after_dependencies
 
 ## 2020-05-06 #2
 
@@ -109,7 +115,7 @@
 
 - Added changelog
 - Added ability to configure update entities interval in seconds (Integrations -> Integration Name -> Options)  [\#31](https://github.com/elad-bar/ha-hpprinter/issues/31)
-- Added validation to add new integration, display error in case printer is unreachable or unsupported [\#15](https://github.com/elad-bar/ha-hpprinter/issues/15) [\#11](https://github.com/elad-bar/ha-hpprinter/issues/11) 
+- Added validation to add new integration, display error in case printer is unreachable or unsupported [\#15](https://github.com/elad-bar/ha-hpprinter/issues/15) [\#11](https://github.com/elad-bar/ha-hpprinter/issues/11)
 - Moved code to new file structure
 - More logs added for easier debugging
 - Removed service `hpprinter.save_debug_data`
@@ -119,4 +125,3 @@
 
 - Fix entities / device / device's area changing names is being reset after restart [\#24](https://github.com/elad-bar/ha-hpprinter/issues/24) [\#28](https://github.com/elad-bar/ha-hpprinter/issues/28) [\#39](https://github.com/elad-bar/ha-hpprinter/issues/39)
 - Moved [Updating 2020-04-14 09:21...] to DEBUG [\#39](https://github.com/elad-bar/ha-hpprinter/issues/39)
-

@@ -1,5 +1,4 @@
 from custom_components.hpprinter.managers.HPDeviceData import *
-
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_HOST, CONF_NAME
 from homeassistant.core import HomeAssistant
