@@ -3,6 +3,8 @@ Support for HP Printer binary sensors.
 For more details about this platform, please refer to the documentation at
 https://home-assistant.io/components/binary_sensor.hp_printer/
 """
+from __future__ import annotations
+
 import logging
 
 from homeassistant.components.binary_sensor import BinarySensorEntity
@@ -47,7 +49,7 @@ class HPPrinterBinarySensor(BinarySensorEntity, HPPrinterEntity):
         return bool(self.entity.state)
 
     @property
-    def device_class(self) -> BinarySensorDeviceClass:
+    def device_class(self) -> BinarySensorDeviceClass | str | None:
         """Return the class of this sensor."""
         return self.entity.binary_sensor_device_class
 
