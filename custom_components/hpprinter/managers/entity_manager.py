@@ -232,7 +232,7 @@ class EntityManager:
 
         icon = self.get_printer_icon()
 
-        attributes = {"friendly_name": entity_name, "device_class": "connectivity"}
+        attributes = {"friendly_name": entity_name}
 
         entity = EntityData()
 
@@ -241,6 +241,7 @@ class EntityManager:
         entity.attributes = attributes
         entity.icon = icon
         entity.device_name = device_name
+        entity.binary_sensor_device_class = BinarySensorDeviceClass.CONNECTIVITY
         entity.state = status
 
         self.set_entity(DOMAIN_SENSOR, entity_name, entity)
@@ -271,7 +272,7 @@ class EntityManager:
         device_name = DEFAULT_NAME
         icon = self.get_printer_icon()
 
-        attributes = {"friendly_name": entity_name, "device_class": "connectivity"}
+        attributes = {"friendly_name": entity_name}
 
         entity = EntityData()
 
@@ -281,6 +282,7 @@ class EntityManager:
         entity.icon = icon
         entity.device_name = device_name
         entity.state = is_online
+        entity.binary_sensor_device_class = BinarySensorDeviceClass.CONNECTIVITY
 
         self.set_entity(DOMAIN_BINARY_SENSOR, entity_name, entity)
 

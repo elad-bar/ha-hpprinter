@@ -102,7 +102,7 @@ class HPPrinterEntity(Entity):
         return False
 
     @property
-    def device_state_attributes(self):
+    def extra_state_attributes(self):
         """Return true if the binary sensor is on."""
         return self.entity.attributes
 
@@ -150,5 +150,5 @@ class HPPrinterEntity(Entity):
     async def async_will_remove_from_hass_local(self):
         pass
 
-    def _immediate_update(self, previous_state: bool):
+    def _immediate_update(self, previous_state: int):
         self.async_schedule_update_ha_state(True)
