@@ -52,6 +52,11 @@ class HPPrinterSensor(SensorEntity, HPPrinterEntity):
         """Return the class of this sensor."""
         return self.entity.sensor_device_class
 
+    @property
+    def state_class(self) -> SensorStateClass | str | None:
+        """Return the class of this sensor."""
+        return self.entity.sensor_state_class
+
     async def async_added_to_hass_local(self):
         _LOGGER.info(f"Added new {self.name}")
 

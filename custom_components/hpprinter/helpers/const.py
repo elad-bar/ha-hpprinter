@@ -2,7 +2,11 @@ from homeassistant.components.binary_sensor import (
     DOMAIN as DOMAIN_BINARY_SENSOR,
     BinarySensorDeviceClass,
 )
-from homeassistant.components.sensor import DOMAIN as DOMAIN_SENSOR, SensorDeviceClass
+from homeassistant.components.sensor import (
+    DOMAIN as DOMAIN_SENSOR,
+    SensorDeviceClass,
+    SensorStateClass,
+)
 
 MANUFACTURER = "HP"
 DEFAULT_NAME = "HP Printer"
@@ -43,6 +47,7 @@ ENTITY_DEVICE_NAME = "device-name"
 ENTITY_UNIQUE_ID = "unique-id"
 ENTITY_BINARY_SENSOR_DEVICE_CLASS = "binary-sensor-device-class"
 ENTITY_SENSOR_DEVICE_CLASS = "sensor-device-class"
+ENTITY_SENSOR_STATE_CLASS = "sensor-state-class"
 
 ENTITY_STATUS = "entity-status"
 ENTITY_STATUS_EMPTY = None

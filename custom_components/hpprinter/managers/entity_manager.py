@@ -311,6 +311,7 @@ class EntityManager:
             entity.icon = PAGES_ICON
             entity.device_name = device_name
             entity.state = state
+            entity.sensor_state_class = SensorStateClass.TOTAL_INCREASING
 
             self.set_entity(DOMAIN_SENSOR, entity_name, entity)
 
@@ -339,6 +340,7 @@ class EntityManager:
             entity.icon = SCANNER_ICON
             entity.device_name = device_name
             entity.state = state
+            entity.sensor_state_class = SensorStateClass.TOTAL_INCREASING
 
             self.set_entity(DOMAIN_SENSOR, entity_name, entity)
 
@@ -364,6 +366,7 @@ class EntityManager:
         entity.icon = INK_ICON
         entity.device_name = device_name
         entity.state = state
+        entity.sensor_state_class = SensorStateClass.MEASUREMENT
 
         self.set_entity(DOMAIN_SENSOR, entity_name, entity)
 

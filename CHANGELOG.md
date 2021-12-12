@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.5
+
+- Added support for long term statistics
+
 ## 1.0.4
 
 - Upgraded code to support breaking changes of HA v2012.12.0
