@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.6
+
+- Removed entity / device delete upon restarting HA
+- 
 ## 1.0.5
 
 - Added support for long term statistics
