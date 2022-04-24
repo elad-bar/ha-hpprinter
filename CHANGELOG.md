@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.7
+
+- Added Brazilian Portuguese support, thanks to [@LeandroIssa](https://github.com/LeandroIssa)
+
 ## 1.0.6
 
 - Removed entity / device delete upon restarting HA
