@@ -8,6 +8,7 @@
 
 - Removed entity / device delete upon restarting HA
 -
+
 ## 1.0.5
 
 - Added support for long term statistics
@@ -81,14 +82,14 @@
 
 - Fix disabled entities still being triggered for updates [\#52](https://github.com/elad-bar/ha-hpprinter/issues/52)
 - Fix image drum OPC name [\#51](https://github.com/elad-bar/ha-hpprinter/issues/51)
-- Fix Sensor 'status' stays on after power off  [\#45](https://github.com/elad-bar/ha-hpprinter/issues/45)
+- Fix Sensor 'status' stays on after power off [\#45](https://github.com/elad-bar/ha-hpprinter/issues/45)
 
 ## 2020-04-26
 
 **Fixed bugs:**
 
 - Fix disabled entities are getting enabled after periodic update (update interval)
-- Fix offline printer is not updating entities correctly and after restart [\#45](https://github.com/elad-bar/ha-hpprinter/issues/45)  [\#47](https://github.com/elad-bar/ha-hpprinter/issues/47)
+- Fix offline printer is not updating entities correctly and after restart [\#45](https://github.com/elad-bar/ha-hpprinter/issues/45) [\#47](https://github.com/elad-bar/ha-hpprinter/issues/47)
 
 ## 2020-04-24 #6
 
@@ -130,7 +131,7 @@
 **Implemented enhancements:**
 
 - Added changelog
-- Added ability to configure update entities interval in seconds (Integrations -> Integration Name -> Options)  [\#31](https://github.com/elad-bar/ha-hpprinter/issues/31)
+- Added ability to configure update entities interval in seconds (Integrations -> Integration Name -> Options) [\#31](https://github.com/elad-bar/ha-hpprinter/issues/31)
 - Added validation to add new integration, display error in case printer is unreachable or unsupported [\#15](https://github.com/elad-bar/ha-hpprinter/issues/15) [\#11](https://github.com/elad-bar/ha-hpprinter/issues/11)
 - Moved code to new file structure
 - More logs added for easier debugging

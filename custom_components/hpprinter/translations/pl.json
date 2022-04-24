@@ -18,19 +18,19 @@
     }
   },
   "options": {
-      "step": {
-          "hp_printer_additional_settings": {
-              "title": "Opcje dla drukarki HP.",
-              "description": "Zdefiniuj dodatkowe ustawienia dla integracji drukarki HP",
-              "data": {
-                  "host": "Host lub IP",
-                  "name": "Nazwa",
-                  "update_interval": "Interwał aktualizacji (sekundy)",
-                  "log_level": "Poziom logowania",
-                  "store_data": "Czy należy przechowywać odpowiedzi?"
-              }
-          }
-      },
+    "step": {
+      "hp_printer_additional_settings": {
+        "title": "Opcje dla drukarki HP.",
+        "description": "Zdefiniuj dodatkowe ustawienia dla integracji drukarki HP",
+        "data": {
+          "host": "Host lub IP",
+          "name": "Nazwa",
+          "update_interval": "Interwał aktualizacji (sekundy)",
+          "log_level": "Poziom logowania",
+          "store_data": "Czy należy przechowywać odpowiedzi?"
+        }
+      }
+    },
     "error": {
       "error_400": "Nieprawidłowe dane serwera, spróbuj ręcznie uzyskać otworzyć `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Zamień tekst zastępczy na IP lub nazwę hosta), jeśli to możliwe - zgłoś problem wraz z logami.",
       "error_404": "Niewspierane API",

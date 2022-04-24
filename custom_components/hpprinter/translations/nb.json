@@ -1,4 +1,3 @@
-
 {
   "config": {
     "step": {
@@ -19,19 +18,19 @@
     }
   },
   "options": {
-      "step": {
-          "hp_printer_additional_settings": {
-              "title": "Alternativer for HP-skriver.",
-              "description": "Definer tilleggsinnstillinger for HP-skriverintegrasjon",
-              "data": {
-                  "host": "Vert",
-                  "name": "Navn",
-                  "update_interval": "Oppdateringsintervall (sekunder)",
-                  "log_level": "Loggnivå",
-                  "store_data": "Bør lagre svar?"
-              }
-          }
-      },
+    "step": {
+      "hp_printer_additional_settings": {
+        "title": "Alternativer for HP-skriver.",
+        "description": "Definer tilleggsinnstillinger for HP-skriverintegrasjon",
+        "data": {
+          "host": "Vert",
+          "name": "Navn",
+          "update_interval": "Oppdateringsintervall (sekunder)",
+          "log_level": "Loggnivå",
+          "store_data": "Bør lagre svar?"
+        }
+      }
+    },
     "error": {
       "error_400": "Ugyldige serveropplysninger. Prøv manuelt å få tilgang ti `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Erstatt plassholder med IP eller vertsnavn), hvis det er tilgjengelig, vennligst rapporter problemet med logger",
       "error_404": "API støttes ikke",
