@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.8
+
+- Device and Entity registry - `async_get_registry` is deprecated, change to `async_get`
+
 ## 1.0.7
 
 - Added Brazilian Portuguese support, thanks to [@LeandroIssa](https://github.com/LeandroIssa)
