@@ -1,12 +1,5 @@
-from homeassistant.components.binary_sensor import (
-    DOMAIN as DOMAIN_BINARY_SENSOR,
-    BinarySensorDeviceClass,
-)
-from homeassistant.components.sensor import (
-    DOMAIN as DOMAIN_SENSOR,
-    SensorDeviceClass,
-    SensorStateClass,
-)
+from homeassistant.components.binary_sensor import DOMAIN as DOMAIN_BINARY_SENSOR
+from homeassistant.components.sensor import DOMAIN as DOMAIN_SENSOR
 
 MANUFACTURER = "HP"
 DEFAULT_NAME = "HP Printer"

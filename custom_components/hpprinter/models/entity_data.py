@@ -41,7 +41,7 @@ class EntityData:
             ENTITY_DISABLED: self.disabled,
             ENTITY_BINARY_SENSOR_DEVICE_CLASS: self.binary_sensor_device_class,
             ENTITY_SENSOR_DEVICE_CLASS: self.sensor_device_class,
-            ENTITY_SENSOR_STATE_CLASS: self.sensor_state_class
+            ENTITY_SENSOR_STATE_CLASS: self.sensor_state_class,
         }
 
         to_string = f"{obj}"

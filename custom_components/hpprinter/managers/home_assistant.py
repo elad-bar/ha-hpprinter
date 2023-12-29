@@ -211,7 +211,7 @@ class HPPrinterHomeAssistant:
 
     async def dispatch_all(self):
         if not self._is_initialized:
-            _LOGGER.info(f"NOT INITIALIZED - Failed discovering components")
+            _LOGGER.info("NOT INITIALIZED - Failed discovering components")
             return
 
         for domain in SIGNALS:
