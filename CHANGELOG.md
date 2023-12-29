@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.10
+
+- Fix manifest
+
 ## 1.0.9
 
 _Minimum HA Version: 2024.1.0_
