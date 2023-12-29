@@ -124,12 +124,14 @@ class ConfigFlowManager:
             self._update_entry()
 
     def _update_entry(self):
-        entry = ConfigEntry(version=0,
-                            domain="",
-                            title="",
-                            data=self.data,
-                            source="",
-                            options=self.options)
+        entry = ConfigEntry(
+            version=0,
+            domain="",
+            title="",
+            data=self.data,
+            source="",
+            options=self.options,
+        )
 
         self.config_manager.update(entry)
 

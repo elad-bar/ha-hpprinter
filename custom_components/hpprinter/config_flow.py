@@ -72,7 +72,8 @@ class HPPrinterFlowHandler(config_entries.ConfigFlow):
         _LOGGER.debug(f"Starting async_step_import of {DOMAIN}")
 
         return self.async_create_entry(
-            title="HPPrinter (import from configuration.yaml)", data=info,
+            title="HPPrinter (import from configuration.yaml)",
+            data=info,
         )
 
 
@@ -103,7 +104,7 @@ class HPPrinterOptionsFlowHandler(config_entries.OptionsFlow):
                 )
 
             except LoginError as lex:
-                _LOGGER.warning(f"Cannot complete login")
+                _LOGGER.warning("Cannot complete login")
 
                 errors = lex.errors
 

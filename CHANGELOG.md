@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.9
+
+_Minimum HA Version: 2024.1.0_
+
+- Adjust code to HA 2024.1.0
+- Update pre-commit packages
+
 ## 1.0.8
 
 - Device and Entity registry - `async_get_registry` is deprecated, change to `async_get`

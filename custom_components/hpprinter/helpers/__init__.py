@@ -13,13 +13,13 @@ _LOGGER = logging.getLogger(__name__)
 
 def clear_ha(hass: HomeAssistant, name):
     if DATA_HP_PRINTER not in hass.data:
-        hass.data[DATA_HP_PRINTER] = dict()
+        hass.data[DATA_HP_PRINTER] = {}
 
     del hass.data[DATA_HP_PRINTER][name]
 
 
 def get_ha(hass: HomeAssistant, host):
-    ha_data = hass.data.get(DATA_HP_PRINTER, dict())
+    ha_data = hass.data.get(DATA_HP_PRINTER, {})
     ha = ha_data.get(host)
 
     return ha
@@ -28,7 +28,7 @@ def get_ha(hass: HomeAssistant, host):
 async def async_set_ha(hass: HomeAssistant, name, entry: ConfigEntry):
     try:
         if DATA_HP_PRINTER not in hass.data:
-            hass.data[DATA_HP_PRINTER] = dict()
+            hass.data[DATA_HP_PRINTER] = {}
 
         instance = HPPrinterHomeAssistant(hass)
 
