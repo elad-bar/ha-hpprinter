@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.11
+
+_Minimum HA Version: 2024.1.0b0_
+
+- Set minimum HA version for component to 2024.1.0b0
+
 ## 1.0.10
 
 - Fix manifest
