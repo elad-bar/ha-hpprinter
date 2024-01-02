@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.0.12
+
+- Fix missing references [Issue #103](https://github.com/elad-bar/ha-hpprinter/issues/103)
+- Fix breaking change to ConfigEntry
+
 ## v1.0.11
 
 _Minimum HA Version: 2024.1.0b0_

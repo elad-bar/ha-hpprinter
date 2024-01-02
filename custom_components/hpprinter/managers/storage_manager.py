@@ -1,4 +1,4 @@
-"""Storage handers."""
+"""Storage handlers."""
 import logging
 
 from homeassistant.helpers.json import JSONEncoder

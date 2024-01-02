@@ -1,5 +1,8 @@
 from typing import Optional
 
+from homeassistant.components.binary_sensor import BinarySensorDeviceClass
+from homeassistant.components.sensor import SensorDeviceClass, SensorStateClass
+
 from ..helpers.const import *
 
 

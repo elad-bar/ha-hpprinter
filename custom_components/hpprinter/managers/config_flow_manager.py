@@ -126,6 +126,7 @@ class ConfigFlowManager:
     def _update_entry(self):
         entry = ConfigEntry(
             version=0,
+            minor_version=0,
             domain="",
             title="",
             data=self.data,

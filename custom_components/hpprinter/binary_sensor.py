@@ -7,7 +7,10 @@ from __future__ import annotations
 
 import logging
 
-from homeassistant.components.binary_sensor import BinarySensorEntity
+from homeassistant.components.binary_sensor import (
+    BinarySensorDeviceClass,
+    BinarySensorEntity,
+)
 from homeassistant.core import HomeAssistant
 
 from .helpers.const import *
@@ -34,7 +37,7 @@ async def async_setup_entry(hass: HomeAssistant, entry, async_add_entities):
     )
 
 
-async def async_unload_entry(hass, config_entry):
+async def async_unload_entry(_hass, config_entry):
     _LOGGER.info(f"async_unload_entry {CURRENT_DOMAIN}: {config_entry}")
 
     return True

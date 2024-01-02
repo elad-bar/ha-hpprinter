@@ -19,6 +19,7 @@ class Test:
 
         config_entry: ConfigEntry = ConfigEntry(
             version=0,
+            minor_version=0,
             domain=DOMAIN,
             title=DEFAULT_NAME,
             data=data,

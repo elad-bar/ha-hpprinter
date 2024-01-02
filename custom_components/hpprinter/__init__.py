@@ -19,7 +19,7 @@ from .managers.HPDeviceData import *
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup(hass, config):
+async def async_setup(_hass, _config):
     return True
 
 
