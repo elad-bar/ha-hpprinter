@@ -5,7 +5,8 @@
         "title": "Set up HP Printer",
         "data": {
           "host": "Host",
-          "name": "Name"
+          "port": "Port",
+          "ssl": "Is SSL"
         }
       }
     },
@@ -24,15 +25,14 @@
         "description": "Define additional settings for HP Printer integration",
         "data": {
           "host": "Host",
-          "name": "Name",
-          "update_interval": "Update interval (Seconds)",
-          "log_level": "Log level",
-          "store_data": "Should store responses?"
+          "port": "Port",
+          "ssl": "Is SSL",
+          "update_interval": "Update interval (Seconds)"
         }
       }
     },
     "error": {
-      "error_400": "Invalid server details, please try manually access to `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Replace placeholder with IP or Hostname), in case it's accessible, please report the issue with logs",
+      "error_400": "Invalid server details, please try manually access to `http{ssl?s}://{host}:{port}/Prefetch?type=dtree`, in case it's accessible, please report the issue with logs",
       "error_404": "Unsupported API",
       "already_configured": "HP Printer integration ({name}) already configured"
     }

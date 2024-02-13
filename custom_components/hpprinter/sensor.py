@@ -1,73 +1,53 @@
-"""
-Support for HP Printer binary sensors.
-For more details about this platform, please refer to the documentation at
-https://home-assistant.io/components/binary_sensor.hp_printer/
-"""
-from __future__ import annotations
-
 import logging
 
-from homeassistant.components.sensor import (
-    SensorDeviceClass,
-    SensorEntity,
-    SensorStateClass,
-)
+from homeassistant.components.sensor import SensorEntity
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 
-from .helpers.const import *
-from .models.base_entity import HPPrinterEntity, async_setup_base_entry
-from .models.entity_data import EntityData
+from .common.base_entity import BaseEntity, async_setup_base_entry
+from .common.entity_descriptions import IntegrationSensorEntityDescription
+from .managers.ha_coordinator import HACoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
-CURRENT_DOMAIN = DOMAIN_SENSOR
 
-
-def get_device_tracker(hass: HomeAssistant, integration_name: str, entity: EntityData):
-    sensor = HPPrinterSensor()
-    sensor.initialize(hass, integration_name, entity, CURRENT_DOMAIN)
-
-    return sensor
-
-
-async def async_setup_entry(hass: HomeAssistant, entry, async_add_entities):
-    """Set up HP Printer based off an entry."""
+async def async_setup_entry(
+    hass: HomeAssistant, entry: ConfigEntry, async_add_entities
+):
     await async_setup_base_entry(
-        hass, entry, async_add_entities, CURRENT_DOMAIN, get_device_tracker
+        hass,
+        entry,
+        Platform.SENSOR,
+        AquaTempSensorEntity,
+        async_add_entities,
     )
 
 
-async def async_unload_entry(_hass, config_entry):
-    _LOGGER.info(f"async_unload_entry {CURRENT_DOMAIN}: {config_entry}")
+class AquaTempSensorEntity(BaseEntity, SensorEntity):
+    """Representation of a sensor."""
 
-    return True
+    def __init__(
+        self,
+        entity_description: IntegrationSensorEntityDescription,
+        coordinator: HACoordinator,
+        device_code: str,
+    ):
+        super().__init__(entity_description, coordinator, device_code)
 
+        self._attr_device_class = entity_description.device_class
+        self._attr_native_unit_of_measurement = (
+            entity_description.native_unit_of_measurement
+        )
 
-class HPPrinterSensor(SensorEntity, HPPrinterEntity):
-    """Representation a binary sensor that is updated by HP Printer."""
+    def _handle_coordinator_update(self) -> None:
+        """Fetch new state parameters for the sensor."""
+        device_data = self.get_data()
+        state = device_data.get(self._data_key)
 
-    @property
-    def native_value(self):
-        """Return the state of the sensor."""
-        return self.entity.state
+        if self.native_unit_of_measurement in ["pages", "%", "refill"]:
+            state = float(state)
 
-    @property
-    def device_class(self) -> SensorDeviceClass | str | None:
-        """Return the class of this sensor."""
-        return self.entity.sensor_device_class
+        self._attr_native_value = state
 
-    @property
-    def state_class(self) -> SensorStateClass | str | None:
-        """Return the class of this sensor."""
-        return self.entity.sensor_state_class
-
-    async def async_added_to_hass_local(self):
-        _LOGGER.info(f"Added new {self.name}")
-
-    def _immediate_update(self, previous_state: bool):
-        if previous_state != self.entity.state:
-            _LOGGER.debug(
-                f"{self.name} updated from {previous_state} to {self.entity.state}"
-            )
-
-        super()._immediate_update(previous_state)
+        self.async_write_ha_state()
