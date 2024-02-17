@@ -31,28 +31,19 @@ class HABinarySensorEntity(BaseEntity, BinarySensorEntity):
         self,
         entity_description: IntegrationBinarySensorEntityDescription,
         coordinator: HACoordinator,
+        device_key: str,
     ):
-        super().__init__(entity_description, coordinator)
+        super().__init__(entity_description, coordinator, device_key)
 
         self._attr_device_class = entity_description.device_class
-        self._entity_attributes = entity_description.attributes
         self._entity_on_value = entity_description.on_value
 
     def _handle_coordinator_update(self) -> None:
         """Fetch new state parameters for the sensor."""
-        device_data = self.get_data()
-        state = device_data.get(self._data_key)
+        state = self.get_value()
 
         is_on = str(state).lower() == str(self._entity_on_value).lower()
 
-        attributes = {}
-        if self._entity_attributes is not None:
-            for attribute_key in self._entity_attributes:
-                value = device_data.get(attribute_key)
-
-                attributes[attribute_key] = value
-
         self._attr_is_on = is_on
-        self._attr_extra_state_attributes = attributes
 
         self.async_write_ha_state()

@@ -19,21 +19,21 @@ async def async_setup_entry(
         hass,
         entry,
         Platform.SENSOR,
-        AquaTempSensorEntity,
+        HASensorEntity,
         async_add_entities,
     )
 
 
-class AquaTempSensorEntity(BaseEntity, SensorEntity):
+class HASensorEntity(BaseEntity, SensorEntity):
     """Representation of a sensor."""
 
     def __init__(
         self,
         entity_description: IntegrationSensorEntityDescription,
         coordinator: HACoordinator,
-        device_code: str,
+        device_key: str,
     ):
-        super().__init__(entity_description, coordinator, device_code)
+        super().__init__(entity_description, coordinator, device_key)
 
         self._attr_device_class = entity_description.device_class
         self._attr_native_unit_of_measurement = (
@@ -42,11 +42,13 @@ class AquaTempSensorEntity(BaseEntity, SensorEntity):
 
     def _handle_coordinator_update(self) -> None:
         """Fetch new state parameters for the sensor."""
-        device_data = self.get_data()
-        state = device_data.get(self._data_key)
+        state = self.get_value()
 
-        if self.native_unit_of_measurement in ["pages", "%", "refill"]:
+        if self.native_unit_of_measurement in ["%"]:
             state = float(state)
+
+        elif self.native_unit_of_measurement in ["pages", "refill"]:
+            state = int(state)
 
         self._attr_native_value = state
 

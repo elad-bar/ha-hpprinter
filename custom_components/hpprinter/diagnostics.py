@@ -11,7 +11,6 @@ from homeassistant.helpers.device_registry import DeviceEntry
 
 from .common.consts import DOMAIN
 from .managers.ha_coordinator import HACoordinator
-from .managers.rest_api import RestAPIv2
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -42,10 +41,6 @@ async def _async_get_diagnostics(
 
     coordinator: HACoordinator = hass.data[DOMAIN][entry.entry_id]
 
-    rest_api = RestAPIv2(hass, coordinator.config_manager)
-
-    await rest_api.initialize()
-
     data = {
         "disabled_by": entry.disabled_by,
         "disabled_polling": entry.pref_disable_polling,
@@ -72,7 +67,7 @@ def _async_device_as_dict(
             "name_by_user": ha_device.name_by_user,
             "disabled": ha_device.disabled,
             "disabled_by": ha_device.disabled_by,
-            "data": additional_data,
+            "parameters": additional_data,
             "entities": [],
         }
 

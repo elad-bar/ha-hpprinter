@@ -1,9 +1,10 @@
-from copy import copy
 import json
 import logging
+import os
+from pathlib import Path
 
 from homeassistant.config_entries import STORAGE_VERSION, ConfigEntry
-from homeassistant.const import CONF_PASSWORD, CONF_TEMPERATURE_UNIT, CONF_USERNAME
+from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import translation
 from homeassistant.helpers.entity import DeviceInfo
@@ -18,16 +19,17 @@ from ..common.consts import (
     DOMAIN,
 )
 from ..common.entity_descriptions import (
-    DEFAULT_ENTITY_DESCRIPTIONS,
+    IntegrationBinarySensorEntityDescription,
     IntegrationEntityDescription,
+    IntegrationSensorEntityDescription,
 )
+from ..common.parameter_type import ParameterType
 from ..models.config_data import ConfigData
 
 _LOGGER = logging.getLogger(__name__)
 
 
 class HAConfigManager:
-    _api_config: dict | None
     _translations: dict | None
     _entry: ConfigEntry | None
     _entry_id: str
@@ -41,19 +43,15 @@ class HAConfigManager:
         self._data = None
         self.platforms = []
 
-        self._entity_descriptions = {}
-        self._protocol_codes = {}
-        self._protocol_codes_configuration = {}
+        self._entity_descriptions: list[IntegrationEntityDescription] | None = None
 
-        self._hvac_modes = {}
-        self._hvac_modes_reverse = {}
-
-        self._fan_modes = {}
-        self._fan_modes_reverse = {}
-
-        self._devices = {}
-        self._api_config = None
         self._translations = None
+
+        self._endpoints: list[str] | None = None
+
+        self._data_points: dict | None = None
+        self._exclude_uri_list: list[str] | None = None
+        self._exclude_type_list: list[str] | None = None
 
         self._entry = entry
         self._entry_id = DEFAULT_ENTRY_ID if entry is None else entry.entry_id
@@ -105,10 +103,27 @@ class HAConfigManager:
 
         return interval
 
+    @property
+    def endpoints(self) -> list[str] | None:
+        endpoints = self._endpoints
+
+        return endpoints
+
+    @property
+    def data_points(self) -> dict | None:
+        data_points = self._data_points
+
+        return data_points
+
     async def initialize(self, entry_config: dict):
         await self._load()
 
         self._config_data.update(entry_config)
+
+        self._load_exclude_endpoints_configuration()
+        self._load_data_points_configuration()
+
+        self._load_entity_descriptions()
 
         if self._hass:
             self._translations = await translation.async_get_translations(
@@ -158,7 +173,7 @@ class HAConfigManager:
         )
 
         entity_name = (
-            device_name
+            f"{device_name} {entity_description.name}"
             if translated_name is None or translated_name == ""
             else f"{device_name} {translated_name}"
         )
@@ -207,7 +222,7 @@ class HAConfigManager:
 
     @staticmethod
     def _get_defaults() -> dict:
-        data = {CONF_TEMPERATURE_UNIT: {}}
+        data = {CONF_UPDATE_INTERVAL: 5}
 
         return data
 
@@ -231,19 +246,12 @@ class HAConfigManager:
         for key in self._data:
             stored_value = entry_data.get(key)
 
-            if key in [CONF_PASSWORD, CONF_USERNAME]:
-                entry_data.pop(key)
+            current_value = self._data.get(key)
 
-                if stored_value is not None:
-                    should_save = True
+            if stored_value != current_value:
+                should_save = True
 
-            else:
-                current_value = self._data.get(key)
-
-                if stored_value != current_value:
-                    should_save = True
-
-                    entry_data[key] = self._data[key]
+                entry_data[key] = self._data[key]
 
         if DEFAULT_ENTRY_ID in store_data:
             store_data.pop(DEFAULT_ENTRY_ID)
@@ -254,17 +262,151 @@ class HAConfigManager:
 
             await self._store.async_save(store_data)
 
-    def _load_entity_descriptions(self, product_id: str):
-        entities = copy(DEFAULT_ENTITY_DESCRIPTIONS)
+    def _load_entity_descriptions(self):
+        self._entity_descriptions = []
 
-        self._update_platforms(entities)
+        for data_point in self._data_points:
+            device_type = data_point.get("device_type")
+            properties = data_point.get("properties")
 
-        self._entity_descriptions[product_id] = entities
+            for property_key in properties:
+                property_data = properties[property_key]
 
-    def _update_platforms(self, entity_descriptions):
-        for entity_description in entity_descriptions:
+                if "platform" in property_data:
+                    property_platform = property_data.get("platform")
+                    exclude = property_data.get("exclude")
+                    device_class = property_data.get("device_class")
+
+                    if property_platform == str(Platform.BINARY_SENSOR):
+                        on_value = property_data.get("on_value")
+
+                        entity_description = IntegrationBinarySensorEntityDescription(
+                            key=property_key,
+                            name=property_key,
+                            device_type=device_type,
+                            exclude=exclude,
+                            on_value=on_value,
+                            device_class=device_class,
+                        )
+
+                        self._entity_descriptions.append(entity_description)
+
+                    elif property_platform == str(Platform.SENSOR):
+                        unit_of_measurement = property_data.get("unit_of_measurement")
+
+                        entity_description = IntegrationSensorEntityDescription(
+                            key=property_key,
+                            name=property_key,
+                            device_type=device_type,
+                            exclude=exclude,
+                            native_unit_of_measurement=unit_of_measurement,
+                            device_class=device_class,
+                        )
+
+                        self._entity_descriptions.append(entity_description)
+
+        self._update_platforms()
+
+    def _update_platforms(self):
+        for entity_description in self._entity_descriptions:
             if (
                 entity_description.platform not in self.platforms
                 and entity_description.platform is not None
             ):
                 self.platforms.append(entity_description.platform)
+
+    def get_entity_descriptions(
+        self, platform: Platform, device_type: str, device_data: dict
+    ) -> list[IntegrationEntityDescription]:
+        entity_descriptions = [
+            entity_description
+            for entity_description in self._entity_descriptions
+            if self._is_valid_entity(
+                entity_description, device_data, device_type, platform
+            )
+        ]
+
+        return entity_descriptions
+
+    @staticmethod
+    def _is_valid_entity(
+        entity_description: IntegrationEntityDescription,
+        data: dict,
+        device_type: str,
+        platform: Platform,
+    ) -> bool:
+        key = entity_description.key
+        exclude = entity_description.exclude
+
+        is_valid = (
+            entity_description.platform == platform
+            and entity_description.device_type == device_type
+            and key in data
+        )
+
+        if is_valid and exclude:
+            for exclude_key in exclude:
+                exclude_value = exclude[exclude_key]
+
+                if data.get(exclude_key) == exclude_value:
+                    is_valid = False
+                    break
+
+        return is_valid
+
+    def _load_data_points_configuration(self):
+        self._endpoints = []
+
+        self._data_points = self._get_parameters(ParameterType.DATA_POINTS)
+
+        endpoint_objects = self._data_points
+
+        for endpoint in endpoint_objects:
+            endpoint_uri = endpoint.get("endpoint")
+
+            if (
+                endpoint_uri not in self._endpoints
+                and endpoint_uri not in self._exclude_uri_list
+            ):
+                self._endpoints.append(endpoint_uri)
+
+    def _load_exclude_endpoints_configuration(self):
+        endpoints = self._get_parameters(ParameterType.ENDPOINT_VALIDATIONS)
+
+        self._exclude_uri_list = endpoints.get("exclude_uri")
+        self._exclude_type_list = endpoints.get("exclude_type")
+
+    @staticmethod
+    def _get_parameters(parameter_type: ParameterType) -> dict:
+        config_file = f"{parameter_type}.json"
+        current_path = Path(__file__)
+        parent_directory = current_path.parents[1]
+        file_path = os.path.join(parent_directory, "parameters", config_file)
+
+        with open(file_path) as f:
+            data = json.load(f)
+
+            return data
+
+    def is_valid_endpoint(self, endpoint: dict):
+        endpoint_type = endpoint.get("type")
+        uri = endpoint.get("uri")
+        methods = endpoint.get("methods", ["get"])
+
+        is_invalid_type = endpoint_type in self._exclude_type_list
+        invalid_endpoint_uri = uri in self._exclude_uri_list
+        invalid_uri_resource = uri.endswith("Cap.xml")
+        invalid_uri_parameter = "{" in uri or "}" in uri
+        invalid_methods = "get" not in methods
+
+        invalid_data = [
+            is_invalid_type,
+            invalid_uri_resource,
+            invalid_uri_parameter,
+            invalid_methods,
+            invalid_endpoint_uri,
+        ]
+
+        is_valid = True not in invalid_data
+
+        return is_valid

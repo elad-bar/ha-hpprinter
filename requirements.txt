@@ -7,3 +7,4 @@ aiohttp~=3.9.1
 xmltodict~=0.13.0
 
 defusedxml
+flatten_json

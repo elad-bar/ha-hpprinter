@@ -1,5 +1,4 @@
 import asyncio
-import json
 import logging
 import os
 import sys
@@ -42,12 +41,15 @@ class APITest:
         await self._config_manager.initialize(self._config_data)
 
         self._api = RestAPIv2(hass, self._config_manager)
-        await self._api.initialize()
+        await self._api.initialize(True)
 
         await self._api.update()
 
-        print(json.dumps(self._api.raw_data, indent=4))
-        print(json.dumps(self._api.data, indent=4))
+        # print(json.dumps(self._api.raw_data, indent=4))
+        # print(json.dumps(self._api.data, indent=4))
+
+    async def terminate(self):
+        await self._api.terminate()
 
 
 if __name__ == "__main__":
@@ -64,3 +66,6 @@ if __name__ == "__main__":
 
     except Exception as rex:
         _LOGGER.error(f"Error: {rex}")
+
+    finally:
+        loop.run_until_complete(instance.terminate())

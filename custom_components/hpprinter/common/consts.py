@@ -27,15 +27,17 @@ PRINTER_STATUS = {
 
 IGNORED_KEYS = ["@schemaLocation", "Version"]
 
-SIGNAL_HA_DEVICE_NEW = f"signal_{DOMAIN}_device_new"
+SIGNAL_HA_DEVICE_CREATED = f"signal_{DOMAIN}_device_created"
+SIGNAL_HA_DEVICE_DISCOVERED = f"signal_{DOMAIN}_device_discovered"
 CONFIGURATION_FILE = f"{DOMAIN}.config.json"
 LEGACY_KEY_FILE = f"{DOMAIN}.key"
 
 UPDATE_API_INTERVAL = timedelta(minutes=5)
 
-ADD_COMPONENT_SIGNALS = [SIGNAL_HA_DEVICE_NEW]
 DEFAULT_ENTRY_ID = "config"
 CONF_UPDATE_INTERVAL = "update_interval"
 CONF_TITLE = "title"
+
+DEFAULT_PORT = 80
 
 DATA_KEYS = [CONF_HOST, CONF_PORT, CONF_SSL]

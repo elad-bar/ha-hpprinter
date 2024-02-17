@@ -1,5 +1,16 @@
 # Changelog
 
+## v2.0.0
+
+- Refactor to full HP Printer EWS support
+
+TODO:
+
+- Entity translations
+- Icons
+- Configuration test
+- Functionality test
+
 ## v1.0.12
 
 - Fix missing references [Issue #103](https://github.com/elad-bar/ha-hpprinter/issues/103)

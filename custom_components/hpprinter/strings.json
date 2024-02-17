@@ -2,7 +2,7 @@
   "config": {
     "step": {
       "user": {
-        "title": "Set up HP Printer",
+        "title": "Set up HP Printer Embedded Web Server (EWS)",
         "data": {
           "host": "Host",
           "port": "Port",
@@ -14,8 +14,8 @@
       "already_configured": "HP Printer integration ({name}) already configured"
     },
     "error": {
-      "error_400": "Invalid server details, please try manually access to `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Replace placeholder with IP or Hostname), in case it's accessible, please report the issue with logs",
-      "error_404": "Unsupported API"
+      "error_400": "Invalid parameters provided",
+      "error_404": "HP Printer Embedded Web Server (EWS) not was not found, please check logs for more details"
     }
   },
   "options": {
@@ -32,9 +32,8 @@
       }
     },
     "error": {
-      "error_400": "Invalid server details, please try manually access to `http{ssl?s}://{host}:{port}/Prefetch?type=dtree`, in case it's accessible, please report the issue with logs",
-      "error_404": "Unsupported API",
-      "already_configured": "HP Printer integration ({name}) already configured"
+      "error_400": "Invalid parameters provided",
+      "error_404": "HP Printer Embedded Web Server (EWS) not was not found, please check logs for more details"
     }
   }
 }

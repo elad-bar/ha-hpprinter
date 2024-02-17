@@ -1,0 +1,346 @@
+[
+  {
+    "name": "Main",
+    "endpoint": "/DevMgmt/ProductConfigDyn.xml",
+    "path": "ProductConfigDyn.ProductInformation",
+    "device_type": "Main",
+    "properties": {
+      "make_and_model": {
+        "path": "MakeAndModel"
+      },
+      "make_and_model_family": {
+        "path": "MakeAndModelFamily"
+      },
+      "sku_identifier": {
+        "path": "SKUIdentifier"
+      },
+      "serial_number": {
+        "path": "SerialNumber"
+      },
+      "product_number": {
+        "path": "ProductNumber"
+      },
+      "manufacturer_name": {
+        "path": "Manufacturer.Name"
+      },
+      "manufactured_at": {
+        "path": "Manufacturer.Date"
+      }
+    }
+  },
+  {
+    "name": "Consumable",
+    "endpoint": "/DevMgmt/ConsumableConfigDyn.xml",
+    "path": "ConsumableConfigDyn.ConsumableInfo",
+    "device_type": "Consumable",
+    "identifier": "consumable_station",
+    "properties": {
+      "consumable_label_code": {
+        "path": "ConsumableLabelCode"
+      },
+      "consumable_life_state_consumable_state": {
+        "path": "ConsumableLifeState.ConsumableState",
+        "platform": "binary_sensor",
+        "on_value": "ok"
+      },
+      "consumable_life_state_brand": {
+        "path": "ConsumableLifeState.Brand"
+      },
+      "consumable_station": {
+        "path": "ConsumableStation",
+        "platform": "sensor"
+      },
+      "consumable_type_enum": {
+        "path": "ConsumableTypeEnum",
+        "platform": "sensor"
+      },
+      "installation_date": {
+        "path": "Installation.Date",
+        "platform": "sensor"
+      },
+      "capacity_max_capacity": {
+        "path": "Capacity.MaxCapacity"
+      },
+      "consumable_percentage_level_remaining": {
+        "path": "ConsumablePercentageLevelRemaining",
+        "platform": "sensor",
+        "unit_of_measurement": "%",
+        "exclude": {
+          "consumable_type_enum": "printhead"
+        }
+      },
+      "consumable_selectibility_number": {
+        "path": "ConsumableSelectibilityNumber"
+      },
+      "manufacturer_name": {
+        "path": "Manufacturer.Name"
+      },
+      "manufactured_at": {
+        "path": "Manufacturer.Date"
+      },
+      "serial_number": {
+        "path": "SerialNumber"
+      },
+      "product_number": {
+        "path": "ProductNumber"
+      },
+      "warranty_expiration_date": {
+        "path": "Warranty.ExpirationDate",
+        "platform": "sensor",
+        "exclude": {
+          "consumable_type_enum": "printhead"
+        }
+      },
+      "consumable_unique_id": {
+        "path": "ConsumableUniqueID"
+      }
+    }
+  },
+  {
+    "name": "Consumable Usage",
+    "endpoint": "/DevMgmt/ProductUsageDyn.xml",
+    "path": "ProductUsageDyn.ConsumableSubunit.Consumable",
+    "device_type": "Consumable",
+    "identifier": "consumable_station",
+    "properties": {
+      "consumable_station": {
+        "path": "ConsumableStation"
+      },
+      "marker_color": {
+        "path": "MarkerColor"
+      },
+      "consumable_type_enum": {
+        "path": "ConsumableTypeEnum",
+        "platform": "sensor"
+      },
+      "estimated_pages_remaining": {
+        "path": "EstimatedPagesRemaining",
+        "platform": "sensor",
+        "unit_of_measurement": "pages",
+        "exclude": {
+          "consumable_type_enum": "printhead"
+        }
+      },
+      "consumable_state": {
+        "path": "ConsumableState"
+      },
+      "consumable_raw_percentage_level_remaining": {
+        "path": "ConsumableRawPercentageLevelRemaining"
+      },
+      "supply_serial_number": {
+        "path": "SupplySerialNumber.#text"
+      },
+      "refilled_count_counterfeit_refilled_count": {
+        "path": "RefilledCount.CounterfeitRefilledCount.#text",
+        "platform": "sensor",
+        "unit_of_measurement": "refill"
+      },
+      "refilled_count_genuine_refilled_count": {
+        "path": "RefilledCount.GenuineRefilledCount",
+        "platform": "sensor",
+        "unit_of_measurement": "refill"
+      }
+    }
+  },
+  {
+    "name": "Printer",
+    "endpoint": "/DevMgmt/ProductUsageDyn.xml",
+    "path": "ProductUsageDyn.PrinterSubunit",
+    "device_type": "Printer",
+    "properties": {
+      "total_impressions": {
+        "path": "TotalImpressions.#text",
+        "description": "Total pages printed",
+        "platform": "sensor",
+        "unit_of_measurement": "pages"
+      },
+      "monochrome_impressions": {
+        "path": "MonochromeImpressions",
+        "description": "Total black-and-white pages printed",
+        "platform": "sensor",
+        "unit_of_measurement": "pages"
+      },
+      "color_impressions": {
+        "path": "ColorImpressions",
+        "description": "Total color pages printed",
+        "platform": "sensor",
+        "unit_of_measurement": "pages"
+      },
+      "simplex_sheets": {
+        "path": "SimplexSheets",
+        "description": "Total single-sided pages printed",
+        "platform": "sensor",
+        "unit_of_measurement": "pages"
+      },
+      "duplex_sheets": {
+        "path": "DuplexSheets.#text",
+        "description": "Total double-sided pages printed",
+        "platform": "sensor",
+        "unit_of_measurement": "pages"
+      },
+      "jam_events": {
+        "path": "JamEvents.#text",
+        "description": "Total jams",
+        "platform": "sensor",
+        "unit_of_measurement": "pages"
+      },
+      "mispick_events": {
+        "path": "MispickEvents",
+        "description": "Total miss picks",
+        "platform": "sensor",
+        "unit_of_measurement": "pages"
+      }
+    }
+  },
+  {
+    "name": "Scanner",
+    "endpoint": "/DevMgmt/ProductUsageDyn.xml",
+    "path": "ProductUsageDyn.ScannerEngineSubunit",
+    "device_type": "Scanner",
+    "properties": {
+      "scan_images": {
+        "path": "ScanImages.#text",
+        "description": "Total scanned pages",
+        "platform": "sensor",
+        "unit_of_measurement": "pages"
+      },
+      "adf_images": {
+        "path": "AdfImages.#text",
+        "description": "Total scanned pages from ADF",
+        "platform": "sensor",
+        "unit_of_measurement": "pages"
+      },
+      "duplex_sheets": {
+        "path": "DuplexSheets.#text",
+        "description": "Total double-sided pages scanned",
+        "platform": "sensor",
+        "unit_of_measurement": "pages"
+      },
+      "flatbed_images": {
+        "path": "FlatbedImages",
+        "description": "Total pages from scanner glass",
+        "platform": "sensor",
+        "unit_of_measurement": "pages"
+      },
+      "jam_events": {
+        "path": "JamEvents",
+        "description": "Total jams",
+        "platform": "sensor",
+        "unit_of_measurement": "pages"
+      },
+      "mispick_events": {
+        "path": "MispickEvents",
+        "description": "Total miss picks",
+        "platform": "sensor",
+        "unit_of_measurement": "pages"
+      }
+    }
+  },
+  {
+    "name": "Copy",
+    "endpoint": "/DevMgmt/ProductUsageDyn.xml",
+    "path": "ProductUsageDyn.CopyApplicationSubunit",
+    "device_type": "Copy",
+    "properties": {
+      "total_impressions": {
+        "path": "TotalImpressions.#text",
+        "description": "Total copies",
+        "platform": "sensor",
+        "unit_of_measurement": "pages"
+      },
+      "adf_images": {
+        "path": "AdfImages",
+        "description": "Total copies from ADF",
+        "platform": "sensor",
+        "unit_of_measurement": "pages"
+      },
+      "flatbed_images": {
+        "path": "FlatbedImages",
+        "description": "Total pages from scanner glass",
+        "platform": "sensor",
+        "unit_of_measurement": "pages"
+      },
+      "monochrome_impressions": {
+        "path": "MonochromeImpressions",
+        "description": "Total black-and-white copies",
+        "platform": "sensor",
+        "unit_of_measurement": "pages"
+      },
+      "color_impressions": {
+        "path": "ColorImpressions",
+        "description": "Total color copies",
+        "platform": "sensor",
+        "unit_of_measurement": "pages"
+      }
+    }
+  },
+  {
+    "name": "Fax",
+    "endpoint": "/DevMgmt/ProductUsageDyn.xml",
+    "path": "ProductUsageDyn.FaxApplicationSubunit",
+    "device_type": "Fax",
+    "properties": {
+      "total_impressions": {
+        "path": "TotalImpressions.#text",
+        "description": "Total faxes",
+        "platform": "sensor",
+        "unit_of_measurement": "pages"
+      }
+    }
+  },
+  {
+    "name": "Adapter",
+    "endpoint": "/IoMgmt/Adapters",
+    "path": "Adapters.Adapter",
+    "device_type": "Adapter",
+    "identifier": "hardware_config_name",
+    "properties": {
+      "hardware_config_name": {
+        "path": "HardwareConfig.Name"
+      },
+      "hardware_config_device_connectivity_port_type": {
+        "path": "HardwareConfig.DeviceConnectivityPortType",
+        "platform": "sensor"
+      },
+      "hardware_config_is_connected": {
+        "path": "HardwareConfig.IsConnected",
+        "platform": "binary_sensor",
+        "on_value": "true"
+      }
+    }
+  },
+  {
+    "name": "ePrint",
+    "endpoint": "/ePrint/ePrintConfigDyn.xml",
+    "path": "ePrintConfigDyn",
+    "device_type": "Main",
+    "properties": {
+      "printer_id": {
+        "path": "PrinterID"
+      },
+      "registration_state": {
+        "path": "RegistrationState",
+        "platform": "sensor"
+      },
+      "cloud_services_switch_status": {
+        "path": "CloudServicesSwitch.Status",
+        "platform": "binary_sensor",
+        "on_value": "enabled"
+      }
+    }
+  },
+  {
+    "name": "Wifi",
+    "endpoint": "/DevMgmt/NetAppsSecureDyn.xml",
+    "path": "NetAppsSecureDyn.WirelessDirectConfig",
+    "device_type": "Main",
+    "properties": {
+      "ssid_prefix": {
+        "path": "SSIDPrefix"
+      },
+      "connection_method": {
+        "path": "ConnectionMethod"
+      }
+    }
+  }
+]

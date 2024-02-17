@@ -1,16 +1,19 @@
-from copy import copy
 import logging
 
-from homeassistant.const import Platform
 from homeassistant.core import Event
+from homeassistant.helpers.dispatcher import (
+    async_dispatcher_connect,
+    async_dispatcher_send,
+)
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from homeassistant.util import slugify
 
-from ..common.consts import DOMAIN, UPDATE_API_INTERVAL
-from ..common.entity_descriptions import (
-    CARTRIDGE_ENTITY_DESCRIPTIONS,
-    DEFAULT_ENTITY_DESCRIPTIONS,
-    IntegrationEntityDescription,
+from ..common.consts import (
+    DOMAIN,
+    SIGNAL_HA_DEVICE_CREATED,
+    SIGNAL_HA_DEVICE_DISCOVERED,
+    UPDATE_API_INTERVAL,
 )
 from .ha_config_manager import HAConfigManager
 from .rest_api import RestAPIv2
@@ -37,16 +40,44 @@ class HACoordinator(DataUpdateCoordinator):
 
         self._api = RestAPIv2(hass, config_manager)
         self._config_manager = config_manager
-        self._main_device: DeviceInfo | None = None
         self._devices: dict[str, DeviceInfo] = {}
-        self._device_type_mapping: dict[str, str] | None = None
+
+        self._main_device_data: dict | None = None
+        self._main_device_id: str | None = None
+
+        self._device_handlers = {
+            "Main": self.create_main_device,
+            "Consumable": self.create_consumable_device,
+            "Adapter": self.create_adapter_device,
+        }
+
+        self.config_entry.async_on_unload(
+            async_dispatcher_connect(
+                hass, SIGNAL_HA_DEVICE_DISCOVERED, self._on_device_discovered
+            )
+        )
 
     @property
-    def config_manager(self):
+    def api(self) -> RestAPIv2:
+        return self._api
+
+    @property
+    def config_manager(self) -> HAConfigManager:
         return self._config_manager
+
+    @property
+    def entry_id(self) -> str:
+        return self._config_manager.entry_id
+
+    @property
+    def entry_title(self) -> str:
+        return self._config_manager.entry_title
 
     async def on_home_assistant_start(self, _event_data: Event):
         await self.initialize()
+
+    async def on_home_assistant_stop(self, _event_data: Event):
+        await self._api.terminate()
 
     async def initialize(self):
         _LOGGER.debug("Initializing coordinator")
@@ -61,73 +92,40 @@ class HACoordinator(DataUpdateCoordinator):
 
         await self.async_config_entry_first_refresh()
 
-    def set_devices(self):
-        self._device_type_mapping = {
-            "Main": "main",
-            "Adapters": "adapter",
-            "Cartridges": "cartridge",
-        }
+    def create_main_device(
+        self, device_key: str, device_data: dict, _device_config: dict
+    ):
+        self._main_device_data = device_data
+        self._main_device_id = device_key
 
-        self.create_main_device()
+        model = device_data.get("make_and_model")
+        serial_number = device_data.get("serial_number")
+        manufacturer = device_data.get("manufacturer_name")
 
-        sub_units = [
-            entity_description.device_type
-            for entity_description in DEFAULT_ENTITY_DESCRIPTIONS
-            if entity_description.device_type != "Main"
-        ]
-
-        sub_units = list(dict.fromkeys(sub_units))
-
-        for sub_unit in sub_units:
-            self.create_sub_unit_device(sub_unit)
-
-            self._device_type_mapping[sub_unit] = sub_unit
-
-        cartridge_details = self._api.data.get("Cartridges")
-        for cartridge_data in cartridge_details:
-            self.create_cartridge_device(cartridge_data)
-
-        adapter_details = self._api.data.get("Adapters")
-        for adapter_data in adapter_details:
-            self.create_adapter_device(adapter_data)
-
-    def create_main_device(self):
-        entry_id = self.config_entry.entry_id
-        entry_title = self.config_entry.entry_id
-
-        product_details = self._api.data.get("Product")
-
-        model = product_details.get("Make And Model")
-        serial_number = product_details.get("Serial Number")
-        manufacturer = product_details.get("Manufacturer Name")
-
-        device_unique_id = f"{entry_id}.main"
-
-        device_identifier = (DOMAIN, device_unique_id)
+        device_identifier = (DOMAIN, self._main_device_id)
 
         device_info = DeviceInfo(
             identifiers={device_identifier},
-            name=entry_title,
+            name=self.entry_title,
             model=model,
             serial_number=serial_number,
             manufacturer=manufacturer,
         )
 
-        self._main_device = device_info
-        self._devices[device_unique_id] = device_info
+        self._devices[device_key] = device_info
 
-    def create_sub_unit_device(self, sub_unit: str):
-        entry_id = self.config_entry.entry_id
-        entry_title = self.config_entry.entry_id
+    def create_sub_unit_device(
+        self, device_key: str, _device_data: dict, device_config: dict
+    ):
+        model = self._main_device_data.get("make_and_model")
+        serial_number = self._main_device_data.get("serial_number")
+        manufacturer = self._main_device_data.get("manufacturer_name")
 
-        serial_number = self._main_device.get("serial_number")
-        model = self._main_device.get("model")
-        manufacturer = self._main_device.get("manufacturer")
+        device_type = device_config.get("device_type")
 
-        device_unique_id = f"{entry_id}.{sub_unit.lower()}"
-        main_device_unique_id = f"{entry_id}.main"
+        device_unique_id = slugify(f"{self.entry_id}.{device_key}")
 
-        sub_unit_device_name = f"{entry_title} {sub_unit}"
+        sub_unit_device_name = f"{self.entry_title} {device_type}"
 
         device_identifier = (DOMAIN, device_unique_id)
 
@@ -137,34 +135,33 @@ class HACoordinator(DataUpdateCoordinator):
             model=model,
             serial_number=serial_number,
             manufacturer=manufacturer,
-            via_device=(DOMAIN, main_device_unique_id),
+            via_device=(DOMAIN, self._main_device_id),
         )
 
-        self._devices[device_unique_id] = device_info
+        self._devices[device_key] = device_info
 
-    def create_cartridge_device(self, cartridge_data: dict):
-        entry_id = self.config_entry.entry_id
-        entry_title = self.config_entry.entry_id
+    def create_consumable_device(
+        self, device_key: str, device_data: dict, _device_config: dict
+    ):
+        printer_device_unique_id = slugify(f"{self.entry_id}.printer")
 
-        printer_device_unique_id = f"{entry_id}.printer"
+        device_name_parts = [self.entry_title]
+        cartridge_type: str = device_data.get("consumable_type_enum")
+        cartridge_color = device_data.get("marker_color")
+        manufacturer = device_data.get("consumable_life_state_brand")
+        serial_number = device_data.get("serial_number")
 
-        device_name_parts = [entry_title]
-        cartridge_type: str = cartridge_data.get("Consumable Type Enum")
-        cartridge_color = cartridge_data.get("Marker Color")
-        manufacturer = cartridge_data.get("Brand")
-        serial_number = cartridge_data.get("Serial Number")
-        label_code = cartridge_data.get("Label Code")
-        model = cartridge_data.get("Consumable Selectibility Number")
+        model = device_data.get("consumable_selectibility_number")
 
         if cartridge_type == "printhead":
             device_name_parts.append(cartridge_type.capitalize())
-            model = cartridge_type
+            model = cartridge_type.capitalize()
 
         else:
             device_name_parts.append(cartridge_color)
             device_name_parts.append(cartridge_type.capitalize())
 
-        device_unique_id = f"{entry_id}.cartridge.{label_code}"
+        device_unique_id = slugify(f"{self.entry_id}.{device_key}")
 
         cartridge_device_name = " ".join(device_name_parts)
 
@@ -179,26 +176,26 @@ class HACoordinator(DataUpdateCoordinator):
             via_device=(DOMAIN, printer_device_unique_id),
         )
 
-        self._devices[device_unique_id] = device_info
+        self._devices[device_key] = device_info
 
-    def create_adapter_device(self, adapter_data: dict):
-        entry_id = self.config_entry.entry_id
-        entry_title = self.config_entry.entry_id
+    def create_adapter_device(
+        self, device_key: str, device_data: dict, device_config: dict
+    ):
+        serial_number = self._main_device_data.get("serial_number")
+        manufacturer = self._main_device_data.get("manufacturer_name")
 
-        serial_number = self._main_device.get("serial_number")
-        manufacturer = self._main_device.get("manufacturer")
-
-        adapter_name = adapter_data.get("Name").upper()
+        adapter_name = device_data.get("hardware_config_name").upper()
         model = (
-            adapter_data.get("DeviceConnectivityPortType")
+            device_data.get("hardware_config_device_connectivity_port_type")
             .replace("Embedded", "")
             .upper()
         )
 
-        device_unique_id = f"{entry_id}.adapter.{adapter_name.lower()}"
-        main_device_unique_id = f"{entry_id}.main"
+        device_type = device_config.get("device_type")
 
-        adapter_device_name = f"{entry_title} Adapter {adapter_name}"
+        device_unique_id = slugify(f"{self.entry_id}.{device_key}")
+
+        adapter_device_name = f"{self.entry_title} {device_type} {adapter_name}"
 
         device_identifier = (DOMAIN, device_unique_id)
 
@@ -208,36 +205,23 @@ class HACoordinator(DataUpdateCoordinator):
             model=model,
             serial_number=serial_number,
             manufacturer=manufacturer,
-            via_device=(DOMAIN, main_device_unique_id),
+            via_device=(DOMAIN, self._main_device_id),
         )
 
-        self._devices[device_unique_id] = device_info
+        self._devices[device_key] = device_info
 
-    def get_device(self, device_type: str, item_id: str | None) -> DeviceInfo:
-        device_id = self._device_type_mapping.get(device_type)
+    def get_device(self, device_key: str) -> DeviceInfo | None:
+        result = self._devices.get(device_key)
 
-        if item_id is not None:
-            device_id = f"{device_id}.{item_id}"
+        return result
 
-        device_unique_key = f"{self.config_entry.entry_id}.{device_id}"
+    def get_device_data(self, device_key: str):
+        data = self._api.data.get(device_key, {})
 
-        device_info = self._devices.get(device_unique_key)
+        return data
 
-        return device_info
-
-    def get_device_data(
-        self,
-        section: str,
-        key: str | None = None,
-        array_key: str | None = None,
-        item_id: str | None = None,
-    ):
-        data = self._api.data.get(section, {})
-
-        if array_key:
-            items = [item for item in data if item.get(array_key) == item_id]
-
-            data = None if len(items) == 0 else items[0]
+    def get_device_value(self, device_key: str, key: str | None):
+        data = self.get_device_data(device_key)
 
         if key and data is not None:
             return data.get(key)
@@ -247,7 +231,11 @@ class HACoordinator(DataUpdateCoordinator):
     async def get_debug_data(self) -> dict:
         await self._api.update_full()
 
-        data = {"raw": self._api.raw_data, "processed": self._api.data}
+        data = {
+            "rawData": self._api.raw_data,
+            "devicesData": self._api.data,
+            "devicesConfig": self._api.data_config,
+        }
 
         return data
 
@@ -260,52 +248,34 @@ class HACoordinator(DataUpdateCoordinator):
         except Exception as err:
             raise UpdateFailed(f"Error communicating with API: {err}")
 
-    def get_entity_descriptions(
-        self, platform: Platform
-    ) -> list[IntegrationEntityDescription]:
-        entity_descriptions = [
-            copy(entity_description)
-            for entity_description in DEFAULT_ENTITY_DESCRIPTIONS
-            if entity_description.platform == platform
+    async def _on_device_discovered(
+        self, entry_id: str, device_key: str, device_data: dict, device_config: dict
+    ):
+        if entry_id != self.config_entry.entry_id:
+            return
+
+        handlers = [
+            device_prefix
+            for device_prefix in self._device_handlers
+            if device_key.startswith(device_prefix)
         ]
 
-        cartridges = self.get_device_data("Cartridges")
+        if handlers:
+            handler_key = handlers[0]
+            handler = self._device_handlers[handler_key]
 
-        for cartridge in cartridges:
-            cartridge_entity_descriptions = self._get_cartridge_entity_descriptions(
-                platform, cartridge
-            )
+            handler(device_key, device_data, device_config)
 
-            entity_descriptions.extend(cartridge_entity_descriptions)
+        else:
+            self.create_sub_unit_device(device_key, device_data, device_config)
 
-        return entity_descriptions
+        async_dispatcher_send(
+            self.hass,
+            SIGNAL_HA_DEVICE_CREATED,
+            self.entry_id,
+            device_key,
+            device_data,
+            device_config,
+        )
 
-    def _get_cartridge_entity_descriptions(
-        self, platform: Platform, cartridge: dict
-    ) -> list[IntegrationEntityDescription]:
-        entity_descriptions = [
-            self._get_cartridge_entity_description(entity_description, cartridge)
-            for entity_description in CARTRIDGE_ENTITY_DESCRIPTIONS
-            if entity_description.platform == platform
-        ]
-
-        result = [
-            entity_description
-            for entity_description in entity_descriptions
-            if entity_description is not None
-        ]
-
-        return result
-
-    @staticmethod
-    def _get_cartridge_entity_description(
-        entity_description: IntegrationEntityDescription, cartridge: dict
-    ) -> IntegrationEntityDescription | None:
-        is_valid = entity_description.filter(cartridge)
-
-        if not is_valid:
-            return None
-
-        result = copy(entity_description)
-
-        return result
+        self.hass.create_task(self.async_request_refresh())

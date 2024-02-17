@@ -1,13 +1,13 @@
 import json
 import logging
-import os
-from pathlib import Path
 import sys
 
 from aiohttp import ClientResponseError, ClientSession, ClientTimeout, TCPConnector
 from defusedxml import ElementTree
+from flatten_json import flatten
 import xmltodict
 
+from homeassistant.const import CONF_HOST
 from homeassistant.helpers.aiohttp_client import (
     ENABLE_CLEANUP_CLOSED,
     MAXIMUM_CONNECTIONS,
@@ -17,9 +17,9 @@ from homeassistant.helpers.dispatcher import async_dispatcher_send
 from homeassistant.util import ssl
 from homeassistant.util.ssl import SSLCipherList
 
-from ..common.consts import IGNORED_KEYS, SIGNAL_HA_DEVICE_NEW
+from ..common.consts import IGNORED_KEYS, SIGNAL_HA_DEVICE_DISCOVERED
 from ..models.config_data import ConfigData
-from ..models.exceptions import IntegrationAPIError
+from ..models.exceptions import IntegrationAPIError, IntegrationParameterError
 from .ha_config_manager import HAConfigManager
 
 _LOGGER = logging.getLogger(__name__)
@@ -34,22 +34,21 @@ class RestAPIv2:
         self._session: ClientSession | None = None
 
         self._data: dict = {}
+        self._data_config: dict = {}
+
         self._raw_data: dict = {}
 
-        self._resources: dict | None = None
-        self._data_points: dict | None = None
-
-        self._endpoints: list[str] | None = None
-        self._all_endpoints: list[str] | None = None
-
-        self._exclude_uri_list: list[str] | None = None
-        self._exclude_type_list: list[str] | None = None
-
         self._is_connected: bool = False
+
+        self._device_dispatched: list[str] = []
 
     @property
     def data(self) -> dict | None:
         return self._data
+
+    @property
+    def data_config(self) -> dict | None:
+        return self._data_config
 
     @property
     def raw_data(self) -> dict | None:
@@ -62,71 +61,38 @@ class RestAPIv2:
 
         return None
 
-    @property
-    def _base_url(self):
-        config_data = self.config_data
+    async def terminate(self):
+        _LOGGER.info("Terminating session to HP Printer EWS")
 
-        url = f"{config_data.protocol}://{config_data.hostname}:{config_data.port}"
+        self._is_connected = False
 
-        return url
+        if self._session is not None:
+            await self._session.close()
 
-    async def initialize(self):
+            self._session = None
+
+    async def initialize(self, throw_exception: bool = False):
         try:
             if not self.config_data.hostname:
-                _LOGGER.error("Failed to get hostname")
-                return
+                raise IntegrationParameterError(CONF_HOST)
 
             if self._session is None:
                 self._session = ClientSession(
                     loop=self._loop, connector=self._get_ssl_connector()
                 )
 
-            self._load_exclude_endpoints_configuration()
-            self._load_data_points_configuration()
-
             await self._load_metadata()
 
         except Exception as ex:
+            if throw_exception:
+                raise ex
+
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
 
             _LOGGER.warning(
                 f"Failed to initialize session, Error: {ex}, Line: {line_number}"
             )
-
-    def _load_data_points_configuration(self):
-        self._endpoints = []
-
-        self._data_points = self._get_data_from_file("data_points")
-
-        endpoint_objects = self._data_points.get("objects")
-
-        for endpoint in endpoint_objects:
-            endpoint_uri = endpoint.get("endpoint")
-
-            if (
-                endpoint_uri not in self._endpoints
-                and endpoint_uri not in self._exclude_uri_list
-            ):
-                self._endpoints.append(endpoint_uri)
-
-    def _load_exclude_endpoints_configuration(self):
-        endpoints = self._get_data_from_file("endpoint_validations")
-
-        self._exclude_uri_list = endpoints.get("exclude_uri")
-        self._exclude_type_list = endpoints.get("exclude_type")
-
-    @staticmethod
-    def _get_data_from_file(file_name: str) -> dict:
-        config_file = f"{file_name}.json"
-        current_path = Path(__file__)
-        parent_directory = current_path.parents[1]
-        file_path = os.path.join(parent_directory, "data", config_file)
-
-        with open(file_path) as f:
-            data = json.load(f)
-
-            return data
 
     def _get_ssl_connector(self):
         ssl_context = ssl.create_no_verify_ssl_context(SSLCipherList.INTERMEDIATE)
@@ -147,10 +113,10 @@ class RestAPIv2:
         endpoints = await self._get_request("/Prefetch?type=dtree")
 
         if not endpoints:
-            raise IntegrationAPIError(self._base_url)
+            raise IntegrationAPIError(self.config_data.url)
 
         for endpoint in endpoints:
-            is_valid = self._is_valid_endpoint(endpoint)
+            is_valid = self._config_manager.is_valid_endpoint(endpoint)
 
             if is_valid:
                 endpoint_uri = endpoint.get("uri")
@@ -159,37 +125,8 @@ class RestAPIv2:
 
         self._is_connected = True
 
-        async_dispatcher_send(
-            self._hass,
-            SIGNAL_HA_DEVICE_NEW,
-            self._config_manager.entry_id,
-        )
-
-    def _is_valid_endpoint(self, endpoint: dict):
-        endpoint_type = endpoint.get("type")
-        uri = endpoint.get("uri")
-        methods = endpoint.get("methods", ["get"])
-
-        is_invalid_type = endpoint_type in self._exclude_type_list
-        invalid_endpoint_uri = uri in self._exclude_uri_list
-        invalid_uri_resource = uri.endswith("Cap.xml")
-        invalid_uri_parameter = "{" in uri or "}" in uri
-        invalid_methods = "get" not in methods
-
-        invalid_data = [
-            is_invalid_type,
-            invalid_uri_resource,
-            invalid_uri_parameter,
-            invalid_methods,
-            invalid_endpoint_uri,
-        ]
-
-        is_valid = True not in invalid_data
-
-        return is_valid
-
     async def update(self):
-        await self._update_data(self._endpoints)
+        await self._update_data(self._config_manager.endpoints)
 
     async def update_full(self):
         await self._update_data(self._all_endpoints)
@@ -203,93 +140,141 @@ class RestAPIv2:
 
             self._raw_data[endpoint] = resource_data
 
-        endpoint_objects = self._data_points.get("objects")
-        merge_items = self._data_points.get("merge")
+        devices = self._get_devices_data()
 
-        for data_point in endpoint_objects:
-            data_point_name = data_point.get("name")
-            data_point_endpoint = data_point.get("endpoint")
-            data_point_path = data_point.get("path")
-            data_point_sub_path = data_point.get("subPath")
+        self._extract_data(devices)
 
-            if data_point_endpoint is not None:
-                data_item = self._raw_data.get(data_point_endpoint)
+    def _extract_data(self, devices: list[dict]):
+        device_data = {}
+        device_config = {}
 
-                item = self._get_data_item(data_item, data_point_path)
+        for item in devices:
+            item_config = item.get("config")
+            item_data = item.get("data")
 
-                if data_point_sub_path is not None:
-                    if isinstance(item, list):
-                        item = self._get_data_items(item, data_point_sub_path)
+            device_type = item_config.get("device_type")
+            identifier = item_config.get("identifier")
+            properties = item_config.get("properties")
 
-                    else:
-                        item = self._get_sub_items(item, data_point_sub_path)
+            device_key = device_type
 
-                self._data[data_point_name] = item
+            if identifier is not None:
+                device_id = item_data.get(identifier)
+                device_key = f"{device_type}.{device_id}"
 
-        for merge_item in merge_items:
-            self._merge_data_items(merge_item)
+            data = device_data[device_key] if device_key in device_data else {}
+            data.update(item_data)
+
+            if device_key in device_config:
+                config = device_config[device_key]
+                config["properties"].update(properties)
+
+            else:
+                device_config[device_key] = {
+                    "device_type": device_type,
+                    "properties": properties,
+                }
+
+            device_data[device_key] = data
+
+        self._data_config = device_config
+        self._data = device_data
+
+        for device_key in self._data:
+            self.device_data_changed(device_key)
 
     @staticmethod
-    def _get_data_item(data_item: dict, path: str):
+    def _get_device_from_list(
+        data: list[dict], identifier_key: str, device_id
+    ) -> dict | None:
+        data_items = [
+            data_item
+            for data_item in data
+            if data_item.get(identifier_key) == device_id
+        ]
+
+        if data_items:
+            return data_items[0]
+
+        else:
+            return None
+
+    def _get_device_config(self, device_type: str) -> dict | None:
+        data_configs = [
+            data_point
+            for data_point in self._config_manager.data_points
+            if device_type == data_point.get("name")
+        ]
+
+        if data_configs:
+            return data_configs[0]
+
+        else:
+            return None
+
+    @staticmethod
+    def _get_data_section(data: dict, path: str) -> dict:
         path_parts = path.split(".")
-        value = data_item.copy()
+        result = data
 
         for path_part in path_parts:
-            value = value.get(path_part)
-
-            if value is None:
-                break
-
-        return value
-
-    def _get_sub_items(self, data_item: dict, sub_path_mapping: dict) -> dict:
-        data = {}
-
-        for sub_path_name in sub_path_mapping:
-            sub_path = sub_path_mapping.get(sub_path_name)
-
-            data[sub_path_name] = self._get_data_item(data_item, sub_path)
-
-        return data
-
-    def _get_data_items(
-        self, data_items: list[dict], sub_path_mapping: dict
-    ) -> list[dict]:
-        result = []
-
-        for data_item in data_items:
-            data = self._get_sub_items(data_item, sub_path_mapping)
-
-            result.append(data)
+            result = result.get(path_part)
 
         return result
 
-    def _merge_data_items(self, merge_item: dict):
-        key_to = merge_item.get("to")
-        key_from = merge_item.get("from")
-        key = merge_item.get("key")
+    def _get_devices_data(self):
+        devices = []
 
-        data_items = self._data.get(key_to)
-        additional_data = self._data.get(key_from).copy()
+        for data_point in self._config_manager.data_points:
+            endpoint = data_point.get("endpoint")
+            path = data_point.get("path")
+            properties = data_point.get("properties")
 
-        del self._data[key_from]
+            if endpoint is not None:
+                data_item = self._raw_data.get(endpoint)
 
-        additional_data_mapped = {
-            additional_data_item[key]: additional_data_item
-            for additional_data_item in additional_data
-        }
+                data = self._get_data_section(data_item, path)
 
-        for data_item in data_items:
-            data_item_key = data_item.get(key)
-            additional_data_item = additional_data_mapped.get(data_item_key)
+                if properties is not None:
+                    if isinstance(data, list):
+                        devices.extend(
+                            [
+                                self._get_device_data(data_item, properties, data_point)
+                                for data_item in data
+                            ]
+                        )
 
-            if additional_data_item is not None:
-                data_item.update(additional_data_item)
+                    else:
+                        device = self._get_device_data(data, properties, data_point)
+
+                        devices.append(device)
+
+        return devices
+
+    @staticmethod
+    def _get_device_data(
+        data_item: dict, properties: dict, device_config: dict
+    ) -> dict:
+        device_data = {}
+
+        data_item_flat = flatten(data_item, ".")
+
+        for property_key in properties:
+            property_details = properties.get(property_key)
+            property_path = property_details.get("path")
+
+            value = data_item_flat.get(property_path)
+
+            device_data[property_key] = value
+
+        data = {"config": device_config, "data": device_data}
+
+        return data
 
     async def _get_request(self, endpoint: str) -> dict | None:
         result: dict | None = None
         try:
-            url = f"{self._base_url}{endpoint}"
+            url = f"{self.config_data.url}{endpoint}"
 
             timeout = ClientTimeout(connect=3, sock_read=10)
 
@@ -322,7 +307,6 @@ class RestAPIv2:
             )
 
         except Exception as ex:
-            print(ex)
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
             _LOGGER.error(f"Failed to get {endpoint}, Error: {ex}, Line: {line_number}")
@@ -352,3 +336,19 @@ class RestAPIv2:
 
         for child in el:
             self._strip_namespace(child)
+
+    def device_data_changed(self, device_key: str):
+        device_data = self._data.get(device_key)
+        device_config = self._data_config.get(device_key)
+
+        if device_key not in self._device_dispatched:
+            self._device_dispatched.append(device_key)
+
+            async_dispatcher_send(
+                self._hass,
+                SIGNAL_HA_DEVICE_DISCOVERED,
+                self._config_manager.entry_id,
+                device_key,
+                device_data,
+                device_config,
+            )

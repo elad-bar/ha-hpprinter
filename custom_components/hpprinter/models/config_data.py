@@ -3,7 +3,7 @@ from voluptuous import Schema
 
 from homeassistant.const import CONF_HOST, CONF_PORT, CONF_SSL
 
-from ..common.consts import PROTOCOLS
+from ..common.consts import DEFAULT_PORT, PROTOCOLS
 
 
 class ConfigData:
@@ -14,7 +14,7 @@ class ConfigData:
     def __init__(self):
         self._host = ""
         self._ssl = False
-        self._port = 80
+        self._port = DEFAULT_PORT
 
     @property
     def hostname(self) -> str:
@@ -34,10 +34,19 @@ class ConfigData:
 
         return protocol
 
+    @property
+    def url(self):
+        url = f"{self.protocol}://{self.hostname}:{self.port}"
+
+        return url
+
     def update(self, data: dict):
         self._ssl = str(data.get(CONF_SSL, False)).lower() == str(True).lower()
         self._host = data.get(CONF_HOST)
-        self._port = data.get(CONF_PORT)
+        self._port = data.get(CONF_PORT, DEFAULT_PORT)
+
+        if self._port is None:
+            self._port = DEFAULT_PORT
 
     def to_dict(self):
         obj = {CONF_HOST: self._host, CONF_PORT: self._port, CONF_SSL: self._ssl}
@@ -56,7 +65,9 @@ class ConfigData:
 
         new_user_input = {
             vol.Required(CONF_HOST, default=user_input.get(CONF_HOST)): str,
-            vol.Required(CONF_PORT, default=user_input.get(CONF_PORT, 80)): int,
+            vol.Required(
+                CONF_PORT, default=user_input.get(CONF_PORT, DEFAULT_PORT)
+            ): int,
             vol.Optional(CONF_SSL, default=user_input.get(CONF_SSL, False)): bool,
         }
 

@@ -11,7 +11,7 @@ from homeassistant.data_entry_flow import FlowHandler
 
 from ..common.consts import DATA_KEYS, DEFAULT_NAME
 from ..models.config_data import ConfigData
-from ..models.exceptions import IntegrationAPIError
+from ..models.exceptions import IntegrationAPIError, IntegrationParameterError
 from .ha_config_manager import HAConfigManager
 from .rest_api import RestAPIv2
 
@@ -71,6 +71,11 @@ class IntegrationFlowManager:
                     title = self._entry.title
 
                 return self._flow_handler.async_create_entry(title=title, data=data)
+
+            except IntegrationParameterError as ipex:
+                form_errors = {"base": "error_400"}
+
+                _LOGGER.warning(f"Failed to setup integration, Error: {ipex}")
 
             except IntegrationAPIError as iapiex:
                 form_errors = {"base": "error_404"}
