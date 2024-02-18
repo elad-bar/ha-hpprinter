@@ -24,7 +24,9 @@
         "path": "Manufacturer.Name"
       },
       "manufactured_at": {
-        "path": "Manufacturer.Date"
+        "path": "Manufacturer.Date",
+        "platform": "sensor",
+        "device_class": "date"
       }
     }
   },
@@ -40,9 +42,8 @@
       },
       "consumable_life_state_consumable_state": {
         "path": "ConsumableLifeState.ConsumableState",
-        "description": "Status",
         "platform": "binary_sensor",
-        "on_value": "newGenuineHP",
+        "on_values": ["ok", "newGenuineHP"],
         "device_class": "plug"
       },
       "consumable_life_state_brand": {
@@ -50,18 +51,15 @@
       },
       "consumable_station": {
         "path": "ConsumableStation",
-        "description": "Station",
         "platform": "sensor"
       },
       "consumable_type_enum": {
         "path": "ConsumableTypeEnum",
-        "description": "Type",
         "platform": "sensor",
         "device_class": "enum"
       },
       "installation_date": {
         "path": "Installation.Date",
-        "description": "Installation Date",
         "platform": "sensor",
         "device_class": "date"
       },
@@ -70,7 +68,6 @@
       },
       "consumable_percentage_level_remaining": {
         "path": "ConsumablePercentageLevelRemaining",
-        "description": "Level",
         "platform": "sensor",
         "unit_of_measurement": "%",
         "exclude": {
@@ -84,7 +81,12 @@
         "path": "Manufacturer.Name"
       },
       "manufactured_at": {
-        "path": "Manufacturer.Date"
+        "path": "Manufacturer.Date",
+        "platform": "sensor",
+        "device_class": "date",
+        "exclude": {
+          "consumable_type_enum": "printhead"
+        }
       },
       "serial_number": {
         "path": "SerialNumber"
@@ -94,7 +96,6 @@
       },
       "warranty_expiration_date": {
         "path": "Warranty.ExpirationDate",
-        "description": "Expiration Date",
         "platform": "sensor",
         "device_class": "date",
         "exclude": {
@@ -121,7 +122,6 @@
       },
       "estimated_pages_remaining": {
         "path": "EstimatedPagesRemaining",
-        "description": "Remaining",
         "platform": "sensor",
         "unit_of_measurement": "pages",
         "exclude": {
@@ -139,14 +139,12 @@
       },
       "refilled_count_counterfeit_refilled_count": {
         "path": "RefilledCount.CounterfeitRefilledCount.#text",
-        "description": "Counterfeit Refilled",
         "platform": "sensor",
         "unit_of_measurement": "refills",
         "icon": "mdi:format-color-fill"
       },
       "refilled_count_genuine_refilled_count": {
         "path": "RefilledCount.GenuineRefilledCount",
-        "description": "Genuine Refilled",
         "platform": "sensor",
         "unit_of_measurement": "refills",
         "icon": "mdi:format-color-fill"
@@ -161,49 +159,42 @@
     "properties": {
       "total_impressions": {
         "path": "TotalImpressions.#text",
-        "description": "Total pages printed",
         "platform": "sensor",
         "unit_of_measurement": "pages",
         "icon": "mdi:file-document-check"
       },
       "monochrome_impressions": {
         "path": "MonochromeImpressions",
-        "description": "Total black-and-white pages printed",
         "platform": "sensor",
         "unit_of_measurement": "pages",
         "icon": "mdi:file-document-check"
       },
       "color_impressions": {
         "path": "ColorImpressions",
-        "description": "Total color pages printed",
         "platform": "sensor",
         "unit_of_measurement": "pages",
         "icon": "mdi:file-document-check"
       },
       "simplex_sheets": {
         "path": "SimplexSheets",
-        "description": "Total single-sided pages printed",
         "platform": "sensor",
         "unit_of_measurement": "pages",
         "icon": "mdi:file-document-check"
       },
       "duplex_sheets": {
         "path": "DuplexSheets.#text",
-        "description": "Total double-sided pages printed",
         "platform": "sensor",
         "unit_of_measurement": "pages",
         "icon": "mdi:file-document-multiple"
       },
       "jam_events": {
         "path": "JamEvents.#text",
-        "description": "Total jams",
         "platform": "sensor",
         "unit_of_measurement": "pages",
         "icon": "mdi:file-document-remove"
       },
       "mispick_events": {
         "path": "MispickEvents",
-        "description": "Total miss picks",
         "platform": "sensor",
         "unit_of_measurement": "pages",
         "icon": "mdi:file-document-minus"
@@ -218,42 +209,36 @@
     "properties": {
       "scan_images": {
         "path": "ScanImages.#text",
-        "description": "Total scanned pages",
         "platform": "sensor",
         "unit_of_measurement": "pages",
         "icon": "mdi:credit-card-scan"
       },
       "adf_images": {
         "path": "AdfImages.#text",
-        "description": "Total scanned pages from ADF",
         "platform": "sensor",
         "unit_of_measurement": "pages",
         "icon": "mdi:credit-card-scan"
       },
       "duplex_sheets": {
         "path": "DuplexSheets.#text",
-        "description": "Total double-sided pages scanned",
         "platform": "sensor",
         "unit_of_measurement": "pages",
         "icon": "mdi:credit-card-scan"
       },
       "flatbed_images": {
         "path": "FlatbedImages",
-        "description": "Total pages from scanner glass",
         "platform": "sensor",
         "unit_of_measurement": "pages",
         "icon": "mdi:credit-card-scan"
       },
       "jam_events": {
         "path": "JamEvents",
-        "description": "Total jams",
         "platform": "sensor",
         "unit_of_measurement": "pages",
         "icon": "mdi:credit-card-scan"
       },
       "mispick_events": {
         "path": "MispickEvents",
-        "description": "Total miss picks",
         "platform": "sensor",
         "unit_of_measurement": "pages",
         "icon": "mdi:credit-card-scan"
@@ -268,35 +253,30 @@
     "properties": {
       "total_impressions": {
         "path": "TotalImpressions.#text",
-        "description": "Total copies",
         "platform": "sensor",
         "unit_of_measurement": "pages",
         "icon": "mdi:content-copy"
       },
       "adf_images": {
         "path": "AdfImages",
-        "description": "Total copies from ADF",
         "platform": "sensor",
         "unit_of_measurement": "pages",
         "icon": "mdi:content-copy"
       },
       "flatbed_images": {
         "path": "FlatbedImages",
-        "description": "Total pages from scanner glass",
         "platform": "sensor",
         "unit_of_measurement": "pages",
         "icon": "mdi:content-copy"
       },
       "monochrome_impressions": {
         "path": "MonochromeImpressions",
-        "description": "Total black-and-white copies",
         "platform": "sensor",
         "unit_of_measurement": "pages",
         "icon": "mdi:content-copy"
       },
       "color_impressions": {
         "path": "ColorImpressions",
-        "description": "Total color copies",
         "platform": "sensor",
         "unit_of_measurement": "pages",
         "icon": "mdi:content-copy"
@@ -311,7 +291,6 @@
     "properties": {
       "total_impressions": {
         "path": "TotalImpressions.#text",
-        "description": "Total faxes",
         "platform": "sensor",
         "unit_of_measurement": "pages",
         "icon": "mdi:email-fast"
@@ -331,14 +310,12 @@
       },
       "hardware_config_device_connectivity_port_type": {
         "path": "HardwareConfig.DeviceConnectivityPortType",
-        "description": "Port Type",
         "platform": "sensor"
       },
       "hardware_config_is_connected": {
         "path": "HardwareConfig.IsConnected",
-        "description": "Connected",
         "platform": "binary_sensor",
-        "on_value": "true",
+        "on_values": ["true"],
         "device_class": "connectivity"
       }
     }
@@ -354,17 +331,15 @@
       },
       "registration_state": {
         "path": "RegistrationState",
-        "description": "ePrint Registered",
         "platform": "binary_sensor",
-        "on_value": "registered",
+        "on_values": ["registered"],
         "device_class": "plug",
         "icon": "mdi:cloud-print"
       },
       "cloud_services_switch_status": {
         "path": "CloudServicesSwitch.Status",
-        "description": "ePrint Status",
         "platform": "binary_sensor",
-        "on_value": "enabled",
+        "on_values": ["enabled"],
         "device_class": "connectivity"
       }
     }

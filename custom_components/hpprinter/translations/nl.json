@@ -48,6 +48,9 @@
       "consumable_installation_date": {
         "name": "Installatie datum"
       },
+      "consumable_manufactured_at": {
+        "name": "Gefabriceerde datum"
+      },
       "consumable_refilled_count_counterfeit_refilled_count": {
         "name": "Vervalste bijgevuld"
       },
@@ -77,6 +80,9 @@
       },
       "main_hardware_config_device_connectivity_port_type": {
         "name": "Poorttype"
+      },
+      "main_manufactured_at": {
+        "name": "Gefabriceerde datum"
       },
       "printer_color_impressions": {
         "name": "Totale kleurpagina's afgedrukt"

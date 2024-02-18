@@ -50,6 +50,9 @@
       "consumable_installation_date": {
         "name": "Installationsdato"
       },
+      "consumable_manufactured_at": {
+        "name": "Fremstillet dato"
+      },
       "consumable_refilled_count_counterfeit_refilled_count": {
         "name": "Forfalsket genopfyldt"
       },
@@ -79,6 +82,9 @@
       },
       "main_hardware_config_device_connectivity_port_type": {
         "name": "Porttype"
+      },
+      "main_manufactured_at": {
+        "name": "Fremstillet dato"
       },
       "printer_color_impressions": {
         "name": "Samlede farvesider trykt"

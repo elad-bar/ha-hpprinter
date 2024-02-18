@@ -36,13 +36,13 @@ class HABinarySensorEntity(BaseEntity, BinarySensorEntity):
         super().__init__(entity_description, coordinator, device_key)
 
         self._attr_device_class = entity_description.device_class
-        self._entity_on_value = entity_description.on_value
+        self._entity_on_values = entity_description.on_values
 
     def _handle_coordinator_update(self) -> None:
         """Fetch new state parameters for the sensor."""
         state = self.get_value()
 
-        is_on = str(state).lower() == str(self._entity_on_value).lower()
+        is_on = str(state).lower() in self._entity_on_values
 
         self._attr_is_on = is_on
         self._attr_extra_state_attributes = {"state": state}

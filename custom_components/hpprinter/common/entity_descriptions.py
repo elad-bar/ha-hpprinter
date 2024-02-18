@@ -18,7 +18,7 @@ class IntegrationBinarySensorEntityDescription(
     BinarySensorEntityDescription, IntegrationEntityDescription
 ):
     platform: Platform | None = Platform.BINARY_SENSOR
-    on_value: str | bool | None = None
+    on_values: list[str] | None = None
 
 
 @dataclass(frozen=True, kw_only=True)

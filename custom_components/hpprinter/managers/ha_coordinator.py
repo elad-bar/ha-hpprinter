@@ -1,3 +1,4 @@
+from datetime import timedelta
 import logging
 
 from homeassistant.core import Event
@@ -13,7 +14,6 @@ from ..common.consts import (
     DOMAIN,
     SIGNAL_HA_DEVICE_CREATED,
     SIGNAL_HA_DEVICE_DISCOVERED,
-    UPDATE_API_INTERVAL,
 )
 from .ha_config_manager import HAConfigManager
 from .rest_api import RestAPIv2
@@ -34,7 +34,7 @@ class HACoordinator(DataUpdateCoordinator):
             hass,
             _LOGGER,
             name=config_manager.entry_title,
-            update_interval=UPDATE_API_INTERVAL,
+            update_interval=timedelta(minutes=config_manager.update_interval),
             update_method=self._async_update_data,
         )
 

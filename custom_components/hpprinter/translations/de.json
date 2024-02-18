@@ -47,6 +47,9 @@
       "consumable_installation_date": {
         "name": "Installationsdatum"
       },
+      "consumable_manufactured_at": {
+        "name": "Herstellungsdatum"
+      },
       "consumable_refilled_count_counterfeit_refilled_count": {
         "name": "Gef\u00e4lscht nachgedacht"
       },
@@ -76,6 +79,9 @@
       },
       "main_hardware_config_device_connectivity_port_type": {
         "name": "Port -Typ"
+      },
+      "main_manufactured_at": {
+        "name": "Herstellungsdatum"
       },
       "printer_color_impressions": {
         "name": "Gesamtfarbseiten gedruckt"

@@ -101,7 +101,7 @@ class HAConfigManager:
 
     @property
     def update_interval(self) -> int:
-        interval = self._data.get(CONF_UPDATE_INTERVAL, 60)
+        interval = self._data.get(CONF_UPDATE_INTERVAL, 5)
 
         return interval
 
@@ -158,32 +158,40 @@ class HAConfigManager:
     def get_entity_name(
         self, entity_description: IntegrationEntityDescription, device_info: DeviceInfo
     ) -> str:
-        entity_key = entity_description.key
+        translation_key = entity_description.translation_key
         platform = entity_description.platform
 
         device_name = device_info.get("name")
 
-        translation_key = f"component.{DOMAIN}.entity.{platform}.{entity_key}.name"
+        translation_key = f"component.{DOMAIN}.entity.{platform}.{translation_key}.name"
 
         translated_name = self._translations.get(
             translation_key, entity_description.name
         )
 
-        _LOGGER.debug(
-            f"Translations requested, Key: {translation_key}, "
-            f"Entity: {entity_description.name}, Value: {translated_name}"
-        )
+        if translated_name is None or translated_name == "":
+            entity_name = f"{device_name} {translated_name}"
 
-        entity_name = (
-            f"{device_name} {entity_description.name}"
-            if translated_name is None or translated_name == ""
-            else f"{device_name} {translated_name}"
-        )
+            _LOGGER.debug(
+                f"Translations requested, "
+                f"Key: {translation_key}, "
+                f"Entity: {entity_description.name}, "
+                f"Value: {translated_name}"
+            )
+
+        else:
+            entity_name = f"{device_name} {entity_description.name}"
+
+            _LOGGER.warning(
+                f"Translations not found, "
+                f"Key: {translation_key}, "
+                f"Entity: {entity_description.name}"
+            )
 
         return entity_name
 
     async def set_update_interval(self, value: int):
-        _LOGGER.debug(f"Set update interval in seconds to to {value}")
+        _LOGGER.debug(f"Set update interval in minutes to to {value}")
 
         self._data[CONF_UPDATE_INTERVAL] = value
 
@@ -276,21 +284,23 @@ class HAConfigManager:
 
                 if "platform" in property_data:
                     property_platform = property_data.get("platform")
-                    description = property_data.get("description")
                     exclude = property_data.get("exclude")
                     device_class = property_data.get("device_class")
                     icon = property_data.get("icon")
                     translation_key = slugify(f"{device_type}_{property_key}")
 
                     if property_platform == str(Platform.BINARY_SENSOR):
-                        on_value = property_data.get("on_value")
+                        on_values = [
+                            value.lower()
+                            for value in property_data.get("on_values", [])
+                        ]
 
                         entity_description = IntegrationBinarySensorEntityDescription(
                             key=property_key,
-                            name=description,
+                            name=property_key,
                             device_type=device_type,
                             exclude=exclude,
-                            on_value=on_value,
+                            on_values=on_values,
                             device_class=device_class,
                             icon=icon,
                             translation_key=translation_key,
@@ -303,7 +313,7 @@ class HAConfigManager:
 
                         entity_description = IntegrationSensorEntityDescription(
                             key=property_key,
-                            name=description,
+                            name=property_key,
                             device_type=device_type,
                             exclude=exclude,
                             native_unit_of_measurement=unit_of_measurement,

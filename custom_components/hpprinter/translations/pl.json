@@ -50,6 +50,9 @@
       "consumable_installation_date": {
         "name": "Data instalacji"
       },
+      "consumable_manufactured_at": {
+        "name": "Data produkcji"
+      },
       "consumable_refilled_count_counterfeit_refilled_count": {
         "name": "FRAKTHICE FOLOKLED"
       },
@@ -79,6 +82,9 @@
       },
       "main_hardware_config_device_connectivity_port_type": {
         "name": "Typ portu"
+      },
+      "main_manufactured_at": {
+        "name": "Data produkcji"
       },
       "printer_color_impressions": {
         "name": "Wydrukowano ca\u0142kowit\u0105 strony kolor\u00f3w"
