@@ -26,6 +26,18 @@ root.addHandler(stream_handler)
 _LOGGER = logging.getLogger(__name__)
 
 SOURCE_LANGUAGE = "en"
+DESTINATION_LANGUAGES = {
+    "en": "en",
+    "de": "de",
+    "dk": "da",
+    "es": "es",
+    "fr": "fr",
+    "nb": "no",
+    "nl": "nl",
+    "pl": "pl",
+    "pt-BR": "pt"
+}
+
 TRANSLATION_PROVIDER = "google"
 E_PRINT_TERM = "ePrint"
 E_PRINT_PLACEHOLDER = "***"
@@ -37,17 +49,7 @@ class TranslationGenerator:
         self._config = self._get_parameters()
         self._source_translations = self._get_source_translations()
 
-        self._destinations = {
-            "en": "en",
-            "de": "de",
-            "dk": "da",
-            "es": "es",
-            "fr": "fr",
-            "nb": "no",
-            "nl": "nl",
-            "pl": "pl",
-            "pt-BR": "pt"
-        }
+        self._destinations = DESTINATION_LANGUAGES
 
     async def initialize(self):
         values = flatten(self._source_translations, FLAT_SEPARATOR)

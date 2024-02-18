@@ -151,3 +151,49 @@ Please attach also diagnostic details of the integration, available in:
 3. HP Printer
 4. 3 dots menu
 5. Download diagnostics
+
+Diagnostic file contains 3 section related to data extracted from the device:
+
+- data.debug.rawData - Raw data extracted from all endpoints of the device, from that source you can extract ideas for additional entities to suggest
+- data.debug.devicesConfig - Configuration of mapping to convert data from HP Printer EWS to HA devices and entities, that will be the section that new entities will be added
+- data.debug.devicesData - Data extracted for HA entities, just relevant data points, according to mapped objects available in section `data.debug.devicesConfig`
+
+## Translations
+
+Integration translated from English to:
+
+- German
+- Danish
+- Spanish
+- French
+- Dutch
+- Norwegian
+- Polish
+- Portuguese
+
+Translation is being auto-generated from Google Translate using `utils/generate_translations.py` script,
+
+```json
+{
+  "en": "en",
+  "de": "de",
+  "dk": "da",
+  "es": "es",
+  "fr": "fr",
+  "nb": "no",
+  "nl": "nl",
+  "pl": "pl",
+  "pt-BR": "pt"
+}
+```
+
+If you would like to add new translation language, please add to the `DESTINATION_LANGUAGES` constant the relevant language,
+format is:
+
+```json
+{
+  "HA language": "Google Translate language"
+}
+```
+
+Script is translating only, new missing values, it will not override translated values.

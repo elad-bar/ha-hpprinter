@@ -6,7 +6,7 @@ voluptuous~=0.13.1
 aiohttp~=3.9.1
 xmltodict~=0.13.0
 
-defusedxml
+defusedxml~=0.7.1
 flatten_json
 
 requests~=2.27
@@ -15,3 +15,5 @@ python-dotenv~=0.20
 googletrans==4.0.0rc1
 translators~= 5.4
 deep-translator~=1.9
+
+python-slugify~=4.0.1
