@@ -7,9 +7,6 @@
 TODO:
 
 - Entity translations
-- Icons
-- Configuration test
-- Functionality test
 
 ## v1.0.12
 

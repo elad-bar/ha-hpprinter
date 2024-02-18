@@ -45,5 +45,6 @@ class HABinarySensorEntity(BaseEntity, BinarySensorEntity):
         is_on = str(state).lower() == str(self._entity_on_value).lower()
 
         self._attr_is_on = is_on
+        self._attr_extra_state_attributes = {"state": state}
 
         self.async_write_ha_state()

@@ -14,7 +14,7 @@ from homeassistant.helpers.aiohttp_client import (
     MAXIMUM_CONNECTIONS_PER_HOST,
 )
 from homeassistant.helpers.dispatcher import async_dispatcher_send
-from homeassistant.util import ssl
+from homeassistant.util import slugify, ssl
 from homeassistant.util.ssl import SSLCipherList
 
 from ..common.consts import IGNORED_KEYS, SIGNAL_HA_DEVICE_DISCOVERED
@@ -155,12 +155,30 @@ class RestAPIv2:
             device_type = item_config.get("device_type")
             identifier = item_config.get("identifier")
             properties = item_config.get("properties")
+            flat = item_config.get("flat", False)
 
             device_key = device_type
 
             if identifier is not None:
                 device_id = item_data.get(identifier)
-                device_key = f"{device_type}.{device_id}"
+                if flat:
+                    new_items_data = {
+                        slugify(f"{device_id}_{key}"): item_data[key]
+                        for key in item_data
+                        if key != identifier
+                    }
+
+                    new_properties = {
+                        slugify(f"{device_id}_{key}"): properties[key]
+                        for key in properties
+                        if key != identifier
+                    }
+
+                    item_data = new_items_data
+                    properties = new_properties
+
+                else:
+                    device_key = f"{device_type}.{device_id}"
 
             data = device_data[device_key] if device_key in device_data else {}
             data.update(item_data)

@@ -1,6 +1,7 @@
+from datetime import datetime
 import logging
 
-from homeassistant.components.sensor import SensorEntity
+from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
@@ -49,6 +50,9 @@ class HASensorEntity(BaseEntity, SensorEntity):
 
         elif self.native_unit_of_measurement in ["pages", "refill"]:
             state = int(state)
+
+        if self.device_class == SensorDeviceClass.DATE:
+            state = datetime.fromisoformat(state)
 
         self._attr_native_value = state
 

@@ -123,6 +123,7 @@ class BaseEntity(CoordinatorEntity):
         self._attr_device_info = device_info
         self._attr_name = entity_name
         self._attr_unique_id = unique_id
+        self._attr_icon = entity_description.icon
 
     @property
     def local_coordinator(self) -> HACoordinator:

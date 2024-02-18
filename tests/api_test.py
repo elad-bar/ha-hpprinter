@@ -1,4 +1,5 @@
 import asyncio
+import json
 import logging
 import os
 import sys
@@ -45,8 +46,8 @@ class APITest:
 
         await self._api.update()
 
-        # print(json.dumps(self._api.raw_data, indent=4))
-        # print(json.dumps(self._api.data, indent=4))
+        print(json.dumps(self._api.data_config, indent=4))
+        print(json.dumps(self._api.data, indent=4))
 
     async def terminate(self):
         await self._api.terminate()

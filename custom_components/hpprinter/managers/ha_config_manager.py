@@ -274,19 +274,22 @@ class HAConfigManager:
 
                 if "platform" in property_data:
                     property_platform = property_data.get("platform")
+                    description = property_data.get("description")
                     exclude = property_data.get("exclude")
                     device_class = property_data.get("device_class")
+                    icon = property_data.get("icon")
 
                     if property_platform == str(Platform.BINARY_SENSOR):
                         on_value = property_data.get("on_value")
 
                         entity_description = IntegrationBinarySensorEntityDescription(
                             key=property_key,
-                            name=property_key,
+                            name=description,
                             device_type=device_type,
                             exclude=exclude,
                             on_value=on_value,
                             device_class=device_class,
+                            icon=icon,
                         )
 
                         self._entity_descriptions.append(entity_description)
@@ -296,11 +299,12 @@ class HAConfigManager:
 
                         entity_description = IntegrationSensorEntityDescription(
                             key=property_key,
-                            name=property_key,
+                            name=description,
                             device_type=device_type,
                             exclude=exclude,
                             native_unit_of_measurement=unit_of_measurement,
                             device_class=device_class,
+                            icon=icon,
                         )
 
                         self._entity_descriptions.append(entity_description)
