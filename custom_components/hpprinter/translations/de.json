@@ -1,12 +1,138 @@
 {
   "config": {
+    "error": {
+      "error_400": "Ung\u00fcltige Parameter bereitgestellt",
+      "error_404": "Der eingebettete Webserver (EWS) HP -Drucker wurde nicht gefunden. \u00dcberpr\u00fcfen Sie die Protokolle f\u00fcr weitere Details, um weitere Informationen zu erhalten."
+    },
     "step": {
       "user": {
-        "title": "HP Drucker einrichten ",
         "data": {
           "host": "Host",
-          "name": "Name"
-        }
+          "name": "Name",
+          "port": "Port-Nummer",
+          "ssl": "Ist SSL"
+        },
+        "title": "HP Drucker einrichten "
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "consumable_consumable_life_state_consumable_state": {
+        "name": "Status"
+      },
+      "main_cloud_services_switch_status": {
+        "name": "ePrint Status"
+      },
+      "main_hardware_config_is_connected": {
+        "name": "In Verbindung gebracht"
+      },
+      "main_registration_state": {
+        "name": "ePrint Eingetragen"
+      }
+    },
+    "sensor": {
+      "consumable_consumable_percentage_level_remaining": {
+        "name": "Ebene"
+      },
+      "consumable_consumable_station": {
+        "name": "Bahnhof"
+      },
+      "consumable_consumable_type_enum": {
+        "name": "Typ"
+      },
+      "consumable_estimated_pages_remaining": {
+        "name": "\u00dcbrig"
+      },
+      "consumable_installation_date": {
+        "name": "Installationsdatum"
+      },
+      "consumable_refilled_count_counterfeit_refilled_count": {
+        "name": "Gef\u00e4lscht nachgedacht"
+      },
+      "consumable_refilled_count_genuine_refilled_count": {
+        "name": "Echt nachgedacht"
+      },
+      "consumable_warranty_expiration_date": {
+        "name": "Verfallsdatum"
+      },
+      "copy_adf_images": {
+        "name": "Gesamtkopien von ADF"
+      },
+      "copy_color_impressions": {
+        "name": "Gesamtfarbkopien"
+      },
+      "copy_flatbed_images": {
+        "name": "Gesamtseiten aus Scannerglas"
+      },
+      "copy_monochrome_impressions": {
+        "name": "Gesamtschwarz-Wei\u00df-Kopien"
+      },
+      "copy_total_impressions": {
+        "name": "Gesamtkopien"
+      },
+      "fax_total_impressions": {
+        "name": "Gesamtfaxen"
+      },
+      "main_hardware_config_device_connectivity_port_type": {
+        "name": "Port -Typ"
+      },
+      "printer_color_impressions": {
+        "name": "Gesamtfarbseiten gedruckt"
+      },
+      "printer_duplex_sheets": {
+        "name": "Gesamt doppelseitige Seiten gedruckt"
+      },
+      "printer_jam_events": {
+        "name": "Gesamtmarmelade"
+      },
+      "printer_mispick_events": {
+        "name": "Total Miss Picks"
+      },
+      "printer_monochrome_impressions": {
+        "name": "Gesamtschwarz-Wei\u00df-Seiten gedruckt"
+      },
+      "printer_simplex_sheets": {
+        "name": "Gesamt einseitige Seiten gedruckt"
+      },
+      "printer_total_impressions": {
+        "name": "Gesamtseiten gedruckt"
+      },
+      "scanner_adf_images": {
+        "name": "Gesamts gescannte Seiten von ADF"
+      },
+      "scanner_duplex_sheets": {
+        "name": "Gesamt doppelseitige Seiten gescannt"
+      },
+      "scanner_flatbed_images": {
+        "name": "Gesamtseiten aus Scannerglas"
+      },
+      "scanner_jam_events": {
+        "name": "Gesamtmarmelade"
+      },
+      "scanner_mispick_events": {
+        "name": "Total Miss Picks"
+      },
+      "scanner_scan_images": {
+        "name": "Gesamts gescannte Seiten"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "error_400": "Ung\u00fcltige Parameter bereitgestellt",
+      "error_404": "Der eingebettete Webserver (EWS) HP -Drucker wurde nicht gefunden. \u00dcberpr\u00fcfen Sie die Protokolle f\u00fcr weitere Details, um weitere Informationen zu erhalten."
+    },
+    "step": {
+      "init": {
+        "data": {
+          "host": "Hostname oder IP",
+          "port": "Port-Nummer",
+          "ssl": "Ist SSL",
+          "update_interval": "Aktualisierungsintervall (Sekunden)"
+        },
+        "description": "Definieren Sie zus\u00e4tzliche Einstellungen f\u00fcr die HP -Druckerintegration",
+        "title": "Optionen f\u00fcr HP -Drucker."
       }
     }
   }

@@ -4,10 +4,6 @@
 
 - Refactor to full HP Printer EWS support
 
-TODO:
-
-- Entity translations
-
 ## v1.0.12
 
 - Fix missing references [Issue #103](https://github.com/elad-bar/ha-hpprinter/issues/103)

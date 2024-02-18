@@ -3,6 +3,8 @@ import logging
 import os
 from pathlib import Path
 
+from slugify import slugify
+
 from homeassistant.config_entries import STORAGE_VERSION, ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
@@ -278,6 +280,7 @@ class HAConfigManager:
                     exclude = property_data.get("exclude")
                     device_class = property_data.get("device_class")
                     icon = property_data.get("icon")
+                    translation_key = slugify(f"{device_type}_{property_key}")
 
                     if property_platform == str(Platform.BINARY_SENSOR):
                         on_value = property_data.get("on_value")
@@ -290,6 +293,7 @@ class HAConfigManager:
                             on_value=on_value,
                             device_class=device_class,
                             icon=icon,
+                            translation_key=translation_key,
                         )
 
                         self._entity_descriptions.append(entity_description)
@@ -305,6 +309,7 @@ class HAConfigManager:
                             native_unit_of_measurement=unit_of_measurement,
                             device_class=device_class,
                             icon=icon,
+                            translation_key=translation_key,
                         )
 
                         self._entity_descriptions.append(entity_description)

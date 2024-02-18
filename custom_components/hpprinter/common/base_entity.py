@@ -81,7 +81,13 @@ def _async_handle_device_created(
                 f"Error: {ex}, Line: {line_number}"
             )
 
-    _LOGGER.debug(f"Setting up {platform} entities: {entities}")
+    entity_keys = [entity.unique_id for entity in entities]
+
+    entity_keys_str = ", ".join(entity_keys)
+
+    _LOGGER.debug(
+        f"Setting up {platform} {len(entities)} entities, Keys: {entity_keys_str}"
+    )
 
     if entities:
         async_add_entities(entities, True)
@@ -104,8 +110,6 @@ class BaseEntity(CoordinatorEntity):
         self._device_type = entity_description.device_type
 
         device_info = coordinator.get_device(device_key)
-
-        _LOGGER.info(device_info)
 
         entity_name = coordinator.config_manager.get_entity_name(
             entity_description, device_info

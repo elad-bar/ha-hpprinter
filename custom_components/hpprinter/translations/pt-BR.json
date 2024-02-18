@@ -1,40 +1,154 @@
 {
   "config": {
-    "step": {
-      "user": {
-        "title": "Configurar HP Printer",
-        "data": {
-          "host": "Host",
-          "name": "Nome"
-        }
-      }
-    },
     "abort": {
-      "already_configured": "Integração HP Printer ({name}) já configurada"
+      "already_configured": "Integra\u00c3\u00a7\u00c3\u00a3o HP Printer ({name}) j\u00c3\u00a1 configurada"
     },
     "error": {
-      "error_400": "Detalhes do servidor inválidos, tente acessar manualmente `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Substituir o marcador de posição por IP ou Hostname), caso esteja acessível, informe o problema com os logs",
+      "error_400": "Detalhes do servidor inv\u00c3\u00a1lidos, tente acessar manualmente `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Substituir o marcador de posi\u00c3\u00a7\u00c3\u00a3o por IP ou Hostname), caso esteja acess\u00c3\u00advel, informe o problema com os logs",
       "error_404": "API Sem suporte"
-    }
-  },
-  "options": {
+    },
     "step": {
-      "hp_printer_additional_settings": {
-        "title": "Opções para HP Printer.",
-        "description": "Defina configurações adicionais para a integração HP Printer",
+      "user": {
         "data": {
           "host": "Host",
           "name": "Nome",
-          "update_interval": "Intervalo de atualização (segundos)",
-          "log_level": "Nível de registro",
-          "store_data": "Deve armazenar respostas?"
-        }
+          "port": "N\u00famero da porta",
+          "ssl": "\u00c9 ssl"
+        },
+        "title": "Configurar HP Printer"
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "consumable_consumable_life_state_consumable_state": {
+        "name": "Status"
+      },
+      "main_cloud_services_switch_status": {
+        "name": "ePrint Status"
+      },
+      "main_hardware_config_is_connected": {
+        "name": "Conectada Conectado"
+      },
+      "main_registration_state": {
+        "name": "ePrint Registrado"
       }
     },
+    "sensor": {
+      "consumable_consumable_percentage_level_remaining": {
+        "name": "N\u00edvel"
+      },
+      "consumable_consumable_station": {
+        "name": "Esta\u00e7\u00e3o"
+      },
+      "consumable_consumable_type_enum": {
+        "name": "Tipo"
+      },
+      "consumable_estimated_pages_remaining": {
+        "name": "Restante"
+      },
+      "consumable_installation_date": {
+        "name": "Data de instala\u00e7\u00e3o"
+      },
+      "consumable_refilled_count_counterfeit_refilled_count": {
+        "name": "Falsificado reabastecido"
+      },
+      "consumable_refilled_count_genuine_refilled_count": {
+        "name": "Reabastecido genu\u00edno"
+      },
+      "consumable_warranty_expiration_date": {
+        "name": "Data de validade"
+      },
+      "copy_adf_images": {
+        "name": "Total de c\u00f3pias do ADF"
+      },
+      "copy_color_impressions": {
+        "name": "C\u00f3pias de cores totais"
+      },
+      "copy_flatbed_images": {
+        "name": "P\u00e1ginas totais de vidro do scanner"
+      },
+      "copy_monochrome_impressions": {
+        "name": "C\u00f3pias totais em preto e branco"
+      },
+      "copy_total_impressions": {
+        "name": "C\u00f3pias totais"
+      },
+      "fax_total_impressions": {
+        "name": "Faxes totais"
+      },
+      "main_hardware_config_device_connectivity_port_type": {
+        "name": "Tipo de porta"
+      },
+      "printer_color_impressions": {
+        "name": "P\u00e1ginas coloridas totais impressas"
+      },
+      "printer_duplex_sheets": {
+        "name": "P\u00e1ginas totais de dupla face impressas"
+      },
+      "printer_jam_events": {
+        "name": "Total Jams"
+      },
+      "printer_mispick_events": {
+        "name": "Total Miss Picks"
+      },
+      "printer_monochrome_impressions": {
+        "name": "P\u00e1ginas totais em preto e branco impressas"
+      },
+      "printer_simplex_sheets": {
+        "name": "P\u00e1ginas totais de um lado impresso"
+      },
+      "printer_total_impressions": {
+        "name": "P\u00e1ginas totais impressas"
+      },
+      "scanner_adf_images": {
+        "name": "P\u00e1ginas digitalizadas totais do ADF"
+      },
+      "scanner_duplex_sheets": {
+        "name": "P\u00e1ginas totais totais digitalizadas"
+      },
+      "scanner_flatbed_images": {
+        "name": "P\u00e1ginas totais de vidro do scanner"
+      },
+      "scanner_jam_events": {
+        "name": "Total Jams"
+      },
+      "scanner_mispick_events": {
+        "name": "Total Miss Picks"
+      },
+      "scanner_scan_images": {
+        "name": "P\u00e1ginas digitalizadas totais"
+      }
+    }
+  },
+  "options": {
     "error": {
-      "error_400": "Detalhes do servidor inválidos, tente acessar manualmente `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Substituir o marcador de posição por IP ou Hostname), caso esteja acessível, informe o problema com os logs",
-      "error_404": "API sem suporte",
-      "already_configured": "Integração HP Printer ({name}) já configurada"
+      "already_configured": "Integra\u00c3\u00a7\u00c3\u00a3o HP Printer ({name}) j\u00c3\u00a1 configurada",
+      "error_400": "Detalhes do servidor inv\u00c3\u00a1lidos, tente acessar manualmente `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Substituir o marcador de posi\u00c3\u00a7\u00c3\u00a3o por IP ou Hostname), caso esteja acess\u00c3\u00advel, informe o problema com os logs",
+      "error_404": "API sem suporte"
+    },
+    "step": {
+      "hp_printer_additional_settings": {
+        "data": {
+          "host": "Host",
+          "log_level": "N\u00c3\u00advel de registro",
+          "name": "Nome",
+          "store_data": "Deve armazenar respostas?",
+          "update_interval": "Intervalo de atualiza\u00c3\u00a7\u00c3\u00a3o (segundos)"
+        },
+        "description": "Defina configura\u00c3\u00a7\u00c3\u00b5es adicionais para a integra\u00c3\u00a7\u00c3\u00a3o HP Printer",
+        "title": "Op\u00c3\u00a7\u00c3\u00b5es para HP Printer."
+      },
+      "init": {
+        "data": {
+          "host": "Nome do host ou IP",
+          "port": "N\u00famero da porta",
+          "ssl": "\u00c9 ssl",
+          "update_interval": "Intervalo de atualiza\u00e7\u00e3o (segundos)"
+        },
+        "description": "Defina configura\u00e7\u00f5es adicionais para a integra\u00e7\u00e3o da impressora HP",
+        "title": "Op\u00e7\u00f5es para a impressora HP."
+      }
     }
   }
 }

@@ -6,104 +6,148 @@ Configuration support multiple HP Printer devices through Configuration -> Integ
 
 [Changelog](https://github.com/elad-bar/ha-hpprinter/blob/master/CHANGELOG.md)
 
-### How to set it up:
+## How to
 
-Look for "HP Printers Integration" and install
+### Requirements
 
-#### Requirements
+- HP Printer with EWS (Embedded Web Server) support
 
-- HP Printer supporting XML API
-  to check printer's compatibility to the component try to get to the printer's XML API (replace placeholder with real IP / Hostname):
-  `http://{IP}//DevMgmt/ProductStatusDyn.xml`
+### Installations via HACS [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
 
-#### Basic configuration
+- In HACS, look for "Aqua Temp" and install and restart
+- If integration was not found, please add custom repository `elad-bar/hpprinter` as integration
+- In Settings --> Devices & Services - (Lower Right) "Add Integration"
 
-- Configuration should be done via Configuration -> Integrations.
-- In case you are already using that integration with YAML Configuration - please remove it
-- Integration supports **multiple** devices
-- In the setup form, the following details are mandatory:
-  - Name - Unique
-  - Host (or IP)
-- Upon submitting the form of creating an integration, a request to the printer will take place and will cause failure in case:
-  - Unsupported API
-  - Invalid server details - when cannot reach host
+### Setup
 
-#### Settings for Monitoring interfaces, devices, tracked devices and update interval
+To add integration use Configuration -> Integrations -> Add `HP Printer`
+Integration supports **multiple** accounts and devices
 
-_Configuration -> Integrations -> {Integration} -> Options_ <br />
+| Fields name | Type    | Required | Default | Description                                  |
+| ----------- | ------- | -------- | ------- | -------------------------------------------- |
+| Host        | Textbox | +        | -       | Defines hostname or IP of the HP Printer EWS |
+| Port        | Textbox | +        | 80      | Defines port of the HP Printer EWS           |
+| Is SSL      | Boolean | +        | False   | Defines which protocol to use HTTP/S         |
 
+It is also possible to change configuration after setting up using integration configuration.
+
+#### Validation errors
+
+| Errors                                                 |
+| ------------------------------------------------------ |
+| Invalid parameters provided                            |
+| HP Printer Embedded Web Server (EWS) not was not found |
+
+## Devices
+
+### Main device
+
+Device that holds entities related to the integration and relations to other sub devices as described below.
+
+#### Entities
+
+_Binary Sensor_
+
+- ePrint Registered
+- ePrint Status
+
+### Printer
+
+Device holds entities of sensors related to number of pages printed and relation to sub devices of consumables
+
+_Sensor_
+
+- Total pages printed
+- Total black-and-white pages printed
+- Total color pages printed
+- Total single-sided pages printed
+- Total double-sided pages printed
+- Total jams
+- Total miss picks
+
+### Scanner
+
+Device holds entities of sensors related to number of pages scanned
+
+_Sensor_
+
+- Total scanned pages
+- Total scanned pages from ADF
+- Total double-sided pages scanned
+- Total pages from scanner glass
+- Total jams
+- Total miss picks
+
+### Copy
+
+Device holds entities of sensors related to number of pages copied
+
+_Sensor_
+
+- Total copies
+- Total copies from ADF
+- Total pages from scanner glass
+- Total black-and-white copies
+- Total color copies
+
+### Fax
+
+Device holds entities of sensors related to number of pages faxed
+
+_Sensor_
+
+- Total faxed
+
+### Scanner
+
+Device holds entities related to consumable (Ink, Tuner, Printhead) of a printer device
+
+_Binary Sensor_
+
+- Status
+
+_Sensor_
+
+- Station
+- Type
+- Installation Date
+- Level (will not be available for Printhead)
+- Expiration Date (will not be available for Printhead)
+- Remaining (will not be available for Printhead)
+- Counterfeit Refilled
+- Genuine Refilled
+
+## Troubleshooting
+
+Before opening an issue, please provide logs and diagnostic file data related to the issue.
+
+### Logs
+
+For debug log level, please add the following to your config.yaml
+
+```yaml
+logger:
+  default: warning
+  logs:
+    custom_components.hpprinter: debug
 ```
-Name - Unique
-Host (or IP)
-Update Interval: Textbox, number of seconds to update entities, default=60
-Log level: Drop-down list, change component's log level (more details below), default=Default
-Should store responses?: Check-box, saves XML and JSON files for debugging purpose, default=False
-```
 
-###### Log Level's drop-down
+Or use the HA capability in device page:
 
-New feature to set the log level for the component without need to set log_level in `customization:` and restart or call manually `logger.set_level` and loose it after restart.
+1. Settings
+2. Devices & Services
+3. HP Printer
+4. 3 dots menu
+5. Enable debug logging
 
-Upon startup or integration's option update, based on the value chosen, the component will make a service call to `logger.set_level` for that component with the desired value,
+When done and would like to extract the log, repeat steps, in step #5 - Disable debug logging
 
-In case `Default` option is chosen, flow will skip calling the service, after changing from any other option to `Default`, it will not take place automatically, only after restart
+### Diagnostic details
 
-###### Store responses
+Please attach also diagnostic details of the integration, available in:
 
-Stores the XML and JSON of each request and final JSON to files, Path in CONFIG_PATH/\*,
-Files that will be generated (Prefix to the file is name of the integration):
-
-- ProductUsageDyn.XML - Raw XML from HP Printer of Usage Details
-- ProductUsageDyn.json - JSON based on the Raw XML of Usage Details after transformed by the component
-- ConsumableConfigDyn.XML - Raw XML from HP Printer of consumable details
-- ConsumableConfigDyn.json - JSON based on the Raw XML of consumable details after transformed by the component
-- ProductConfigDyn.XML - Raw XML from HP Printer of Config Details
-- ProductConfigDyn.json - JSON based on the Raw XML of Config Details after transformed by the component
-- Final.json - JSON based on the 2 JSONs above, merged into simpler data structure for the HA to create sensor based on
-
-## Components:
-
-#### Device status - Binary Sensor
-
-```
-State: connected?
-```
-
-#### Printer details - Sensor
-
-```
-State: # of pages printed
-Attributes:
-    Color - # of printed documents using color cartridges
-    Monochrome - # of printed documents using black cartridges
-    Jams - # of print jobs jammed
-    Cancelled - # of print jobs that were cancelled
-```
-
-#### Scanner details - Sensor (For AIO only)
-
-```
-State: # of pages scanned
-Attributes:
-    ADF - # of scanned documents from the ADF
-    Duplex - # of scanned documents from the ADF using duplex mode
-    Flatbed - # of scanned documents from the flatbed
-    Jams - # of scanned jammed
-    Mispick - # of scanned documents failed to take the document from the feeder
-```
-
-#### Cartridges details - Sensor (Per cartridge)
-
-```
-State: Remaining level %
-Attributes:
-    Color
-    Type - Ink / Toner / Print head
-    Station - Position of the cartridge
-    Product Number
-    Serial Number
-    Manufactured By
-    Manufactured At
-    Warranty Expiration Date
-    Installed At
-```
+1. Settings
+2. Devices & Services
+3. HP Printer
+4. 3 dots menu
+5. Download diagnostics

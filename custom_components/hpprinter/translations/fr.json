@@ -1,12 +1,138 @@
 {
   "config": {
+    "error": {
+      "error_400": "Param\u00e8tres non valides fournis",
+      "error_404": "HP Imprimante Embedded Web Server (EWS) n'a pas \u00e9t\u00e9 trouv\u00e9e, veuillez consulter les journaux pour plus de d\u00e9tails"
+    },
     "step": {
       "user": {
-        "title": "Configurer l'imprimante HP",
         "data": {
-          "host": "Hôte",
-          "name": "Nom"
-        }
+          "host": "H\u00c3\u00b4te",
+          "name": "Nom",
+          "port": "Num\u00e9ro de port",
+          "ssl": "Est ssl"
+        },
+        "title": "Configurer l'imprimante HP"
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "consumable_consumable_life_state_consumable_state": {
+        "name": "Statut"
+      },
+      "main_cloud_services_switch_status": {
+        "name": "ePrint Statut"
+      },
+      "main_hardware_config_is_connected": {
+        "name": "Connect\u00e9"
+      },
+      "main_registration_state": {
+        "name": "ePrint enregistr\u00e9"
+      }
+    },
+    "sensor": {
+      "consumable_consumable_percentage_level_remaining": {
+        "name": "Niveau"
+      },
+      "consumable_consumable_station": {
+        "name": "Gare"
+      },
+      "consumable_consumable_type_enum": {
+        "name": "Taper"
+      },
+      "consumable_estimated_pages_remaining": {
+        "name": "Restante Restant"
+      },
+      "consumable_installation_date": {
+        "name": "Date d'installation"
+      },
+      "consumable_refilled_count_counterfeit_refilled_count": {
+        "name": "Contrefait rempli"
+      },
+      "consumable_refilled_count_genuine_refilled_count": {
+        "name": "Authentique rempli"
+      },
+      "consumable_warranty_expiration_date": {
+        "name": "Date d'expiration"
+      },
+      "copy_adf_images": {
+        "name": "Total des copies de l'ADF"
+      },
+      "copy_color_impressions": {
+        "name": "Copies de couleur totale"
+      },
+      "copy_flatbed_images": {
+        "name": "Pages totales du verre du scanner"
+      },
+      "copy_monochrome_impressions": {
+        "name": "Copies totales en noir et blanc"
+      },
+      "copy_total_impressions": {
+        "name": "Copies totales"
+      },
+      "fax_total_impressions": {
+        "name": "T\u00e9l\u00e9copies totales"
+      },
+      "main_hardware_config_device_connectivity_port_type": {
+        "name": "Type de port"
+      },
+      "printer_color_impressions": {
+        "name": "Pages de couleurs totales imprim\u00e9es"
+      },
+      "printer_duplex_sheets": {
+        "name": "Pages totales double face imprim\u00e9es"
+      },
+      "printer_jam_events": {
+        "name": "Jams totaux"
+      },
+      "printer_mispick_events": {
+        "name": "Picks Miss Total"
+      },
+      "printer_monochrome_impressions": {
+        "name": "Pages totales en noir et blanc imprim\u00e9es"
+      },
+      "printer_simplex_sheets": {
+        "name": "Pages totales \u00e0 un seul c\u00f4t\u00e9 imprim\u00e9"
+      },
+      "printer_total_impressions": {
+        "name": "Pages totales imprim\u00e9es"
+      },
+      "scanner_adf_images": {
+        "name": "Pages scann\u00e9es totales de l'ADF"
+      },
+      "scanner_duplex_sheets": {
+        "name": "Pages totales double face num\u00e9ris\u00e9es"
+      },
+      "scanner_flatbed_images": {
+        "name": "Pages totales du verre du scanner"
+      },
+      "scanner_jam_events": {
+        "name": "Jams totaux"
+      },
+      "scanner_mispick_events": {
+        "name": "Picks Miss Total"
+      },
+      "scanner_scan_images": {
+        "name": "Pages scann\u00e9es totales"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "error_400": "Param\u00e8tres non valides fournis",
+      "error_404": "HP Imprimante Embedded Web Server (EWS) n'a pas \u00e9t\u00e9 trouv\u00e9e, veuillez consulter les journaux pour plus de d\u00e9tails"
+    },
+    "step": {
+      "init": {
+        "data": {
+          "host": "Nom d'h\u00f4te ou IP",
+          "port": "Num\u00e9ro de port",
+          "ssl": "Est ssl",
+          "update_interval": "Mettre \u00e0 jour l'intervalle (secondes)"
+        },
+        "description": "D\u00e9finir des param\u00e8tres suppl\u00e9mentaires pour l'int\u00e9gration de l'imprimante HP",
+        "title": "Options pour l'imprimante HP."
       }
     }
   }
