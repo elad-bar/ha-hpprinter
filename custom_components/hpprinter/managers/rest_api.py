@@ -181,19 +181,21 @@ class RestAPIv2:
                     device_key = f"{device_type}.{device_id}"
 
             data = device_data[device_key] if device_key in device_data else {}
+            has_data = len(list(item_data.keys())) > 0
             data.update(item_data)
 
-            if device_key in device_config:
-                config = device_config[device_key]
-                config["properties"].update(properties)
+            if has_data:
+                device_data[device_key] = data
 
-            else:
-                device_config[device_key] = {
-                    "device_type": device_type,
-                    "properties": properties,
-                }
+                if device_key in device_config:
+                    config = device_config[device_key]
+                    config["properties"].update(properties)
 
-            device_data[device_key] = data
+                else:
+                    device_config[device_key] = {
+                        "device_type": device_type,
+                        "properties": properties,
+                    }
 
         self._data_config = device_config
         self._data = device_data
@@ -235,8 +237,9 @@ class RestAPIv2:
         path_parts = path.split(".")
         result = data
 
-        for path_part in path_parts:
-            result = result.get(path_part)
+        if result is not None:
+            for path_part in path_parts:
+                result = result.get(path_part)
 
         return result
 
@@ -275,7 +278,7 @@ class RestAPIv2:
     ) -> dict:
         device_data = {}
 
-        data_item_flat = flatten(data_item, ".")
+        data_item_flat = {} if data_item is None else flatten(data_item, ".")
 
         for property_key in properties:
             property_details = properties.get(property_key)
@@ -283,7 +286,8 @@ class RestAPIv2:
 
             value = data_item_flat.get(property_path)
 
-            device_data[property_key] = value
+            if value is not None:
+                device_data[property_key] = value
 
         data = {"config": device_config, "data": device_data}
 
