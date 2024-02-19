@@ -40,16 +40,20 @@ It is also possible to change configuration after setting up using integration c
 
 ## Devices
 
+Will extract data of the relevant devices, devices that are not available will be ignored.
+
 ### Main device
 
 Device that holds entities related to the integration and relations to other sub devices as described below.
-
-#### Entities
 
 _Binary Sensor_
 
 - ePrint Registered
 - ePrint Status
+
+_Sensor_
+
+- Manufacture Date
 
 ### Printer
 
@@ -98,9 +102,9 @@ _Sensor_
 
 - Total faxed
 
-### Scanner
+### Consumable
 
-Device holds entities related to consumable (Ink, Toner, Printhead) of a printer device
+Devices (device per consumable) holds entities related to consumable (Ink, Toner, Printhead) of a printer device
 
 _Binary Sensor_
 
@@ -116,6 +120,7 @@ _Sensor_
 - Remaining (will not be available for Printhead)
 - Counterfeit Refilled
 - Genuine Refilled
+- Manufacture Date
 
 ## Troubleshooting
 

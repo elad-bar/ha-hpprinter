@@ -23,7 +23,7 @@
       "manufacturer_name": {
         "path": "Manufacturer.Name"
       },
-      "manufactured_at": {
+      "manufacture_at": {
         "path": "Manufacturer.Date",
         "platform": "sensor",
         "device_class": "date"
@@ -81,7 +81,7 @@
       "manufacturer_name": {
         "path": "Manufacturer.Name"
       },
-      "manufactured_at": {
+      "manufacture_at": {
         "path": "Manufacturer.Date",
         "platform": "sensor",
         "device_class": "date",

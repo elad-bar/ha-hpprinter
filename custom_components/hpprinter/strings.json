@@ -50,11 +50,11 @@
       }
     },
     "sensor": {
-      "main_manufactured_at": {
-        "name": "Manufactured Date"
+      "main_manufacture_at": {
+        "name": "Manufacture Date"
       },
-      "consumable_manufactured_at": {
-        "name": "Manufactured Date"
+      "consumable_manufacture_at": {
+        "name": "Manufacture Date"
       },
       "consumable_consumable_station": {
         "name": "Station"

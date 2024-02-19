@@ -53,7 +53,7 @@
       "consumable_installation_date": {
         "name": "Date d'installation"
       },
-      "consumable_manufactured_at": {
+      "consumable_manufacture_at": {
         "name": "Date de fabrication"
       },
       "consumable_refilled_count_counterfeit_refilled_count": {
@@ -86,7 +86,7 @@
       "main_hardware_config_device_connectivity_port_type": {
         "name": "Type de port"
       },
-      "main_manufactured_at": {
+      "main_manufacture_at": {
         "name": "Date de fabrication"
       },
       "printer_color_impressions": {
