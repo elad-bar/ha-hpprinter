@@ -312,6 +312,7 @@ class HAConfigManager:
 
                     elif property_platform == str(Platform.SENSOR):
                         unit_of_measurement = property_data.get("unit_of_measurement")
+                        options = property_data.get("options")
 
                         entity_description = IntegrationSensorEntityDescription(
                             key=property_key,
@@ -322,6 +323,7 @@ class HAConfigManager:
                             device_class=device_class,
                             icon=icon,
                             translation_key=translation_key,
+                            options=options,
                         )
 
                         self._entity_descriptions.append(entity_description)
