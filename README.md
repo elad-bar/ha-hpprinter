@@ -100,7 +100,7 @@ _Sensor_
 
 ### Scanner
 
-Device holds entities related to consumable (Ink, Tuner, Printhead) of a printer device
+Device holds entities related to consumable (Ink, Toner, Printhead) of a printer device
 
 _Binary Sensor_
 

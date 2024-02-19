@@ -39,7 +39,13 @@
         "name": "Gare"
       },
       "consumable_consumable_type_enum": {
-        "name": "Taper"
+        "name": "Taper",
+        "state": {
+          "ink": "Encre",
+          "inkCartridge": "Encre",
+          "printhead": "T\u00eate d'impression",
+          "toner": "Toner"
+        }
       },
       "consumable_estimated_pages_remaining": {
         "name": "Restante Restant"

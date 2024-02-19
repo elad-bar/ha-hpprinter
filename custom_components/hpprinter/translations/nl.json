@@ -40,7 +40,13 @@
         "name": "Station"
       },
       "consumable_consumable_type_enum": {
-        "name": "Type"
+        "name": "Type",
+        "state": {
+          "ink": "Inkt",
+          "inkCartridge": "Inkt",
+          "printhead": "Printhead",
+          "toner": "Toner"
+        }
       },
       "consumable_estimated_pages_remaining": {
         "name": "Overig"

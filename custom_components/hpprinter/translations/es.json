@@ -42,7 +42,13 @@
         "name": "Estaci\u00f3n"
       },
       "consumable_consumable_type_enum": {
-        "name": "Tipo"
+        "name": "Tipo",
+        "state": {
+          "ink": "Tinta",
+          "inkCartridge": "Tinta",
+          "printhead": "Cabezal",
+          "toner": "Virador"
+        }
       },
       "consumable_estimated_pages_remaining": {
         "name": "Restante"

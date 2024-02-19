@@ -2,7 +2,7 @@ import logging
 
 from homeassistant.components.binary_sensor import BinarySensorEntity
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import Platform
+from homeassistant.const import ATTR_STATE, Platform
 from homeassistant.core import HomeAssistant
 
 from .common.base_entity import BaseEntity, async_setup_base_entry
@@ -45,6 +45,6 @@ class HABinarySensorEntity(BaseEntity, BinarySensorEntity):
         is_on = str(state).lower() in self._entity_on_values
 
         self._attr_is_on = is_on
-        self._attr_extra_state_attributes = {"state": state}
+        self._attr_extra_state_attributes = {ATTR_STATE: state}
 
         self.async_write_ha_state()

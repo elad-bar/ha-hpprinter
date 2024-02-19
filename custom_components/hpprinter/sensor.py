@@ -3,10 +3,11 @@ import logging
 
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import Platform
+from homeassistant.const import PERCENTAGE, Platform
 from homeassistant.core import HomeAssistant
 
 from .common.base_entity import BaseEntity, async_setup_base_entry
+from .common.consts import NUMERIC_UNITS_OF_MEASUREMENT
 from .common.entity_descriptions import IntegrationSensorEntityDescription
 from .managers.ha_coordinator import HACoordinator
 
@@ -45,10 +46,10 @@ class HASensorEntity(BaseEntity, SensorEntity):
         """Fetch new state parameters for the sensor."""
         state = self.get_value()
 
-        if self.native_unit_of_measurement in ["%"]:
+        if self.native_unit_of_measurement in [PERCENTAGE]:
             state = float(state)
 
-        elif self.native_unit_of_measurement in ["pages", "refill"]:
+        elif self.native_unit_of_measurement in NUMERIC_UNITS_OF_MEASUREMENT:
             state = int(state)
 
         if self.device_class == SensorDeviceClass.DATE:

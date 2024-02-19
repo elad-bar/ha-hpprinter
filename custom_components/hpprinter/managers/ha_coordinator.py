@@ -1,4 +1,3 @@
-from datetime import timedelta
 import logging
 
 from homeassistant.core import Event
@@ -34,7 +33,7 @@ class HACoordinator(DataUpdateCoordinator):
             hass,
             _LOGGER,
             name=config_manager.entry_title,
-            update_interval=timedelta(minutes=config_manager.update_interval),
+            update_interval=config_manager.update_interval,
             update_method=self._async_update_data,
         )
 

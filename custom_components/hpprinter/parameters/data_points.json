@@ -56,7 +56,8 @@
       "consumable_type_enum": {
         "path": "ConsumableTypeEnum",
         "platform": "sensor",
-        "device_class": "enum"
+        "device_class": "enum",
+        "options": ["ink", "inkCartridge", "printhead", "toner"]
       },
       "installation_date": {
         "path": "Installation.Date",

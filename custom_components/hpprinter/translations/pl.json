@@ -42,7 +42,13 @@
         "name": "Stacja"
       },
       "consumable_consumable_type_enum": {
-        "name": "Typ"
+        "name": "Typ",
+        "state": {
+          "ink": "Atrament",
+          "inkCartridge": "Atrament",
+          "printhead": "Printhead",
+          "toner": "Toner"
+        }
       },
       "consumable_estimated_pages_remaining": {
         "name": "Pozosta\u0142y"

@@ -42,7 +42,13 @@
         "name": "Esta\u00e7\u00e3o"
       },
       "consumable_consumable_type_enum": {
-        "name": "Tipo"
+        "name": "Tipo",
+        "state": {
+          "ink": "Tinta",
+          "inkCartridge": "Tinta",
+          "printhead": "Cabe\u00e7ote de impress\u00e3o",
+          "toner": "Toner"
+        }
       },
       "consumable_estimated_pages_remaining": {
         "name": "Restante"

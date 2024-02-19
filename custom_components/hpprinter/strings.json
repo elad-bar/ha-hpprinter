@@ -60,7 +60,13 @@
         "name": "Station"
       },
       "consumable_consumable_type_enum": {
-        "name": "Type"
+        "name": "Type",
+        "state": {
+          "ink": "Ink",
+          "inkCartridge": "Ink",
+          "toner": "Toner",
+          "printhead": "Printhead"
+        }
       },
       "consumable_installation_date": {
         "name": "Installation Date"

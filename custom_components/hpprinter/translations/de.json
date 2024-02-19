@@ -39,7 +39,13 @@
         "name": "Bahnhof"
       },
       "consumable_consumable_type_enum": {
-        "name": "Typ"
+        "name": "Typ",
+        "state": {
+          "ink": "Tinte",
+          "inkCartridge": "Tinte",
+          "printhead": "Druckkopf",
+          "toner": "Toner"
+        }
       },
       "consumable_estimated_pages_remaining": {
         "name": "\u00dcbrig"

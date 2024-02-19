@@ -1,3 +1,4 @@
+from datetime import timedelta
 import json
 import logging
 import os
@@ -100,10 +101,11 @@ class HAConfigManager:
         return config_data
 
     @property
-    def update_interval(self) -> int:
+    def update_interval(self) -> timedelta:
         interval = self._data.get(CONF_UPDATE_INTERVAL, 5)
+        result = timedelta(minutes=interval)
 
-        return interval
+        return result
 
     @property
     def endpoints(self) -> list[str] | None:
