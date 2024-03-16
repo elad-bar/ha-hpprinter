@@ -14,7 +14,7 @@ Look for "HP Printers Integration" and install
 
 - HP Printer supporting XML API
   to check printer's compatibility to the component try to get to the printer's XML API (replace placeholder with real IP / Hostname):
-  `http://{IP}//DevMgmt/ProductStatusDyn.xml`
+  `http://{IP}/DevMgmt/ProductStatusDyn.xml`
 
 #### Basic configuration
 
