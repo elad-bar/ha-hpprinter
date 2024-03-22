@@ -4,8 +4,6 @@ import logging
 import os
 from pathlib import Path
 
-from slugify import slugify
-
 from homeassistant.config_entries import STORAGE_VERSION, ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
@@ -13,6 +11,7 @@ from homeassistant.helpers import translation
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.json import JSONEncoder
 from homeassistant.helpers.storage import Store
+from homeassistant.util import slugify
 
 from ..common.consts import (
     CONF_UPDATE_INTERVAL,
