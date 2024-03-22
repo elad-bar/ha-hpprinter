@@ -171,6 +171,15 @@ class HAConfigManager:
         )
 
         if translated_name is None or translated_name == "":
+            entity_name = f"{device_name} {entity_description.name}"
+
+            _LOGGER.warning(
+                f"Translations not found, "
+                f"Key: {translation_key}, "
+                f"Entity: {entity_description.name}"
+            )
+
+        else:
             entity_name = f"{device_name} {translated_name}"
 
             _LOGGER.debug(
@@ -178,15 +187,6 @@ class HAConfigManager:
                 f"Key: {translation_key}, "
                 f"Entity: {entity_description.name}, "
                 f"Value: {translated_name}"
-            )
-
-        else:
-            entity_name = f"{device_name} {entity_description.name}"
-
-            _LOGGER.warning(
-                f"Translations not found, "
-                f"Key: {translation_key}, "
-                f"Entity: {entity_description.name}"
             )
 
         return entity_name

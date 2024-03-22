@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0b3
+
+- Fix entity translations
+
 ## 2.0.0b2
 
 - Fix wrong library usage for slugify, causing wrong translation key to get picked up
