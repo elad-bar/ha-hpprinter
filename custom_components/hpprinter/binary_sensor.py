@@ -38,8 +38,9 @@ class HABinarySensorEntity(BaseEntity, BinarySensorEntity):
         self._attr_device_class = entity_description.device_class
         self._entity_on_values = entity_description.on_values
 
-    def _handle_coordinator_update(self) -> None:
-        """Fetch new state parameters for the sensor."""
+        self._set_value()
+
+    def _set_value(self):
         state = self.get_value()
 
         is_on = str(state).lower() in self._entity_on_values
@@ -47,4 +48,7 @@ class HABinarySensorEntity(BaseEntity, BinarySensorEntity):
         self._attr_is_on = is_on
         self._attr_extra_state_attributes = {ATTR_STATE: state}
 
-        self.async_write_ha_state()
+    def _handle_coordinator_update(self) -> None:
+        """Fetch new state parameters for the sensor."""
+        self._set_value()
+        super()._handle_coordinator_update()

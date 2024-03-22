@@ -1,14 +1,15 @@
 # Changelog
 
-## 2.0.0b3
+## v2.0.0b3
 
 - Fix entity translations
+- Fix main device manufacture date
 
-## 2.0.0b2
+## v2.0.0b2
 
 - Fix wrong library usage for slugify, causing wrong translation key to get picked up
 
-## 2.0.0b1
+## v2.0.0b1
 
 - Refactor to full HP Printer EWS support
 

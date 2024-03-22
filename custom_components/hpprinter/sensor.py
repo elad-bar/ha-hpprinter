@@ -42,8 +42,9 @@ class HASensorEntity(BaseEntity, SensorEntity):
             entity_description.native_unit_of_measurement
         )
 
-    def _handle_coordinator_update(self) -> None:
-        """Fetch new state parameters for the sensor."""
+        self._set_value()
+
+    def _set_value(self):
         state = self.get_value()
 
         if self.native_unit_of_measurement in [PERCENTAGE]:
@@ -57,4 +58,7 @@ class HASensorEntity(BaseEntity, SensorEntity):
 
         self._attr_native_value = state
 
-        self.async_write_ha_state()
+    def _handle_coordinator_update(self) -> None:
+        """Fetch new state parameters for the sensor."""
+        self._set_value()
+        super()._handle_coordinator_update()
