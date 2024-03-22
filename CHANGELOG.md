@@ -1,6 +1,6 @@
 # Changelog
 
-## v2.0.0
+## v2.0.00b1
 
 - Refactor to full HP Printer EWS support
 

@@ -14,7 +14,7 @@ Configuration support multiple HP Printer devices through Configuration -> Integ
 
 ### Installations via HACS [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
 
-- In HACS, look for "Aqua Temp" and install and restart
+- In HACS, look for "HP Printer" and install and restart
 - If integration was not found, please add custom repository `elad-bar/hpprinter` as integration
 - In Settings --> Devices & Services - (Lower Right) "Add Integration"
 
