@@ -41,6 +41,8 @@ class RestAPIv2:
         self._is_connected: bool = False
 
         self._device_dispatched: list[str] = []
+        self._all_endpoints: list[str] = []
+        self._support_prefetch: bool = False
 
     @property
     def data(self) -> dict | None:
@@ -110,20 +112,40 @@ class RestAPIv2:
     async def _load_metadata(self):
         self._all_endpoints = []
 
-        endpoints = await self._get_request("/Prefetch?type=dtree")
+        endpoints = await self._get_request("/Prefetch?type=dtree", True)
 
-        if not endpoints:
-            raise IntegrationAPIError(self.config_data.url)
+        self._support_prefetch = endpoints is not None
+        is_connected = self._support_prefetch
 
-        for endpoint in endpoints:
-            is_valid = self._config_manager.is_valid_endpoint(endpoint)
+        if self._support_prefetch:
+            for endpoint in endpoints:
+                is_valid = self._config_manager.is_valid_endpoint(endpoint)
 
-            if is_valid:
-                endpoint_uri = endpoint.get("uri")
+                if is_valid:
+                    endpoint_uri = endpoint.get("uri")
 
-                self._all_endpoints.append(endpoint_uri)
+                    self._all_endpoints.append(endpoint_uri)
 
-        self._is_connected = True
+        else:
+            self._all_endpoints = self._config_manager.endpoints.copy()
+
+            await self._update_data(self._config_manager.endpoints, False)
+
+            endpoints_found = len(self._raw_data.keys())
+            is_connected = endpoints_found > 0
+            available_endpoints = len(self._all_endpoints)
+
+            if is_connected:
+                _LOGGER.info(
+                    "No support for prefetch endpoint, "
+                    f"{endpoints_found}/{available_endpoints} Endpoints found"
+                )
+            else:
+                endpoint_urls = ", ".join(self._all_endpoints)
+
+                raise IntegrationAPIError(endpoint_urls)
+
+        self._is_connected = is_connected
 
     async def update(self):
         await self._update_data(self._config_manager.endpoints)
@@ -131,8 +153,8 @@ class RestAPIv2:
     async def update_full(self):
         await self._update_data(self._all_endpoints)
 
-    async def _update_data(self, endpoints):
-        if not self._is_connected:
+    async def _update_data(self, endpoints: list[str], connectivity_check: bool = True):
+        if not self._is_connected and connectivity_check:
             return
 
         for endpoint in endpoints:
@@ -293,7 +315,9 @@ class RestAPIv2:
 
         return data
 
-    async def _get_request(self, endpoint: str) -> dict | None:
+    async def _get_request(
+        self, endpoint: str, ignore_error: bool = False
+    ) -> dict | None:
         result: dict | None = None
         try:
             url = f"{self.config_data.url}{endpoint}"
@@ -322,16 +346,20 @@ class RestAPIv2:
                 _LOGGER.debug(f"Request to {url}")
 
         except ClientResponseError as cre:
-            exc_type, exc_obj, tb = sys.exc_info()
-            line_number = tb.tb_lineno
-            _LOGGER.error(
-                f"Failed to get response from {endpoint}, Error: {cre}, Line: {line_number}"
-            )
+            if not ignore_error:
+                exc_type, exc_obj, tb = sys.exc_info()
+                line_number = tb.tb_lineno
+                _LOGGER.error(
+                    f"Failed to get response from {endpoint}, Error: {cre}, Line: {line_number}"
+                )
 
         except Exception as ex:
-            exc_type, exc_obj, tb = sys.exc_info()
-            line_number = tb.tb_lineno
-            _LOGGER.error(f"Failed to get {endpoint}, Error: {ex}, Line: {line_number}")
+            if not ignore_error:
+                exc_type, exc_obj, tb = sys.exc_info()
+                line_number = tb.tb_lineno
+                _LOGGER.error(
+                    f"Failed to get {endpoint}, Error: {ex}, Line: {line_number}"
+                )
 
         return result
 

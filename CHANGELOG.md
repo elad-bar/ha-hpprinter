@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.0.0b4
+
+- Support no prefetch mode
+
 ## v2.0.0b3
 
 - Fix entity translations
