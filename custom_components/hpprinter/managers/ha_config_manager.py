@@ -163,8 +163,9 @@ class HAConfigManager:
         platform = entity_description.platform
 
         device_name = device_info.get("name")
-
-        translation_key = f"component.{DOMAIN}.entity.{platform}.{translation_key}.name"
+        translation_key = slugify(
+            f"component.{DOMAIN}.entity.{platform}.{device_name}_{translation_key}.name"
+        )
 
         translated_name = self._translations.get(
             translation_key, entity_description.name
