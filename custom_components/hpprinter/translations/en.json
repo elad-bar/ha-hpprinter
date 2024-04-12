@@ -4,7 +4,7 @@
       "already_configured": "HP Printer integration ({name}) already configured"
     },
     "error": {
-      "error_400": "Invalid server details, please try manually access to `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Replace placeholder with IP or Hostname), in case it's accessible, please report the issue with logs",
+      "error_400": "Invalid server details, please try manually access to `http://{IP}/DevMgmt/ProductStatusDyn.xml` (Replace placeholder with IP or Hostname), in case it's accessible, please report the issue with logs",
       "error_404": "Unsupported API"
     },
     "step": {
@@ -21,27 +21,33 @@
   },
   "entity": {
     "binary_sensor": {
-      "consumable_consumable_life_state_consumable_state": {
-        "name": "Status"
-      },
-      "main_cloud_services_switch_status": {
+      "cloud_services_switch_status": {
         "name": "ePrint Status"
       },
-      "main_hardware_config_is_connected": {
+      "consumable_life_state_consumable_state": {
+        "name": "Status"
+      },
+      "hardware_config_is_connected": {
         "name": "Connected"
       },
-      "main_registration_state": {
+      "registration_state": {
         "name": "ePrint Registered"
       }
     },
     "sensor": {
-      "consumable_consumable_percentage_level_remaining": {
+      "adf_images": {
+        "name": "Total pages from ADF"
+      },
+      "color_impressions": {
+        "name": "Total color pages"
+      },
+      "consumable_percentage_level_remaining": {
         "name": "Level"
       },
-      "consumable_consumable_station": {
+      "consumable_station": {
         "name": "Station"
       },
-      "consumable_consumable_type_enum": {
+      "consumable_type_enum": {
         "name": "Type",
         "state": {
           "ink": "Ink",
@@ -50,93 +56,57 @@
           "toner": "Toner"
         }
       },
-      "consumable_estimated_pages_remaining": {
+      "duplex_sheets": {
+        "name": "Total double-sided pages"
+      },
+      "estimated_pages_remaining": {
         "name": "Remaining"
       },
-      "consumable_installation_date": {
-        "name": "Installation Date"
-      },
-      "consumable_manufacture_at": {
-        "name": "Manufacture Date"
-      },
-      "consumable_refilled_count_counterfeit_refilled_count": {
-        "name": "Counterfeit Refilled"
-      },
-      "consumable_refilled_count_genuine_refilled_count": {
-        "name": "Genuine Refilled"
-      },
-      "consumable_warranty_expiration_date": {
-        "name": "Expiration Date"
-      },
-      "copy_adf_images": {
-        "name": "Total copies from ADF"
-      },
-      "copy_color_impressions": {
-        "name": "Total color copies"
-      },
-      "copy_flatbed_images": {
+      "flatbed_images": {
         "name": "Total pages from scanner glass"
       },
-      "copy_monochrome_impressions": {
-        "name": "Total black-and-white copies"
-      },
-      "copy_total_impressions": {
-        "name": "Total copies"
-      },
-      "fax_total_impressions": {
-        "name": "Total faxes"
-      },
-      "main_hardware_config_device_connectivity_port_type": {
+      "hardware_config_device_connectivity_port_type": {
         "name": "Port Type"
       },
-      "main_manufacture_at": {
+      "installation_date": {
+        "name": "Installation Date"
+      },
+      "jam_events": {
+        "name": "Total jams"
+      },
+      "manufacture_at": {
         "name": "Manufacture Date"
       },
-      "printer_color_impressions": {
-        "name": "Total color pages printed"
-      },
-      "printer_duplex_sheets": {
-        "name": "Total double-sided pages printed"
-      },
-      "printer_jam_events": {
-        "name": "Total jams"
-      },
-      "printer_mispick_events": {
+      "mispick_events": {
         "name": "Total miss picks"
       },
-      "printer_monochrome_impressions": {
-        "name": "Total black-and-white pages printed"
+      "monochrome_impressions": {
+        "name": "Total black-and-white pages"
       },
-      "printer_simplex_sheets": {
-        "name": "Total single-sided pages printed"
+      "refilled_count_counterfeit_refilled_count": {
+        "name": "Counterfeit Refilled"
       },
-      "printer_total_impressions": {
-        "name": "Total pages printed"
+      "refilled_count_genuine_refilled_count": {
+        "name": "Genuine Refilled"
       },
-      "scanner_adf_images": {
-        "name": "Total scanned pages from ADF"
+      "scan_images": {
+        "name": "Total pages"
       },
-      "scanner_duplex_sheets": {
-        "name": "Total double-sided pages scanned"
+      "simplex_sheets": {
+        "name": "Total single-sided pages"
       },
-      "scanner_flatbed_images": {
-        "name": "Total pages from scanner glass"
+      "total_impressions": {
+        "name": "Total pages"
       },
-      "scanner_jam_events": {
-        "name": "Total jams"
-      },
-      "scanner_mispick_events": {
-        "name": "Total miss picks"
-      },
-      "scanner_scan_images": {
-        "name": "Total scanned pages"
+      "warranty_expiration_date": {
+        "name": "Expiration Date"
       }
     }
   },
   "options": {
     "error": {
       "already_configured": "HP Printer integration ({name}) already configured",
-      "error_400": "Invalid server details, please try manually access to `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Replace placeholder with IP or Hostname), in case it's accessible, please report the issue with logs",
+      "error_400": "Invalid server details, please try manually access to `http://{IP}/DevMgmt/ProductStatusDyn.xml` (Replace placeholder with IP or Hostname), in case it's accessible, please report the issue with logs",
       "error_404": "Unsupported API"
     },
     "step": {

@@ -1,45 +1,53 @@
 {
   "config": {
+    "abort": {
+      "already_configured": "HP Printer Integration ({Name}) al geconfigureerd"
+    },
     "error": {
-      "cannot_reach_printer": "HP Printer is onbereikbaar vanwege een van de volgende redenen: de hostnaam is verkeerd, de printer is niet verbonden of de printer ondersteund de API in deze integratie niet",
-      "error_400": "Ongeldige parameters verstrekt",
-      "error_404": "HP Printer Embedded Web Server (EWS) is niet niet gevonden, controleer logboeken voor meer informatie"
+      "error_400": "Ongeldige servergegevens, probeer handmatig toegang tot `http: // {ip} // devmgmt/ProductStatusyn.xml` (Vervang Placeholder door IP of hostnaam), Rapporteer het probleem met logs met logs met logs",
+      "error_404": "Niet -ondersteunde API"
     },
     "step": {
       "user": {
         "data": {
-          "host": "Host",
+          "host": "Gastheer",
           "name": "Naam",
           "port": "Poortnummer",
           "ssl": "Is SSL"
         },
-        "title": "HP Printer instellen"
+        "title": "HP -printer instellen"
       }
     }
   },
   "entity": {
     "binary_sensor": {
-      "consumable_consumable_life_state_consumable_state": {
-        "name": "Toestand"
-      },
-      "main_cloud_services_switch_status": {
+      "cloud_services_switch_status": {
         "name": "ePrint Toestand"
       },
-      "main_hardware_config_is_connected": {
+      "consumable_life_state_consumable_state": {
+        "name": "Toestand"
+      },
+      "hardware_config_is_connected": {
         "name": "Verbonden"
       },
-      "main_registration_state": {
+      "registration_state": {
         "name": "ePrint Geregistreerd"
       }
     },
     "sensor": {
-      "consumable_consumable_percentage_level_remaining": {
+      "adf_images": {
+        "name": "Totale pagina's van ADF"
+      },
+      "color_impressions": {
+        "name": "Totale kleurpagina's"
+      },
+      "consumable_percentage_level_remaining": {
         "name": "Niveau"
       },
-      "consumable_consumable_station": {
+      "consumable_station": {
         "name": "Station"
       },
-      "consumable_consumable_type_enum": {
+      "consumable_type_enum": {
         "name": "Type",
         "state": {
           "ink": "Inkt",
@@ -48,95 +56,71 @@
           "toner": "Toner"
         }
       },
-      "consumable_estimated_pages_remaining": {
+      "duplex_sheets": {
+        "name": "Totale dubbelzijdige pagina's"
+      },
+      "estimated_pages_remaining": {
         "name": "Overig"
       },
-      "consumable_installation_date": {
-        "name": "Installatie datum"
-      },
-      "consumable_manufacture_at": {
-        "name": "Productiedatum"
-      },
-      "consumable_refilled_count_counterfeit_refilled_count": {
-        "name": "Vervalste bijgevuld"
-      },
-      "consumable_refilled_count_genuine_refilled_count": {
-        "name": "Echt bijgevuld"
-      },
-      "consumable_warranty_expiration_date": {
-        "name": "uiterste houdbaarheidsdatum"
-      },
-      "copy_adf_images": {
-        "name": "Totale exemplaren van ADF"
-      },
-      "copy_color_impressions": {
-        "name": "Totale kleurkopie\u00ebn"
-      },
-      "copy_flatbed_images": {
+      "flatbed_images": {
         "name": "Totale pagina's van scannerglas"
       },
-      "copy_monochrome_impressions": {
-        "name": "Totaal zwart-wit kopie\u00ebn"
-      },
-      "copy_total_impressions": {
-        "name": "Totale exemplaren"
-      },
-      "fax_total_impressions": {
-        "name": "Totaal faxen"
-      },
-      "main_hardware_config_device_connectivity_port_type": {
+      "hardware_config_device_connectivity_port_type": {
         "name": "Poorttype"
       },
-      "main_manufacture_at": {
+      "installation_date": {
+        "name": "Installatie datum"
+      },
+      "jam_events": {
+        "name": "Totale jam"
+      },
+      "manufacture_at": {
         "name": "Productiedatum"
       },
-      "printer_color_impressions": {
-        "name": "Totale kleurpagina's afgedrukt"
-      },
-      "printer_duplex_sheets": {
-        "name": "Totaal dubbelzijdige pagina's afgedrukt"
-      },
-      "printer_jam_events": {
-        "name": "Totale jam"
-      },
-      "printer_mispick_events": {
+      "mispick_events": {
         "name": "Totale Miss Picks"
       },
-      "printer_monochrome_impressions": {
-        "name": "Totaal zwart-wit pagina's afgedrukt"
+      "monochrome_impressions": {
+        "name": "Totaal zwart-witpagina's"
       },
-      "printer_simplex_sheets": {
-        "name": "Totaal afgedrukte pagina's met \u00e9\u00e9n zijdeling"
+      "refilled_count_counterfeit_refilled_count": {
+        "name": "Vervalste bijgevuld"
       },
-      "printer_total_impressions": {
-        "name": "Totale pagina's afgedrukt"
+      "refilled_count_genuine_refilled_count": {
+        "name": "Echt bijgevuld"
       },
-      "scanner_adf_images": {
-        "name": "Totaal gescande pagina's van ADF"
+      "scan_images": {
+        "name": "Totale pagina's"
       },
-      "scanner_duplex_sheets": {
-        "name": "Totale dubbelzijdige pagina's gescand"
+      "simplex_sheets": {
+        "name": "Totaal enkelzijdige pagina's"
       },
-      "scanner_flatbed_images": {
-        "name": "Totale pagina's van scannerglas"
+      "total_impressions": {
+        "name": "Totale pagina's"
       },
-      "scanner_jam_events": {
-        "name": "Totale jam"
-      },
-      "scanner_mispick_events": {
-        "name": "Totale Miss Picks"
-      },
-      "scanner_scan_images": {
-        "name": "Totaal gescande pagina's"
+      "warranty_expiration_date": {
+        "name": "uiterste houdbaarheidsdatum"
       }
     }
   },
   "options": {
     "error": {
-      "error_400": "Ongeldige parameters verstrekt",
-      "error_404": "HP Printer Embedded Web Server (EWS) is niet niet gevonden, controleer logboeken voor meer informatie"
+      "already_configured": "HP Printer Integration ({Name}) al geconfigureerd",
+      "error_400": "Ongeldige servergegevens, probeer handmatig toegang tot `http: // {ip} // devmgmt/ProductStatusyn.xml` (Vervang Placeholder door IP of hostnaam), Rapporteer het probleem met logs met logs met logs",
+      "error_404": "Niet -ondersteunde API"
     },
     "step": {
+      "hp_printer_additional_settings": {
+        "data": {
+          "host": "Gastheer",
+          "log_level": "Log niveau",
+          "name": "Naam",
+          "store_data": "Moeten de reacties opslaan?",
+          "update_interval": "Update interval (seconden)"
+        },
+        "description": "Definieer extra instellingen voor HP -printerintegratie",
+        "title": "Opties voor HP -printer."
+      },
       "init": {
         "data": {
           "host": "Hostnaam of ip",

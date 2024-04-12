@@ -1,150 +1,135 @@
 {
   "config": {
+    "abort": {
+      "already_configured": "HP Printer integration ({name}) already configured"
+    },
+    "error": {
+      "error_400": "Invalid server details, please try manually access to `http://{IP}/DevMgmt/ProductStatusDyn.xml` (Replace placeholder with IP or Hostname), in case it's accessible, please report the issue with logs",
+      "error_404": "Unsupported API"
+    },
     "step": {
       "user": {
-        "title": "Set up HP Printer Embedded Web Server (EWS)",
         "data": {
-          "host": "Hostname or IP",
+          "host": "Host",
+          "name": "Name",
           "port": "Port number",
           "ssl": "Is SSL"
-        }
+        },
+        "title": "Set up HP Printer"
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "consumable_life_state_consumable_state": {
+        "name": "Status"
+      },
+      "cloud_services_switch_status": {
+        "name": "ePrint Status"
+      },
+      "hardware_config_is_connected": {
+        "name": "Connected"
+      },
+      "registration_state": {
+        "name": "ePrint Registered"
       }
     },
-    "abort": {},
-    "error": {
-      "error_400": "Invalid parameters provided",
-      "error_404": "HP Printer Embedded Web Server (EWS) not was not found, please check logs for more details"
+    "sensor": {
+      "consumable_percentage_level_remaining": {
+        "name": "Level"
+      },
+      "consumable_station": {
+        "name": "Station"
+      },
+      "consumable_type_enum": {
+        "name": "Type",
+        "state": {
+          "ink": "Ink",
+          "inkCartridge": "Ink",
+          "printhead": "Printhead",
+          "toner": "Toner"
+        }
+      },
+      "estimated_pages_remaining": {
+        "name": "Remaining"
+      },
+      "installation_date": {
+        "name": "Installation Date"
+      },
+      "manufacture_at": {
+        "name": "Manufacture Date"
+      },
+      "refilled_count_counterfeit_refilled_count": {
+        "name": "Counterfeit Refilled"
+      },
+      "refilled_count_genuine_refilled_count": {
+        "name": "Genuine Refilled"
+      },
+      "warranty_expiration_date": {
+        "name": "Expiration Date"
+      },
+      "adf_images": {
+        "name": "Total pages from ADF"
+      },
+      "color_impressions": {
+        "name": "Total color pages"
+      },
+      "flatbed_images": {
+        "name": "Total pages from scanner glass"
+      },
+      "monochrome_impressions": {
+        "name": "Total black-and-white pages"
+      },
+      "total_impressions": {
+        "name": "Total pages"
+      },
+      "hardware_config_device_connectivity_port_type": {
+        "name": "Port Type"
+      },
+      "duplex_sheets": {
+        "name": "Total double-sided pages"
+      },
+      "jam_events": {
+        "name": "Total jams"
+      },
+      "mispick_events": {
+        "name": "Total miss picks"
+      },
+      "simplex_sheets": {
+        "name": "Total single-sided pages"
+      },
+      "scan_images": {
+        "name": "Total pages"
+      }
     }
   },
   "options": {
+    "error": {
+      "already_configured": "HP Printer integration ({name}) already configured",
+      "error_400": "Invalid server details, please try manually access to `http://{IP}/DevMgmt/ProductStatusDyn.xml` (Replace placeholder with IP or Hostname), in case it's accessible, please report the issue with logs",
+      "error_404": "Unsupported API"
+    },
     "step": {
-      "init": {
-        "title": "Options for HP Printer.",
+      "hp_printer_additional_settings": {
+        "data": {
+          "host": "Host",
+          "log_level": "Log level",
+          "name": "Name",
+          "store_data": "Should store responses?",
+          "update_interval": "Update interval (Seconds)"
+        },
         "description": "Define additional settings for HP Printer integration",
+        "title": "Options for HP Printer."
+      },
+      "init": {
         "data": {
           "host": "Hostname or IP",
           "port": "Port number",
           "ssl": "Is SSL",
           "update_interval": "Update interval (Seconds)"
-        }
-      }
-    },
-    "error": {
-      "error_400": "Invalid parameters provided",
-      "error_404": "HP Printer Embedded Web Server (EWS) not was not found, please check logs for more details"
-    }
-  },
-  "entity": {
-    "binary_sensor": {
-      "consumable_consumable_life_state_consumable_state": {
-        "name": "Status"
-      },
-      "main_hardware_config_is_connected": {
-        "name": "Connected"
-      },
-      "main_registration_state": {
-        "name": "ePrint Registered"
-      },
-      "main_cloud_services_switch_status": {
-        "name": "ePrint Status"
-      }
-    },
-    "sensor": {
-      "main_manufacture_at": {
-        "name": "Manufacture Date"
-      },
-      "consumable_manufacture_at": {
-        "name": "Manufacture Date"
-      },
-      "consumable_consumable_station": {
-        "name": "Station"
-      },
-      "consumable_consumable_type_enum": {
-        "name": "Type",
-        "state": {
-          "ink": "Ink",
-          "inkCartridge": "Ink",
-          "toner": "Toner",
-          "printhead": "Printhead"
-        }
-      },
-      "consumable_installation_date": {
-        "name": "Installation Date"
-      },
-      "consumable_consumable_percentage_level_remaining": {
-        "name": "Level"
-      },
-      "consumable_warranty_expiration_date": {
-        "name": "Expiration Date"
-      },
-      "consumable_estimated_pages_remaining": {
-        "name": "Remaining"
-      },
-      "consumable_refilled_count_counterfeit_refilled_count": {
-        "name": "Counterfeit Refilled"
-      },
-      "consumable_refilled_count_genuine_refilled_count": {
-        "name": "Genuine Refilled"
-      },
-      "printer_total_impressions": {
-        "name": "Total pages printed"
-      },
-      "printer_monochrome_impressions": {
-        "name": "Total black-and-white pages printed"
-      },
-      "printer_color_impressions": {
-        "name": "Total color pages printed"
-      },
-      "printer_simplex_sheets": {
-        "name": "Total single-sided pages printed"
-      },
-      "printer_duplex_sheets": {
-        "name": "Total double-sided pages printed"
-      },
-      "printer_jam_events": {
-        "name": "Total jams"
-      },
-      "printer_mispick_events": {
-        "name": "Total miss picks"
-      },
-      "scanner_scan_images": {
-        "name": "Total scanned pages"
-      },
-      "scanner_adf_images": {
-        "name": "Total scanned pages from ADF"
-      },
-      "scanner_duplex_sheets": {
-        "name": "Total double-sided pages scanned"
-      },
-      "scanner_flatbed_images": {
-        "name": "Total pages from scanner glass"
-      },
-      "scanner_jam_events": {
-        "name": "Total jams"
-      },
-      "scanner_mispick_events": {
-        "name": "Total miss picks"
-      },
-      "copy_total_impressions": {
-        "name": "Total copies"
-      },
-      "copy_adf_images": {
-        "name": "Total copies from ADF"
-      },
-      "copy_flatbed_images": {
-        "name": "Total pages from scanner glass"
-      },
-      "copy_monochrome_impressions": {
-        "name": "Total black-and-white copies"
-      },
-      "copy_color_impressions": {
-        "name": "Total color copies"
-      },
-      "fax_total_impressions": {
-        "name": "Total faxes"
-      },
-      "main_hardware_config_device_connectivity_port_type": {
-        "name": "Port Type"
+        },
+        "description": "Define additional settings for HP Printer integration",
+        "title": "Options for HP Printer."
       }
     }
   }

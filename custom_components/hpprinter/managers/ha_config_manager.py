@@ -11,7 +11,6 @@ from homeassistant.helpers import translation
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.json import JSONEncoder
 from homeassistant.helpers.storage import Store
-from homeassistant.util import slugify
 
 from ..common.consts import (
     CONF_UPDATE_INTERVAL,
@@ -163,9 +162,7 @@ class HAConfigManager:
         platform = entity_description.platform
 
         device_name = device_info.get("name")
-        translation_key = slugify(
-            f"component.{DOMAIN}.entity.{platform}.{device_name}_{translation_key}.name"
-        )
+        translation_key = f"component.{DOMAIN}.entity.{platform}.{translation_key}.name"
 
         translated_name = self._translations.get(
             translation_key, entity_description.name
@@ -289,7 +286,7 @@ class HAConfigManager:
                     exclude = property_data.get("exclude")
                     device_class = property_data.get("device_class")
                     icon = property_data.get("icon")
-                    translation_key = slugify(f"{device_type}_{property_key}")
+                    translation_key = property_key
 
                     if property_platform == str(Platform.BINARY_SENSOR):
                         on_values = [

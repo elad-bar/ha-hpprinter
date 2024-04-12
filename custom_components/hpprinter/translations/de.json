@@ -1,44 +1,53 @@
 {
   "config": {
+    "abort": {
+      "already_configured": "HP -Druckerintegration ({Name}) bereits konfiguriert"
+    },
     "error": {
-      "error_400": "Ung\u00fcltige Parameter bereitgestellt",
-      "error_404": "Der eingebettete Webserver (EWS) HP -Drucker wurde nicht gefunden. \u00dcberpr\u00fcfen Sie die Protokolle f\u00fcr weitere Details, um weitere Informationen zu erhalten."
+      "error_400": "Ung\u00fcltige Serverdetails, bitte versuchen Sie manuell auf `http: // {ip} // devmgmt/productStatusdyn.xml` (Ersetzen Sie Platzhalter mit IP oder Hostname).",
+      "error_404": "Nicht unterst\u00fctzte API"
     },
     "step": {
       "user": {
         "data": {
-          "host": "Host",
+          "host": "Gastgeber",
           "name": "Name",
           "port": "Port-Nummer",
           "ssl": "Ist SSL"
         },
-        "title": "HP Drucker einrichten "
+        "title": "Richten Sie den HP -Drucker ein"
       }
     }
   },
   "entity": {
     "binary_sensor": {
-      "consumable_consumable_life_state_consumable_state": {
-        "name": "Status"
-      },
-      "main_cloud_services_switch_status": {
+      "cloud_services_switch_status": {
         "name": "ePrint Status"
       },
-      "main_hardware_config_is_connected": {
+      "consumable_life_state_consumable_state": {
+        "name": "Status"
+      },
+      "hardware_config_is_connected": {
         "name": "In Verbindung gebracht"
       },
-      "main_registration_state": {
+      "registration_state": {
         "name": "ePrint Eingetragen"
       }
     },
     "sensor": {
-      "consumable_consumable_percentage_level_remaining": {
+      "adf_images": {
+        "name": "Gesamtseiten von ADF"
+      },
+      "color_impressions": {
+        "name": "Gesamtfarbseiten"
+      },
+      "consumable_percentage_level_remaining": {
         "name": "Ebene"
       },
-      "consumable_consumable_station": {
+      "consumable_station": {
         "name": "Bahnhof"
       },
-      "consumable_consumable_type_enum": {
+      "consumable_type_enum": {
         "name": "Typ",
         "state": {
           "ink": "Tinte",
@@ -47,95 +56,71 @@
           "toner": "Toner"
         }
       },
-      "consumable_estimated_pages_remaining": {
+      "duplex_sheets": {
+        "name": "Gesamt zweiseitige Seiten"
+      },
+      "estimated_pages_remaining": {
         "name": "\u00dcbrig"
       },
-      "consumable_installation_date": {
-        "name": "Installationsdatum"
-      },
-      "consumable_manufacture_at": {
-        "name": "Herstellungsdatum"
-      },
-      "consumable_refilled_count_counterfeit_refilled_count": {
-        "name": "Gef\u00e4lscht nachgedacht"
-      },
-      "consumable_refilled_count_genuine_refilled_count": {
-        "name": "Echt nachgedacht"
-      },
-      "consumable_warranty_expiration_date": {
-        "name": "Verfallsdatum"
-      },
-      "copy_adf_images": {
-        "name": "Gesamtkopien von ADF"
-      },
-      "copy_color_impressions": {
-        "name": "Gesamtfarbkopien"
-      },
-      "copy_flatbed_images": {
+      "flatbed_images": {
         "name": "Gesamtseiten aus Scannerglas"
       },
-      "copy_monochrome_impressions": {
-        "name": "Gesamtschwarz-Wei\u00df-Kopien"
-      },
-      "copy_total_impressions": {
-        "name": "Gesamtkopien"
-      },
-      "fax_total_impressions": {
-        "name": "Gesamtfaxen"
-      },
-      "main_hardware_config_device_connectivity_port_type": {
+      "hardware_config_device_connectivity_port_type": {
         "name": "Port -Typ"
       },
-      "main_manufacture_at": {
+      "installation_date": {
+        "name": "Installationsdatum"
+      },
+      "jam_events": {
+        "name": "Gesamtmarmelade"
+      },
+      "manufacture_at": {
         "name": "Herstellungsdatum"
       },
-      "printer_color_impressions": {
-        "name": "Gesamtfarbseiten gedruckt"
-      },
-      "printer_duplex_sheets": {
-        "name": "Gesamt doppelseitige Seiten gedruckt"
-      },
-      "printer_jam_events": {
-        "name": "Gesamtmarmelade"
-      },
-      "printer_mispick_events": {
+      "mispick_events": {
         "name": "Total Miss Picks"
       },
-      "printer_monochrome_impressions": {
-        "name": "Gesamtschwarz-Wei\u00df-Seiten gedruckt"
+      "monochrome_impressions": {
+        "name": "Gesamtschwarz-Wei\u00df-Seiten"
       },
-      "printer_simplex_sheets": {
-        "name": "Gesamt einseitige Seiten gedruckt"
+      "refilled_count_counterfeit_refilled_count": {
+        "name": "Gef\u00e4lscht nachgedacht"
       },
-      "printer_total_impressions": {
-        "name": "Gesamtseiten gedruckt"
+      "refilled_count_genuine_refilled_count": {
+        "name": "Echt nachgedacht"
       },
-      "scanner_adf_images": {
-        "name": "Gesamts gescannte Seiten von ADF"
+      "scan_images": {
+        "name": "Alle Seiten"
       },
-      "scanner_duplex_sheets": {
-        "name": "Gesamt doppelseitige Seiten gescannt"
+      "simplex_sheets": {
+        "name": "Gesamt einseitige Seiten"
       },
-      "scanner_flatbed_images": {
-        "name": "Gesamtseiten aus Scannerglas"
+      "total_impressions": {
+        "name": "Alle Seiten"
       },
-      "scanner_jam_events": {
-        "name": "Gesamtmarmelade"
-      },
-      "scanner_mispick_events": {
-        "name": "Total Miss Picks"
-      },
-      "scanner_scan_images": {
-        "name": "Gesamts gescannte Seiten"
+      "warranty_expiration_date": {
+        "name": "Verfallsdatum"
       }
     }
   },
   "options": {
     "error": {
-      "error_400": "Ung\u00fcltige Parameter bereitgestellt",
-      "error_404": "Der eingebettete Webserver (EWS) HP -Drucker wurde nicht gefunden. \u00dcberpr\u00fcfen Sie die Protokolle f\u00fcr weitere Details, um weitere Informationen zu erhalten."
+      "already_configured": "HP -Druckerintegration ({Name}) bereits konfiguriert",
+      "error_400": "Ung\u00fcltige Serverdetails, bitte versuchen Sie manuell auf `http: // {ip} // devmgmt/productStatusdyn.xml` (Ersetzen Sie Platzhalter mit IP oder Hostname).",
+      "error_404": "Nicht unterst\u00fctzte API"
     },
     "step": {
+      "hp_printer_additional_settings": {
+        "data": {
+          "host": "Gastgeber",
+          "log_level": "Protokollebene",
+          "name": "Name",
+          "store_data": "Sollte die Antworten speichern?",
+          "update_interval": "Aktualisierungsintervall (Sekunden)"
+        },
+        "description": "Definieren Sie zus\u00e4tzliche Einstellungen f\u00fcr die HP -Druckerintegration",
+        "title": "Optionen f\u00fcr HP -Drucker."
+      },
       "init": {
         "data": {
           "host": "Hostname oder IP",

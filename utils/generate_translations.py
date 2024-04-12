@@ -161,8 +161,11 @@ class TranslationGenerator:
         parent_directory = current_path.parents[1]
         file_path = os.path.join(parent_directory, "custom_components", "hpprinter", "translations", f"{lang}.json")
 
-        with open(file_path) as file:
-            data = json.load(file)
+        if os.path.exists(file_path):
+            with open(file_path) as file:
+                data = json.load(file)
+        else:
+            data = {}
 
         return data
 

@@ -1,11 +1,11 @@
 {
   "config": {
     "abort": {
-      "already_configured": "HP-skriverintegrasjon ({name}) er allerede konfigurert"
+      "already_configured": "HP Printer Integration ({name}) allerede konfigurert"
     },
     "error": {
-      "error_400": "Ugyldige serveropplysninger, pr\u00c3\u00b8v manuelt \u00c3\u00a5 f\u00c3\u00a5 tilgang til `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Erstatt plassholder med IP eller vertsnavn), hvis det er tilgjengelig, vennligst rapporter problemet med logger",
-      "error_404": "API st\u00c3\u00b8ttes ikke"
+      "error_400": "Ugyldige serverdetaljer, pr\u00f8v manuelt tilgang til `http: // {ip} // devmgmt/produktstatusdyn.xml` (erstatt plassholder med IP eller vertsnavn), i tilfelle det er tilgjengelig, vennligst rapporter problemet med logger",
+      "error_404": "Ikke st\u00f8ttet API"
     },
     "step": {
       "user": {
@@ -15,33 +15,39 @@
           "port": "Portnummer",
           "ssl": "Er SSL"
         },
-        "title": "Sett opp HP-skriver"
+        "title": "Sett opp HP -skriver"
       }
     }
   },
   "entity": {
     "binary_sensor": {
-      "consumable_consumable_life_state_consumable_state": {
-        "name": "Status"
-      },
-      "main_cloud_services_switch_status": {
+      "cloud_services_switch_status": {
         "name": "ePrint Status"
       },
-      "main_hardware_config_is_connected": {
+      "consumable_life_state_consumable_state": {
+        "name": "Status"
+      },
+      "hardware_config_is_connected": {
         "name": "Tilkoblet"
       },
-      "main_registration_state": {
+      "registration_state": {
         "name": "ePrint Registrert"
       }
     },
     "sensor": {
-      "consumable_consumable_percentage_level_remaining": {
+      "adf_images": {
+        "name": "Totalt sider fra ADF"
+      },
+      "color_impressions": {
+        "name": "Total fargesider"
+      },
+      "consumable_percentage_level_remaining": {
         "name": "Niv\u00e5"
       },
-      "consumable_consumable_station": {
+      "consumable_station": {
         "name": "Stasjon"
       },
-      "consumable_consumable_type_enum": {
+      "consumable_type_enum": {
         "name": "Type",
         "state": {
           "ink": "Blekk",
@@ -50,106 +56,70 @@
           "toner": "Toner"
         }
       },
-      "consumable_estimated_pages_remaining": {
+      "duplex_sheets": {
+        "name": "Totalt tosidige sider"
+      },
+      "estimated_pages_remaining": {
         "name": "Gjenst\u00e5ende"
       },
-      "consumable_installation_date": {
-        "name": "Installasjonsdato"
-      },
-      "consumable_manufacture_at": {
-        "name": "Produksjonsdato"
-      },
-      "consumable_refilled_count_counterfeit_refilled_count": {
-        "name": "Forfalsket p\u00e5fyllt"
-      },
-      "consumable_refilled_count_genuine_refilled_count": {
-        "name": "Ekte p\u00e5fyllt"
-      },
-      "consumable_warranty_expiration_date": {
-        "name": "Utl\u00f8psdato"
-      },
-      "copy_adf_images": {
-        "name": "Totalt eksemplarer fra ADF"
-      },
-      "copy_color_impressions": {
-        "name": "Total fargekopier"
-      },
-      "copy_flatbed_images": {
+      "flatbed_images": {
         "name": "Totalt sider fra skannerglass"
       },
-      "copy_monochrome_impressions": {
-        "name": "Totalt svart-hvitt eksemplarer"
-      },
-      "copy_total_impressions": {
-        "name": "Totalt eksemplarer"
-      },
-      "fax_total_impressions": {
-        "name": "Totalt fakser"
-      },
-      "main_hardware_config_device_connectivity_port_type": {
+      "hardware_config_device_connectivity_port_type": {
         "name": "Porttype"
       },
-      "main_manufacture_at": {
+      "installation_date": {
+        "name": "Installasjonsdato"
+      },
+      "jam_events": {
+        "name": "Total syltet\u00f8y"
+      },
+      "manufacture_at": {
         "name": "Produksjonsdato"
       },
-      "printer_color_impressions": {
-        "name": "Total fargesider trykt"
-      },
-      "printer_duplex_sheets": {
-        "name": "Totalt tosidige sider trykt"
-      },
-      "printer_jam_events": {
-        "name": "Total syltet\u00f8y"
-      },
-      "printer_mispick_events": {
+      "mispick_events": {
         "name": "Totalt glipp av valg"
       },
-      "printer_monochrome_impressions": {
-        "name": "Total svart-hvitt sider trykt"
+      "monochrome_impressions": {
+        "name": "Totalt svart-hvitt sider"
       },
-      "printer_simplex_sheets": {
-        "name": "Totalt enkeltsidede sider trykt"
+      "refilled_count_counterfeit_refilled_count": {
+        "name": "Forfalsket p\u00e5fyllt"
       },
-      "printer_total_impressions": {
-        "name": "Totalt sider trykt"
+      "refilled_count_genuine_refilled_count": {
+        "name": "Ekte p\u00e5fyllt"
       },
-      "scanner_adf_images": {
-        "name": "Total skannede sider fra ADF"
+      "scan_images": {
+        "name": "Totalt sider"
       },
-      "scanner_duplex_sheets": {
-        "name": "Totalt tosidige sider skannet"
+      "simplex_sheets": {
+        "name": "Totalt ensidige sider"
       },
-      "scanner_flatbed_images": {
-        "name": "Totalt sider fra skannerglass"
+      "total_impressions": {
+        "name": "Totalt sider"
       },
-      "scanner_jam_events": {
-        "name": "Total syltet\u00f8y"
-      },
-      "scanner_mispick_events": {
-        "name": "Totalt glipp av valg"
-      },
-      "scanner_scan_images": {
-        "name": "Totalt skannede sider"
+      "warranty_expiration_date": {
+        "name": "Utl\u00f8psdato"
       }
     }
   },
   "options": {
     "error": {
-      "already_configured": "HP-skriverintegrasjon ({name}) er allerede konfigurert",
-      "error_400": "Ugyldige serveropplysninger. Pr\u00c3\u00b8v manuelt \u00c3\u00a5 f\u00c3\u00a5 tilgang ti `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Erstatt plassholder med IP eller vertsnavn), hvis det er tilgjengelig, vennligst rapporter problemet med logger",
-      "error_404": "API st\u00c3\u00b8ttes ikke"
+      "already_configured": "HP Printer Integration ({name}) allerede konfigurert",
+      "error_400": "Ugyldige serverdetaljer, pr\u00f8v manuelt tilgang til `http: // {ip} // devmgmt/produktstatusdyn.xml` (erstatt plassholder med IP eller vertsnavn), i tilfelle det er tilgjengelig, vennligst rapporter problemet med logger",
+      "error_404": "Ikke st\u00f8ttet API"
     },
     "step": {
       "hp_printer_additional_settings": {
         "data": {
           "host": "Vert",
-          "log_level": "Loggniv\u00c3\u00a5",
+          "log_level": "Loggniv\u00e5",
           "name": "Navn",
-          "store_data": "B\u00c3\u00b8r lagre svar?",
+          "store_data": "B\u00f8r lagre svar?",
           "update_interval": "Oppdateringsintervall (sekunder)"
         },
-        "description": "Definer tilleggsinnstillinger for HP-skriverintegrasjon",
-        "title": "Alternativer for HP-skriver."
+        "description": "Definer flere innstillinger for HP -skriverintegrasjon",
+        "title": "Alternativer for HP -skriver."
       },
       "init": {
         "data": {

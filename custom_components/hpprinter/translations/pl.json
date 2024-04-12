@@ -1,47 +1,53 @@
 {
   "config": {
     "abort": {
-      "already_configured": "Integracja drukarki HP ({name}) jest ju\u00c5\u00bc skonfigurowana"
+      "already_configured": "Integracja drukarki HP ({name}) ju\u017c skonfigurowana"
     },
     "error": {
-      "error_400": "Nieprawid\u00c5\u201aowe dane serwera, spr\u00c3\u00b3buj r\u00c4\u2122cznie uzyska\u00c4\u2021 otworzy\u00c4\u2021 `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Zamie\u00c5\u201e tekst zast\u00c4\u2122pczy na IP lub nazw\u00c4\u2122 hosta), je\u00c5\u203ali to mo\u00c5\u00bcliwe - zg\u00c5\u201ao\u00c5\u203a problem wraz z logami.",
-      "error_404": "Niewspierane API"
+      "error_400": "Nieprawid\u0142owe szczeg\u00f3\u0142y serwera, spr\u00f3buj r\u0119cznie uzyska\u0107 dost\u0119p do `http: // {ip} // devmgmt/productStatusdyn.xml` (zamie\u0144 symbol zast\u0119pczy na IP lub nazwa hosta), je\u015bli jest dost\u0119pny, zg\u0142o\u015b problem z dziennikami",
+      "error_404": "Nieobs\u0142ugiwany API"
     },
     "step": {
       "user": {
         "data": {
-          "host": "Host lub IP",
+          "host": "Gospodarz",
           "name": "Nazwa",
           "port": "Numer portu",
           "ssl": "Jest SSL"
         },
-        "title": "Skonfiguruj drukark\u00c4\u2122 HP"
+        "title": "Skonfiguruj drukark\u0119 HP"
       }
     }
   },
   "entity": {
     "binary_sensor": {
-      "consumable_consumable_life_state_consumable_state": {
-        "name": "Status"
-      },
-      "main_cloud_services_switch_status": {
+      "cloud_services_switch_status": {
         "name": "ePrint Status"
       },
-      "main_hardware_config_is_connected": {
+      "consumable_life_state_consumable_state": {
+        "name": "Status"
+      },
+      "hardware_config_is_connected": {
         "name": "Po\u0142\u0105czony"
       },
-      "main_registration_state": {
+      "registration_state": {
         "name": "ePrint Zarejestrowany"
       }
     },
     "sensor": {
-      "consumable_consumable_percentage_level_remaining": {
+      "adf_images": {
+        "name": "Ca\u0142kowite strony z ADF"
+      },
+      "color_impressions": {
+        "name": "Ca\u0142kowite strony kolorowe"
+      },
+      "consumable_percentage_level_remaining": {
         "name": "Poziom"
       },
-      "consumable_consumable_station": {
+      "consumable_station": {
         "name": "Stacja"
       },
-      "consumable_consumable_type_enum": {
+      "consumable_type_enum": {
         "name": "Typ",
         "state": {
           "ink": "Atrament",
@@ -50,106 +56,70 @@
           "toner": "Toner"
         }
       },
-      "consumable_estimated_pages_remaining": {
+      "duplex_sheets": {
+        "name": "Ca\u0142kowita dwustronna strony"
+      },
+      "estimated_pages_remaining": {
         "name": "Pozosta\u0142y"
       },
-      "consumable_installation_date": {
-        "name": "Data instalacji"
-      },
-      "consumable_manufacture_at": {
-        "name": "Data produkcji"
-      },
-      "consumable_refilled_count_counterfeit_refilled_count": {
-        "name": "FRAKTHICE FOLOKLED"
-      },
-      "consumable_refilled_count_genuine_refilled_count": {
-        "name": "Oryginalny nape\u0142niony"
-      },
-      "consumable_warranty_expiration_date": {
-        "name": "Termin wa\u017cno\u015bci"
-      },
-      "copy_adf_images": {
-        "name": "Ca\u0142kowite kopie z ADF"
-      },
-      "copy_color_impressions": {
-        "name": "Ca\u0142kowite kopie kolor\u00f3w"
-      },
-      "copy_flatbed_images": {
+      "flatbed_images": {
         "name": "Ca\u0142kowite strony ze szk\u0142a skanera"
       },
-      "copy_monochrome_impressions": {
-        "name": "Ca\u0142kowite czarno-bia\u0142e kopie"
-      },
-      "copy_total_impressions": {
-        "name": "Ca\u0142kowite kopie"
-      },
-      "fax_total_impressions": {
-        "name": "Ca\u0142kowite faksy"
-      },
-      "main_hardware_config_device_connectivity_port_type": {
+      "hardware_config_device_connectivity_port_type": {
         "name": "Typ portu"
       },
-      "main_manufacture_at": {
+      "installation_date": {
+        "name": "Data instalacji"
+      },
+      "jam_events": {
+        "name": "Ca\u0142kowite zaci\u0119cia"
+      },
+      "manufacture_at": {
         "name": "Data produkcji"
       },
-      "printer_color_impressions": {
-        "name": "Wydrukowano ca\u0142kowit\u0105 strony kolor\u00f3w"
-      },
-      "printer_duplex_sheets": {
-        "name": "Wydrukowano ca\u0142kowit\u0105 dwustronne strony"
-      },
-      "printer_jam_events": {
-        "name": "Ca\u0142kowite zaci\u0119cia"
-      },
-      "printer_mispick_events": {
+      "mispick_events": {
         "name": "Total Miss Pick"
       },
-      "printer_monochrome_impressions": {
-        "name": "Wydrukowane ca\u0142kowit\u0105 czarno-bia\u0142e strony"
+      "monochrome_impressions": {
+        "name": "Ca\u0142kowite czarno-bia\u0142e strony"
       },
-      "printer_simplex_sheets": {
-        "name": "Wydrukowano ca\u0142kowit\u0105 jednostronne strony"
+      "refilled_count_counterfeit_refilled_count": {
+        "name": "FRAKTHICE FOLOKLED"
       },
-      "printer_total_impressions": {
-        "name": "Wydrukowano ca\u0142kowit\u0105 strony"
+      "refilled_count_genuine_refilled_count": {
+        "name": "Oryginalny nape\u0142niony"
       },
-      "scanner_adf_images": {
-        "name": "Ca\u0142kowite zeskanowane strony z ADF"
+      "scan_images": {
+        "name": "Wszystkie strony"
       },
-      "scanner_duplex_sheets": {
-        "name": "Ca\u0142kowita dwustronna strony zeskanowane"
+      "simplex_sheets": {
+        "name": "Ca\u0142kowita jednostronna strony"
       },
-      "scanner_flatbed_images": {
-        "name": "Ca\u0142kowite strony ze szk\u0142a skanera"
+      "total_impressions": {
+        "name": "Wszystkie strony"
       },
-      "scanner_jam_events": {
-        "name": "Ca\u0142kowite zaci\u0119cia"
-      },
-      "scanner_mispick_events": {
-        "name": "Total Miss Pick"
-      },
-      "scanner_scan_images": {
-        "name": "Ca\u0142kowite zeskanowane strony"
+      "warranty_expiration_date": {
+        "name": "Termin wa\u017cno\u015bci"
       }
     }
   },
   "options": {
     "error": {
-      "already_configured": "Integracja drukarki HP ({name}) jest ju\u00c5\u00bc skonfigurowana",
-      "error_400": "Nieprawid\u00c5\u201aowe dane serwera, spr\u00c3\u00b3buj r\u00c4\u2122cznie uzyska\u00c4\u2021 otworzy\u00c4\u2021 `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Zamie\u00c5\u201e tekst zast\u00c4\u2122pczy na IP lub nazw\u00c4\u2122 hosta), je\u00c5\u203ali to mo\u00c5\u00bcliwe - zg\u00c5\u201ao\u00c5\u203a problem wraz z logami.",
-      "error_404": "Niewspierane API"
+      "already_configured": "Integracja drukarki HP ({name}) ju\u017c skonfigurowana",
+      "error_400": "Nieprawid\u0142owe szczeg\u00f3\u0142y serwera, spr\u00f3buj r\u0119cznie uzyska\u0107 dost\u0119p do `http: // {ip} // devmgmt/productStatusdyn.xml` (zamie\u0144 symbol zast\u0119pczy na IP lub nazwa hosta), je\u015bli jest dost\u0119pny, zg\u0142o\u015b problem z dziennikami",
+      "error_404": "Nieobs\u0142ugiwany API"
     },
     "step": {
       "hp_printer_additional_settings": {
         "data": {
-          "host": "Host lub IP",
-          "log_level": "Poziom logowania",
+          "host": "Gospodarz",
+          "log_level": "Poziom dziennika",
           "name": "Nazwa",
-          "store_data": "Czy nale\u00c5\u00bcy przechowywa\u00c4\u2021 odpowiedzi?",
-          "update_interval": "Interwa\u00c5\u201a aktualizacji (sekundy)"
+          "store_data": "Powinien przechowywa\u0107 odpowiedzi?",
+          "update_interval": "Interwa\u0142 aktualizacji (sekundy)"
         },
-        "description": "Zdefiniuj dodatkowe ustawienia dla integracji drukarki HP",
-        "title": "Opcje dla drukarki HP."
+        "description": "Zdefiniuj dodatkowe ustawienia integracji drukarki HP",
+        "title": "Opcje drukarki HP."
       },
       "init": {
         "data": {

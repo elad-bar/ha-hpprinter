@@ -3,6 +3,7 @@
 ## v2.0.0b4
 
 - Support no prefetch mode
+- Fix all translations
 
 ## v2.0.0b3
 

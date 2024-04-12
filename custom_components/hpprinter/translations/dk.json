@@ -1,47 +1,53 @@
 {
   "config": {
     "abort": {
-      "already_configured": "HP Printer integration ({name}) er allerede konfigureret"
+      "already_configured": "HP -printerintegration ({navn}) allerede konfigureret"
     },
     "error": {
-      "error_400": "Ugyldige serveroplysninger, pr\u00c3\u00b8v venligst manuelt at f\u00c3\u00a5 adgang til  `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Erstat pladsholder med IP eller v\u00c3\u00a6rtsnavn ), hvis det er tilg\u00c3\u00a6ngeligt, bedes du rapportere problemet med logfiler",
-      "error_404": "Ikke underst\u00c3\u00b8ttet  API"
+      "error_400": "Ugyldigt serveroplysninger, pr\u00f8v manuelt adgang til `http: // {ip} // devmgmt/produktstatusdyn.xml` (udskift pladsholder med IP eller v\u00e6rtsnavn), hvis det er tilg\u00e6ngeligt, skal du rapportere problemet med logfiler",
+      "error_404": "Ikke -underst\u00f8ttet API"
     },
     "step": {
       "user": {
         "data": {
-          "host": "V\u00c3\u00a6rt",
+          "host": "V\u00e6rt",
           "name": "Navn",
           "port": "Portnummer",
           "ssl": "Er SSL"
         },
-        "title": "Konfigurer HP Printer "
+        "title": "Opret HP -printer"
       }
     }
   },
   "entity": {
     "binary_sensor": {
-      "consumable_consumable_life_state_consumable_state": {
-        "name": "Status"
-      },
-      "main_cloud_services_switch_status": {
+      "cloud_services_switch_status": {
         "name": "ePrint Status"
       },
-      "main_hardware_config_is_connected": {
+      "consumable_life_state_consumable_state": {
+        "name": "Status"
+      },
+      "hardware_config_is_connected": {
         "name": "Tilsluttet"
       },
-      "main_registration_state": {
+      "registration_state": {
         "name": "ePrint Registreret"
       }
     },
     "sensor": {
-      "consumable_consumable_percentage_level_remaining": {
+      "adf_images": {
+        "name": "Samlede sider fra ADF"
+      },
+      "color_impressions": {
+        "name": "Samlede farvesider"
+      },
+      "consumable_percentage_level_remaining": {
         "name": "Niveau"
       },
-      "consumable_consumable_station": {
+      "consumable_station": {
         "name": "Station"
       },
-      "consumable_consumable_type_enum": {
+      "consumable_type_enum": {
         "name": "Type",
         "state": {
           "ink": "Bl\u00e6k",
@@ -50,106 +56,70 @@
           "toner": "Toner"
         }
       },
-      "consumable_estimated_pages_remaining": {
+      "duplex_sheets": {
+        "name": "Samlede dobbeltsidede sider"
+      },
+      "estimated_pages_remaining": {
         "name": "Resterende"
       },
-      "consumable_installation_date": {
-        "name": "Installationsdato"
-      },
-      "consumable_manufacture_at": {
-        "name": "Fremstillingsdato"
-      },
-      "consumable_refilled_count_counterfeit_refilled_count": {
-        "name": "Forfalsket genopfyldt"
-      },
-      "consumable_refilled_count_genuine_refilled_count": {
-        "name": "\u00c6gte genopfyldt"
-      },
-      "consumable_warranty_expiration_date": {
-        "name": "Udl\u00f8bsdato"
-      },
-      "copy_adf_images": {
-        "name": "Samlede kopier fra ADF"
-      },
-      "copy_color_impressions": {
-        "name": "Samlede farvekopier"
-      },
-      "copy_flatbed_images": {
+      "flatbed_images": {
         "name": "Samlede sider fra scannerglas"
       },
-      "copy_monochrome_impressions": {
-        "name": "Samlede sort-hvide kopier"
-      },
-      "copy_total_impressions": {
-        "name": "Samlede kopier"
-      },
-      "fax_total_impressions": {
-        "name": "Samlede faxer"
-      },
-      "main_hardware_config_device_connectivity_port_type": {
+      "hardware_config_device_connectivity_port_type": {
         "name": "Porttype"
       },
-      "main_manufacture_at": {
+      "installation_date": {
+        "name": "Installationsdato"
+      },
+      "jam_events": {
+        "name": "Samlede syltet\u00f8j"
+      },
+      "manufacture_at": {
         "name": "Fremstillingsdato"
       },
-      "printer_color_impressions": {
-        "name": "Samlede farvesider trykt"
-      },
-      "printer_duplex_sheets": {
-        "name": "Samlede dobbeltsidede sider trykt"
-      },
-      "printer_jam_events": {
-        "name": "Samlede syltet\u00f8j"
-      },
-      "printer_mispick_events": {
+      "mispick_events": {
         "name": "Total Miss Picks"
       },
-      "printer_monochrome_impressions": {
-        "name": "Samlede sorte-hvide sider trykt"
+      "monochrome_impressions": {
+        "name": "Samlede sort-hvide sider"
       },
-      "printer_simplex_sheets": {
-        "name": "Samlede enkeltsidede sider trykt"
+      "refilled_count_counterfeit_refilled_count": {
+        "name": "Forfalsket genopfyldt"
       },
-      "printer_total_impressions": {
-        "name": "Samlede sider udskrivning"
+      "refilled_count_genuine_refilled_count": {
+        "name": "\u00c6gte genopfyldt"
       },
-      "scanner_adf_images": {
-        "name": "Samlede scannede sider fra ADF"
+      "scan_images": {
+        "name": "Samlede sider"
       },
-      "scanner_duplex_sheets": {
-        "name": "Samlede dobbeltsidede sider scannet"
+      "simplex_sheets": {
+        "name": "Samlede enkeltsidede sider"
       },
-      "scanner_flatbed_images": {
-        "name": "Samlede sider fra scannerglas"
+      "total_impressions": {
+        "name": "Samlede sider"
       },
-      "scanner_jam_events": {
-        "name": "Samlede syltet\u00f8j"
-      },
-      "scanner_mispick_events": {
-        "name": "Total Miss Picks"
-      },
-      "scanner_scan_images": {
-        "name": "Samlede scannede sider"
+      "warranty_expiration_date": {
+        "name": "Udl\u00f8bsdato"
       }
     }
   },
   "options": {
     "error": {
-      "already_configured": "HP Printer integration ({name}) er allerede konfigureret",
-      "error_400": "Ugyldige serveroplysninger, pr\u00c3\u00b8v venligst manuelt at f\u00c3\u00a5 adgang til  `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Erstat pladsholder med IP eller v\u00c3\u00a6rtsnavn ), hvis det er tilg\u00c3\u00a6ngeligt, bedes du rapportere problemet med logfiler",
-      "error_404": "Ikke underst\u00c3\u00b8ttet  API"
+      "already_configured": "HP -printerintegration ({navn}) allerede konfigureret",
+      "error_400": "Ugyldigt serveroplysninger, pr\u00f8v manuelt adgang til `http: // {ip} // devmgmt/produktstatusdyn.xml` (udskift pladsholder med IP eller v\u00e6rtsnavn), hvis det er tilg\u00e6ngeligt, skal du rapportere problemet med logfiler",
+      "error_404": "Ikke -underst\u00f8ttet API"
     },
     "step": {
       "hp_printer_additional_settings": {
         "data": {
-          "host": "V\u00c3\u00a6rt",
-          "log_level": "Log level",
+          "host": "V\u00e6rt",
+          "log_level": "Logniveau",
           "name": "Navn",
-          "store_data": "Skal svar gemmes?",
+          "store_data": "Skal gemme svar?",
           "update_interval": "Opdateringsinterval (sekunder)"
         },
-        "description": "Definer yderligere indstillinger for HP Printer integration ",
-        "title": "Indstillinger for HP Printer."
+        "description": "Definer yderligere indstillinger til HP -printerintegration",
+        "title": "Valgmuligheder til HP -printer."
       },
       "init": {
         "data": {
