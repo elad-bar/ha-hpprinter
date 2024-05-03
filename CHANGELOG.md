@@ -1,6 +1,6 @@
 # Changelog
 
-## v2.0.0b4
+## 2.0.0b5
 
 - Support no prefetch mode
 - Fix all translations
