@@ -160,6 +160,12 @@ class HACoordinator(DataUpdateCoordinator):
             device_name_parts.append(cartridge_color)
             device_name_parts.append(cartridge_type.capitalize())
 
+        device_name_parts = [
+            device_name_part
+            for device_name_part in device_name_parts
+            if device_name_part is not None
+        ]
+
         device_unique_id = slugify(f"{self.entry_id}.{device_key}")
 
         cartridge_device_name = " ".join(device_name_parts)

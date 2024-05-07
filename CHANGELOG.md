@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.0.0b6
+
+- When constructing device name, avoid null parts of it [#113](https://github.com/elad-bar/ha-hpprinter/issues/113)
+- Changed the logic of errors from not found endpoints [#120](https://github.com/elad-bar/ha-hpprinter/issues/120)
+  - On initial load / setting up integration - one of the endpoints must return valid response, otherwise the integration will fail to load.
+  - After the integration loaded, it will update data periodically,
+  - If one of the endpoints will return 404 (not found) - the data related to it will get reset, DEBUG message will be logged (instead of ERROR)
+  - If printer goes offline, all data will be set as Unknown.
+
 ## 2.0.0b5
 
 - Support no prefetch mode

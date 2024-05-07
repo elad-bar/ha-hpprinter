@@ -346,12 +346,21 @@ class RestAPIv2:
                 _LOGGER.debug(f"Request to {url}")
 
         except ClientResponseError as cre:
-            if not ignore_error:
-                exc_type, exc_obj, tb = sys.exc_info()
-                line_number = tb.tb_lineno
-                _LOGGER.error(
-                    f"Failed to get response from {endpoint}, Error: {cre}, Line: {line_number}"
-                )
+            if cre.status == 404:
+                if not ignore_error:
+                    exc_type, exc_obj, tb = sys.exc_info()
+                    line_number = tb.tb_lineno
+                    _LOGGER.debug(
+                        f"Failed to get response from {endpoint}, Error: {cre}, Line: {line_number}"
+                    )
+
+            else:
+                if not ignore_error:
+                    exc_type, exc_obj, tb = sys.exc_info()
+                    line_number = tb.tb_lineno
+                    _LOGGER.error(
+                        f"Failed to get response from {endpoint}, Error: {cre}, Line: {line_number}"
+                    )
 
         except Exception as ex:
             if not ignore_error:
