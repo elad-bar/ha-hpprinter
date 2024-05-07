@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.0b7
+
+- Safe code blocks (try / catch / log) for generating entities
+- Fix logic of constructing device name if cartridge type is not available
+
 ## 2.0.0b6
 
 - When constructing device name, avoid null parts of it [#113](https://github.com/elad-bar/ha-hpprinter/issues/113)
