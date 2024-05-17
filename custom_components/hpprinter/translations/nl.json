@@ -51,7 +51,7 @@
         "name": "Type",
         "state": {
           "ink": "Inkt",
-          "inkCartridge": "Inkt",
+          "inkcartridge": "Inkt",
           "printhead": "Printhead",
           "toner": "Toner"
         }

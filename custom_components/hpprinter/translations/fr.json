@@ -51,7 +51,7 @@
         "name": "Taper",
         "state": {
           "ink": "Encre",
-          "inkCartridge": "Encre",
+          "inkcartridge": "Encre",
           "printhead": "T\u00eate d'impression",
           "toner": "Toner"
         }

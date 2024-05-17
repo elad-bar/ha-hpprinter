@@ -51,7 +51,7 @@
         "name": "Typ",
         "state": {
           "ink": "Tinte",
-          "inkCartridge": "Tinte",
+          "inkcartridge": "Tinte",
           "printhead": "Druckkopf",
           "toner": "Toner"
         }

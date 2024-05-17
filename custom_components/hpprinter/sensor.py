@@ -62,6 +62,9 @@ class HASensorEntity(BaseEntity, SensorEntity):
                 ts = datetime.fromisoformat(state).timestamp()
                 state = datetime.fromtimestamp(ts, tz=tz)
 
+            elif self.device_class == SensorDeviceClass.ENUM:
+                state = state.lower()
+
         self._attr_native_value = state
 
     def _handle_coordinator_update(self) -> None:

@@ -182,18 +182,34 @@ class RestAPIv2:
             device_key = device_type
 
             if identifier is not None:
-                device_id = item_data.get(identifier)
+                identifier_key = identifier.get("key")
+
+                device_id = item_data.get(identifier_key)
+
+                if device_id is None:
+                    fallback = identifier.get("fallback")
+                    if fallback is not None:
+                        fallback_key = fallback.get("key")
+                        fallback_mapping = fallback.get("mapping")
+
+                        fallback_key_data = item_data.get(fallback_key)
+                        device_id = (
+                            fallback_key_data
+                            if fallback_mapping is None
+                            else fallback_mapping.get(fallback_key_data)
+                        )
+
                 if flat:
                     new_items_data = {
                         slugify(f"{device_id}_{key}"): item_data[key]
                         for key in item_data
-                        if key != identifier
+                        if key != identifier_key
                     }
 
                     new_properties = {
                         slugify(f"{device_id}_{key}"): properties[key]
                         for key in properties
-                        if key != identifier
+                        if key != identifier_key
                     }
 
                     item_data = new_items_data

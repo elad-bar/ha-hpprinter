@@ -51,7 +51,7 @@
         "name": "Tipo",
         "state": {
           "ink": "Tinta",
-          "inkCartridge": "Tinta",
+          "inkcartridge": "Tinta",
           "printhead": "Cabezal",
           "toner": "Virador"
         }

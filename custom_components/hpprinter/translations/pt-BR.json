@@ -51,7 +51,7 @@
         "name": "Tipo",
         "state": {
           "ink": "Tinta",
-          "inkCartridge": "Tinta",
+          "inkcartridge": "Tinta",
           "printhead": "Cabe\u00e7ote de impress\u00e3o",
           "toner": "Toner"
         }

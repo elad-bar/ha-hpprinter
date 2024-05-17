@@ -1,9 +1,15 @@
 # Changelog
 
+## 2.0.0b9
+
+- Add fallback mechanism for consumables, if station is not available, will use color mapping
+- Fix hassfest failure caused by invalid enums values for translation
+
 ## 2.0.0b8
 
 - Fix async dispatcher send
 - Change all sensors with date device class to timestamp [#127](https://github.com/elad-bar/ha-hpprinter/issues/127)
+- Add fallback mechanism for consumables, if station is not available, will use color mapping
 
 ## 2.0.0b7
 
