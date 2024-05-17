@@ -13,7 +13,7 @@ from homeassistant.helpers.aiohttp_client import (
     MAXIMUM_CONNECTIONS,
     MAXIMUM_CONNECTIONS_PER_HOST,
 )
-from homeassistant.helpers.dispatcher import async_dispatcher_send
+from homeassistant.helpers.dispatcher import dispatcher_send
 from homeassistant.util import slugify, ssl
 from homeassistant.util.ssl import SSLCipherList
 
@@ -403,7 +403,7 @@ class RestAPIv2:
         if device_key not in self._device_dispatched:
             self._device_dispatched.append(device_key)
 
-            async_dispatcher_send(
+            dispatcher_send(
                 self._hass,
                 SIGNAL_HA_DEVICE_DISCOVERED,
                 self._config_manager.entry_id,

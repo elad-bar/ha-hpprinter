@@ -26,7 +26,7 @@
       "manufacture_at": {
         "path": "Manufacturer.Date",
         "platform": "sensor",
-        "device_class": "date"
+        "device_class": "timestamp"
       }
     }
   },
@@ -62,7 +62,7 @@
       "installation_date": {
         "path": "Installation.Date",
         "platform": "sensor",
-        "device_class": "date"
+        "device_class": "timestamp"
       },
       "capacity_max_capacity": {
         "path": "Capacity.MaxCapacity"
@@ -84,7 +84,7 @@
       "manufacture_at": {
         "path": "Manufacturer.Date",
         "platform": "sensor",
-        "device_class": "date",
+        "device_class": "timestamp",
         "exclude": {
           "consumable_type_enum": "printhead"
         }
@@ -98,7 +98,7 @@
       "warranty_expiration_date": {
         "path": "Warranty.ExpirationDate",
         "platform": "sensor",
-        "device_class": "date",
+        "device_class": "timestamp",
         "exclude": {
           "consumable_type_enum": "printhead"
         }

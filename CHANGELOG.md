@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.0b8
+
+- Fix async dispatcher send
+- Change all sensors with date device class to timestamp [#127](https://github.com/elad-bar/ha-hpprinter/issues/127)
+
 ## 2.0.0b7
 
 - Safe code blocks (try / catch / log) for generating entities
