@@ -36,10 +36,7 @@
     "path": "ConsumableConfigDyn.ConsumableInfo",
     "device_type": "Consumable",
     "identifier": {
-      "key": "consumable_station",
-      "fallback": {
-        "key": "consumable_label_code"
-      }
+      "key": "consumable_label_code"
     },
     "properties": {
       "consumable_label_code": {
@@ -119,15 +116,13 @@
     "path": "ProductUsageDyn.ConsumableSubunit.Consumable",
     "device_type": "Consumable",
     "identifier": {
-      "key": "consumable_station",
-      "fallback": {
-        "key": "marker_color",
-        "mapping": {
-          "Cyan": "C",
-          "Yellow": "Y",
-          "Magenta": "M",
-          "Black": "K"
-        }
+      "key": "marker_color",
+      "mapping": {
+        "Cyan": "C",
+        "Yellow": "Y",
+        "Magenta": "M",
+        "CyanMagentaYellow": "CMY",
+        "Black": "K"
       }
     },
     "properties": {

@@ -183,21 +183,15 @@ class RestAPIv2:
 
             if identifier is not None:
                 identifier_key = identifier.get("key")
+                identifier_mapping = identifier.get("mapping")
 
-                device_id = item_data.get(identifier_key)
+                key_data = item_data.get(identifier_key)
 
-                if device_id is None:
-                    fallback = identifier.get("fallback")
-                    if fallback is not None:
-                        fallback_key = fallback.get("key")
-                        fallback_mapping = fallback.get("mapping")
-
-                        fallback_key_data = item_data.get(fallback_key)
-                        device_id = (
-                            fallback_key_data
-                            if fallback_mapping is None
-                            else fallback_mapping.get(fallback_key_data)
-                        )
+                device_id = (
+                    item_data.get(identifier_key)
+                    if identifier_mapping is None
+                    else identifier_mapping.get(key_data)
+                )
 
                 if flat:
                     new_items_data = {

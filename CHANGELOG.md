@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.0b10
+
+- Add support for mapping of multicolor consumable (CyanMagentaYellow)
+- Change the matching of consumable to its details by marker color instead of station
+
 ## 2.0.0b9
 
 - Add fallback mechanism for consumables, if station is not available, will use color mapping
