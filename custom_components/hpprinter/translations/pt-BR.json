@@ -1,40 +1,136 @@
 {
   "config": {
-    "step": {
-      "user": {
-        "title": "Configurar HP Printer",
-        "data": {
-          "host": "Host",
-          "name": "Nome"
-        }
-      }
-    },
     "abort": {
-      "already_configured": "Integração HP Printer ({name}) já configurada"
+      "already_configured": "Integra\u00e7\u00e3o da impressora HP ({nome}) j\u00e1 configurada"
     },
     "error": {
-      "error_400": "Detalhes do servidor inválidos, tente acessar manualmente `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Substituir o marcador de posição por IP ou Hostname), caso esteja acessível, informe o problema com os logs",
-      "error_404": "API Sem suporte"
+      "error_400": "Detalhes do servidor inv\u00e1lido, tente acessar manualmente para `http: // {ip} // devmgmt/productStatusdyn.xml` (substitua o espa\u00e7o reservado por IP ou nome de host), caso esteja acess\u00edvel, relate o problema com os logs",
+      "error_404": "API n\u00e3o suportada"
+    },
+    "step": {
+      "user": {
+        "data": {
+          "host": "Hospedar",
+          "name": "Nome",
+          "port": "N\u00famero da porta",
+          "ssl": "\u00c9 ssl"
+        },
+        "title": "Configurar impressora HP"
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "cloud_services_switch_status": {
+        "name": "ePrint Status"
+      },
+      "consumable_life_state_consumable_state": {
+        "name": "Status"
+      },
+      "hardware_config_is_connected": {
+        "name": "Conectada Conectado"
+      },
+      "registration_state": {
+        "name": "ePrint Registrado"
+      }
+    },
+    "sensor": {
+      "adf_images": {
+        "name": "P\u00e1ginas totais do ADF"
+      },
+      "color_impressions": {
+        "name": "P\u00e1ginas coloridas totais"
+      },
+      "consumable_percentage_level_remaining": {
+        "name": "N\u00edvel"
+      },
+      "consumable_station": {
+        "name": "Esta\u00e7\u00e3o"
+      },
+      "consumable_type_enum": {
+        "name": "Tipo",
+        "state": {
+          "ink": "Tinta",
+          "inkcartridge": "Tinta",
+          "printhead": "Cabe\u00e7ote de impress\u00e3o",
+          "toner": "Toner"
+        }
+      },
+      "duplex_sheets": {
+        "name": "P\u00e1ginas totais de dupla face"
+      },
+      "estimated_pages_remaining": {
+        "name": "Restante"
+      },
+      "flatbed_images": {
+        "name": "P\u00e1ginas totais de vidro do scanner"
+      },
+      "hardware_config_device_connectivity_port_type": {
+        "name": "Tipo de porta"
+      },
+      "installation_date": {
+        "name": "Data de instala\u00e7\u00e3o"
+      },
+      "jam_events": {
+        "name": "Total Jams"
+      },
+      "manufacture_at": {
+        "name": "Data de fabrica\u00e7\u00e3o"
+      },
+      "mispick_events": {
+        "name": "Total Miss Picks"
+      },
+      "monochrome_impressions": {
+        "name": "P\u00e1ginas totais em preto e branco"
+      },
+      "refilled_count_counterfeit_refilled_count": {
+        "name": "Falsificado reabastecido"
+      },
+      "refilled_count_genuine_refilled_count": {
+        "name": "Reabastecido genu\u00edno"
+      },
+      "scan_images": {
+        "name": "P\u00e1ginas totais"
+      },
+      "simplex_sheets": {
+        "name": "P\u00e1ginas totais de um lado"
+      },
+      "total_impressions": {
+        "name": "P\u00e1ginas totais"
+      },
+      "warranty_expiration_date": {
+        "name": "Data de validade"
+      }
     }
   },
   "options": {
+    "error": {
+      "already_configured": "Integra\u00e7\u00e3o da impressora HP ({nome}) j\u00e1 configurada",
+      "error_400": "Detalhes do servidor inv\u00e1lido, tente acessar manualmente para `http: // {ip} // devmgmt/productStatusdyn.xml` (substitua o espa\u00e7o reservado por IP ou nome de host), caso esteja acess\u00edvel, relate o problema com os logs",
+      "error_404": "API n\u00e3o suportada"
+    },
     "step": {
       "hp_printer_additional_settings": {
-        "title": "Opções para HP Printer.",
-        "description": "Defina configurações adicionais para a integração HP Printer",
         "data": {
-          "host": "Host",
+          "host": "Hospedar",
+          "log_level": "N\u00edvel de log",
           "name": "Nome",
-          "update_interval": "Intervalo de atualização (segundos)",
-          "log_level": "Nível de registro",
-          "store_data": "Deve armazenar respostas?"
-        }
+          "store_data": "Deve armazenar respostas?",
+          "update_interval": "Intervalo de atualiza\u00e7\u00e3o (segundos)"
+        },
+        "description": "Defina configura\u00e7\u00f5es adicionais para a integra\u00e7\u00e3o da impressora HP",
+        "title": "Op\u00e7\u00f5es para a impressora HP."
+      },
+      "init": {
+        "data": {
+          "host": "Nome do host ou IP",
+          "port": "N\u00famero da porta",
+          "ssl": "\u00c9 ssl",
+          "update_interval": "Intervalo de atualiza\u00e7\u00e3o (segundos)"
+        },
+        "description": "Defina configura\u00e7\u00f5es adicionais para a integra\u00e7\u00e3o da impressora HP",
+        "title": "Op\u00e7\u00f5es para a impressora HP."
       }
-    },
-    "error": {
-      "error_400": "Detalhes do servidor inválidos, tente acessar manualmente `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Substituir o marcador de posição por IP ou Hostname), caso esteja acessível, informe o problema com os logs",
-      "error_404": "API sem suporte",
-      "already_configured": "Integração HP Printer ({name}) já configurada"
     }
   }
 }

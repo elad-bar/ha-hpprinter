@@ -1,73 +1,73 @@
-"""
-Support for HP Printer binary sensors.
-For more details about this platform, please refer to the documentation at
-https://home-assistant.io/components/binary_sensor.hp_printer/
-"""
-from __future__ import annotations
-
+from datetime import datetime
 import logging
 
-from homeassistant.components.sensor import (
-    SensorDeviceClass,
-    SensorEntity,
-    SensorStateClass,
-)
+from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.const import PERCENTAGE, Platform
 from homeassistant.core import HomeAssistant
 
-from .helpers.const import *
-from .models.base_entity import HPPrinterEntity, async_setup_base_entry
-from .models.entity_data import EntityData
+from .common.base_entity import BaseEntity, async_setup_base_entry
+from .common.consts import NUMERIC_UNITS_OF_MEASUREMENT
+from .common.entity_descriptions import IntegrationSensorEntityDescription
+from .managers.ha_coordinator import HACoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
-CURRENT_DOMAIN = DOMAIN_SENSOR
 
-
-def get_device_tracker(hass: HomeAssistant, integration_name: str, entity: EntityData):
-    sensor = HPPrinterSensor()
-    sensor.initialize(hass, integration_name, entity, CURRENT_DOMAIN)
-
-    return sensor
-
-
-async def async_setup_entry(hass: HomeAssistant, entry, async_add_entities):
-    """Set up HP Printer based off an entry."""
+async def async_setup_entry(
+    hass: HomeAssistant, entry: ConfigEntry, async_add_entities
+):
     await async_setup_base_entry(
-        hass, entry, async_add_entities, CURRENT_DOMAIN, get_device_tracker
+        hass,
+        entry,
+        Platform.SENSOR,
+        HASensorEntity,
+        async_add_entities,
     )
 
 
-async def async_unload_entry(_hass, config_entry):
-    _LOGGER.info(f"async_unload_entry {CURRENT_DOMAIN}: {config_entry}")
+class HASensorEntity(BaseEntity, SensorEntity):
+    """Representation of a sensor."""
 
-    return True
+    def __init__(
+        self,
+        entity_description: IntegrationSensorEntityDescription,
+        coordinator: HACoordinator,
+        device_key: str,
+    ):
+        super().__init__(entity_description, coordinator, device_key)
 
+        self._attr_device_class = entity_description.device_class
+        self._attr_native_unit_of_measurement = (
+            entity_description.native_unit_of_measurement
+        )
 
-class HPPrinterSensor(SensorEntity, HPPrinterEntity):
-    """Representation a binary sensor that is updated by HP Printer."""
+        self._set_value()
 
-    @property
-    def native_value(self):
-        """Return the state of the sensor."""
-        return self.entity.state
+    def _set_value(self):
+        state = self.get_value()
 
-    @property
-    def device_class(self) -> SensorDeviceClass | str | None:
-        """Return the class of this sensor."""
-        return self.entity.sensor_device_class
+        if state is not None:
+            if self.native_unit_of_measurement in [PERCENTAGE]:
+                state = float(state)
 
-    @property
-    def state_class(self) -> SensorStateClass | str | None:
-        """Return the class of this sensor."""
-        return self.entity.sensor_state_class
+            elif self.native_unit_of_measurement in NUMERIC_UNITS_OF_MEASUREMENT:
+                state = int(state)
 
-    async def async_added_to_hass_local(self):
-        _LOGGER.info(f"Added new {self.name}")
+            if self.device_class == SensorDeviceClass.DATE:
+                state = datetime.fromisoformat(state)
 
-    def _immediate_update(self, previous_state: bool):
-        if previous_state != self.entity.state:
-            _LOGGER.debug(
-                f"{self.name} updated from {previous_state} to {self.entity.state}"
-            )
+            elif self.device_class == SensorDeviceClass.TIMESTAMP:
+                tz = datetime.now().astimezone().tzinfo
+                ts = datetime.fromisoformat(state).timestamp()
+                state = datetime.fromtimestamp(ts, tz=tz)
 
-        super()._immediate_update(previous_state)
+            elif self.device_class == SensorDeviceClass.ENUM:
+                state = state.lower()
+
+        self._attr_native_value = state
+
+    def _handle_coordinator_update(self) -> None:
+        """Fetch new state parameters for the sensor."""
+        self._set_value()
+        super()._handle_coordinator_update()

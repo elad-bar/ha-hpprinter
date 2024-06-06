@@ -1,40 +1,136 @@
 {
   "config": {
-    "step": {
-      "user": {
-        "title": "Set up HP Printer",
-        "data": {
-          "host": "Host",
-          "name": "Name"
-        }
-      }
-    },
     "abort": {
       "already_configured": "HP Printer integration ({name}) already configured"
     },
     "error": {
-      "error_400": "Invalid server details, please try manually access to `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Replace placeholder with IP or Hostname), in case it's accessible, please report the issue with logs",
+      "error_400": "Invalid server details, please try manually access to `http://{IP}/DevMgmt/ProductStatusDyn.xml` (Replace placeholder with IP or Hostname), in case it's accessible, please report the issue with logs",
       "error_404": "Unsupported API"
-    }
-  },
-  "options": {
+    },
     "step": {
-      "hp_printer_additional_settings": {
-        "title": "Options for HP Printer.",
-        "description": "Define additional settings for HP Printer integration",
+      "user": {
         "data": {
           "host": "Host",
           "name": "Name",
-          "update_interval": "Update interval (Seconds)",
-          "log_level": "Log level",
-          "store_data": "Should store responses?"
-        }
+          "port": "Port number",
+          "ssl": "Is SSL"
+        },
+        "title": "Set up HP Printer"
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "consumable_life_state_consumable_state": {
+        "name": "Status"
+      },
+      "cloud_services_switch_status": {
+        "name": "ePrint Status"
+      },
+      "hardware_config_is_connected": {
+        "name": "Connected"
+      },
+      "registration_state": {
+        "name": "ePrint Registered"
       }
     },
+    "sensor": {
+      "consumable_percentage_level_remaining": {
+        "name": "Level"
+      },
+      "consumable_station": {
+        "name": "Station"
+      },
+      "consumable_type_enum": {
+        "name": "Type",
+        "state": {
+          "ink": "Ink",
+          "inkcartridge": "Ink",
+          "printhead": "Printhead",
+          "toner": "Toner"
+        }
+      },
+      "estimated_pages_remaining": {
+        "name": "Remaining"
+      },
+      "installation_date": {
+        "name": "Installation Date"
+      },
+      "manufacture_at": {
+        "name": "Manufacture Date"
+      },
+      "refilled_count_counterfeit_refilled_count": {
+        "name": "Counterfeit Refilled"
+      },
+      "refilled_count_genuine_refilled_count": {
+        "name": "Genuine Refilled"
+      },
+      "warranty_expiration_date": {
+        "name": "Expiration Date"
+      },
+      "adf_images": {
+        "name": "Total pages from ADF"
+      },
+      "color_impressions": {
+        "name": "Total color pages"
+      },
+      "flatbed_images": {
+        "name": "Total pages from scanner glass"
+      },
+      "monochrome_impressions": {
+        "name": "Total black-and-white pages"
+      },
+      "total_impressions": {
+        "name": "Total pages"
+      },
+      "hardware_config_device_connectivity_port_type": {
+        "name": "Port Type"
+      },
+      "duplex_sheets": {
+        "name": "Total double-sided pages"
+      },
+      "jam_events": {
+        "name": "Total jams"
+      },
+      "mispick_events": {
+        "name": "Total miss picks"
+      },
+      "simplex_sheets": {
+        "name": "Total single-sided pages"
+      },
+      "scan_images": {
+        "name": "Total pages"
+      }
+    }
+  },
+  "options": {
     "error": {
-      "error_400": "Invalid server details, please try manually access to `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Replace placeholder with IP or Hostname), in case it's accessible, please report the issue with logs",
-      "error_404": "Unsupported API",
-      "already_configured": "HP Printer integration ({name}) already configured"
+      "already_configured": "HP Printer integration ({name}) already configured",
+      "error_400": "Invalid server details, please try manually access to `http://{IP}/DevMgmt/ProductStatusDyn.xml` (Replace placeholder with IP or Hostname), in case it's accessible, please report the issue with logs",
+      "error_404": "Unsupported API"
+    },
+    "step": {
+      "hp_printer_additional_settings": {
+        "data": {
+          "host": "Host",
+          "log_level": "Log level",
+          "name": "Name",
+          "store_data": "Should store responses?",
+          "update_interval": "Update interval (Seconds)"
+        },
+        "description": "Define additional settings for HP Printer integration",
+        "title": "Options for HP Printer."
+      },
+      "init": {
+        "data": {
+          "host": "Hostname or IP",
+          "port": "Port number",
+          "ssl": "Is SSL",
+          "update_interval": "Update interval (Seconds)"
+        },
+        "description": "Define additional settings for HP Printer integration",
+        "title": "Options for HP Printer."
+      }
     }
   }
 }

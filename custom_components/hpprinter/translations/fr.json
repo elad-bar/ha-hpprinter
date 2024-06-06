@@ -1,12 +1,135 @@
 {
   "config": {
+    "abort": {
+      "already_configured": "HP Imprimante Integration ({name}) d\u00e9j\u00e0 configur\u00e9"
+    },
+    "error": {
+      "error_400": "D\u00e9tails du serveur non valides, veuillez essayer un acc\u00e8s manuellement \u00e0 `http: // {ip} // devmgmt / productStatusDyn.xml` (Remplacez l'espace r\u00e9serv\u00e9 par IP ou nom d'h\u00f4te), au cas o\u00f9 il est accessible, veuillez signaler le probl\u00e8me avec les journaux",
+      "error_404": "API non pris en charge"
+    },
     "step": {
       "user": {
-        "title": "Configurer l'imprimante HP",
         "data": {
-          "host": "Hôte",
-          "name": "Nom"
+          "host": "H\u00f4tesse H\u00f4te",
+          "name": "Nom",
+          "port": "Num\u00e9ro de port",
+          "ssl": "Est ssl"
+        },
+        "title": "Configurer l'imprimante HP"
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "cloud_services_switch_status": {
+        "name": "ePrint Statut"
+      },
+      "consumable_life_state_consumable_state": {
+        "name": "Statut"
+      },
+      "hardware_config_is_connected": {
+        "name": "Connect\u00e9"
+      },
+      "registration_state": {
+        "name": "ePrint enregistr\u00e9"
+      }
+    },
+    "sensor": {
+      "adf_images": {
+        "name": "Pages totales de l'ADF"
+      },
+      "color_impressions": {
+        "name": "Pages de couleur totale"
+      },
+      "consumable_percentage_level_remaining": {
+        "name": "Niveau"
+      },
+      "consumable_station": {
+        "name": "Gare"
+      },
+      "consumable_type_enum": {
+        "name": "Taper",
+        "state": {
+          "ink": "Encre",
+          "inkcartridge": "Encre",
+          "printhead": "T\u00eate d'impression",
+          "toner": "Toner"
         }
+      },
+      "duplex_sheets": {
+        "name": "Pages totales double face"
+      },
+      "estimated_pages_remaining": {
+        "name": "Restante Restant"
+      },
+      "flatbed_images": {
+        "name": "Pages totales du verre du scanner"
+      },
+      "hardware_config_device_connectivity_port_type": {
+        "name": "Type de port"
+      },
+      "installation_date": {
+        "name": "Date d'installation"
+      },
+      "jam_events": {
+        "name": "Jams totaux"
+      },
+      "manufacture_at": {
+        "name": "Date de fabrication"
+      },
+      "mispick_events": {
+        "name": "Picks Miss Total"
+      },
+      "monochrome_impressions": {
+        "name": "Pages totales en noir et blanc"
+      },
+      "refilled_count_counterfeit_refilled_count": {
+        "name": "Contrefait rempli"
+      },
+      "refilled_count_genuine_refilled_count": {
+        "name": "Authentique rempli"
+      },
+      "scan_images": {
+        "name": "Pages totales"
+      },
+      "simplex_sheets": {
+        "name": "Pages totales \u00e0 un c\u00f4t\u00e9 unique"
+      },
+      "total_impressions": {
+        "name": "Pages totales"
+      },
+      "warranty_expiration_date": {
+        "name": "Date d'expiration"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "already_configured": "HP Imprimante Integration ({name}) d\u00e9j\u00e0 configur\u00e9",
+      "error_400": "D\u00e9tails du serveur non valides, veuillez essayer un acc\u00e8s manuellement \u00e0 `http: // {ip} // devmgmt / productStatusDyn.xml` (Remplacez l'espace r\u00e9serv\u00e9 par IP ou nom d'h\u00f4te), au cas o\u00f9 il est accessible, veuillez signaler le probl\u00e8me avec les journaux",
+      "error_404": "API non pris en charge"
+    },
+    "step": {
+      "hp_printer_additional_settings": {
+        "data": {
+          "host": "H\u00f4tesse H\u00f4te",
+          "log_level": "Niveau de journal",
+          "name": "Nom",
+          "store_data": "Doit les r\u00e9ponses du magasin?",
+          "update_interval": "Mettre \u00e0 jour l'intervalle (secondes)"
+        },
+        "description": "D\u00e9finir des param\u00e8tres suppl\u00e9mentaires pour l'int\u00e9gration de l'imprimante HP",
+        "title": "Options pour l'imprimante HP."
+      },
+      "init": {
+        "data": {
+          "host": "Nom d'h\u00f4te ou IP",
+          "port": "Num\u00e9ro de port",
+          "ssl": "Est ssl",
+          "update_interval": "Mettre \u00e0 jour l'intervalle (secondes)"
+        },
+        "description": "D\u00e9finir des param\u00e8tres suppl\u00e9mentaires pour l'int\u00e9gration de l'imprimante HP",
+        "title": "Options pour l'imprimante HP."
       }
     }
   }

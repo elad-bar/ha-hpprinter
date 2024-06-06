@@ -1,20 +1,13 @@
-"""
-This component provides support for HP Printers.
-For more details about this component, please refer to the documentation at
-https://home-assistant.io/components/hpprinter/
-"""
-from custom_components.hpprinter.helpers import (
-    async_set_ha,
-    clear_ha,
-    get_ha,
-    handle_log_level,
-)
+import logging
+import sys
+
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_NAME
+from homeassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STOP
 from homeassistant.core import HomeAssistant
 
-from .helpers.const import *
-from .managers.HPDeviceData import *
+from .common.consts import DEFAULT_NAME, DOMAIN
+from .managers.ha_config_manager import HAConfigManager
+from .managers.ha_coordinator import HACoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -24,50 +17,62 @@ async def async_setup(_hass, _config):
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Set up a HP Printer component."""
+    """Set up a Shinobi Video component."""
     initialized = False
 
     try:
-        await handle_log_level(hass, entry)
+        entry_config = {key: entry.data[key] for key in entry.data}
 
-        _LOGGER.debug(f"Starting async_setup_entry of {DOMAIN}")
-        entry.add_update_listener(async_options_updated)
-        name = entry.data.get(CONF_NAME)
+        config_manager = HAConfigManager(hass, entry)
+        await config_manager.initialize(entry_config)
 
-        await async_set_ha(hass, name, entry)
+        is_initialized = config_manager.is_initialized
 
-        initialized = True
+        if is_initialized:
+            coordinator = HACoordinator(hass, config_manager)
+
+            hass.data.setdefault(DOMAIN, {})[entry.entry_id] = coordinator
+
+            if hass.is_running:
+                await coordinator.initialize()
+
+            else:
+                hass.bus.async_listen_once(
+                    EVENT_HOMEASSISTANT_START, coordinator.on_home_assistant_start
+                )
+
+                hass.bus.async_listen_once(
+                    EVENT_HOMEASSISTANT_STOP, coordinator.on_home_assistant_stop
+                )
+
+            _LOGGER.info("Finished loading integration")
+
+        initialized = is_initialized
 
     except Exception as ex:
         exc_type, exc_obj, tb = sys.exc_info()
         line_number = tb.tb_lineno
 
-        _LOGGER.error(f"Failed to load HP Printer, error: {ex}, line: {line_number}")
+        _LOGGER.error(
+            f"Failed to load {DEFAULT_NAME}, error: {ex}, line: {line_number}"
+        )
 
     return initialized
 
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Unload a config entry."""
-    name = entry.data.get(CONF_NAME)
-    ha = get_ha(hass, name)
+    _LOGGER.info(f"Unloading {DOMAIN} integration, Entry ID: {entry.entry_id}")
 
-    if ha is not None:
-        await ha.async_remove()
+    coordinator: HACoordinator = hass.data[DOMAIN][entry.entry_id]
 
-    clear_ha(hass, name)
+    await coordinator.config_manager.remove(entry.entry_id)
+
+    platforms = coordinator.config_manager.platforms
+
+    for platform in platforms:
+        await hass.config_entries.async_forward_entry_unload(entry, platform)
+
+    del hass.data[DOMAIN][entry.entry_id]
 
     return True
-
-
-async def async_options_updated(hass: HomeAssistant, entry: ConfigEntry):
-    """Triggered by config entry options updates."""
-    await handle_log_level(hass, entry)
-
-    _LOGGER.info(f"async_options_updated, Entry: {entry.as_dict()} ")
-
-    name = entry.data.get(CONF_NAME)
-    ha = get_ha(hass, name)
-
-    if ha is not None:
-        await ha.async_update_entry(entry)

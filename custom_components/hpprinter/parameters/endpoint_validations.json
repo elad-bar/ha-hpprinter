@@ -1,0 +1,18 @@
+{
+  "exclude_type": ["ns", "feature", "manifest"],
+  "exclude_uri": [
+    "/DevMgmt/InternalPrintDyn.xml",
+    "/Scan/SPF",
+    "/Jobs/JobList",
+    "/CachedData/Info",
+    "/CachedData/Files",
+    "/ePrint/EmailAddress",
+    "/ePrint/PrinterSignature",
+    "/ePrint/XMPPConfiguration",
+    "/ePrint/ClaimInfo",
+    "/IoMgmt/Adapters/Wifi1/ClientList",
+    "/WalkupScanToComp/WalkupScanToCompEvent",
+    "/FirmwareUpdate/FirmwareUpdateDyn.xml",
+    "/FirmwareUpdate/WebFWUpdate/State"
+  ]
+}

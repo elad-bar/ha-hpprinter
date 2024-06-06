@@ -1,5 +1,57 @@
 # Changelog
 
+## 2.0.0
+
+- Fix "detected blocking call to open inside the event loop by custom integration" error
+
+## 2.0.0b10
+
+- Add support for mapping of multicolor consumable (CyanMagentaYellow)
+- Change the matching of consumable to its details by marker color instead of station
+
+## 2.0.0b9
+
+- Add fallback mechanism for consumables, if station is not available, will use color mapping
+- Fix hassfest failure caused by invalid enums values for translation
+
+## 2.0.0b8
+
+- Fix async dispatcher send
+- Change all sensors with date device class to timestamp [#127](https://github.com/elad-bar/ha-hpprinter/issues/127)
+- Add fallback mechanism for consumables, if station is not available, will use color mapping
+
+## 2.0.0b7
+
+- Safe code blocks (try / catch / log) for generating entities
+- Fix logic of constructing device name if cartridge type is not available
+
+## 2.0.0b6
+
+- When constructing device name, avoid null parts of it [#113](https://github.com/elad-bar/ha-hpprinter/issues/113)
+- Changed the logic of errors from not found endpoints [#120](https://github.com/elad-bar/ha-hpprinter/issues/120)
+  - On initial load / setting up integration - one of the endpoints must return valid response, otherwise the integration will fail to load.
+  - After the integration loaded, it will update data periodically,
+  - If one of the endpoints will return 404 (not found) - the data related to it will get reset, DEBUG message will be logged (instead of ERROR)
+  - If printer goes offline, all data will be set as Unknown.
+
+## 2.0.0b5
+
+- Support no prefetch mode
+- Fix all translations
+
+## v2.0.0b3
+
+- Fix entity translations
+- Fix main device manufacture date
+
+## v2.0.0b2
+
+- Fix wrong library usage for slugify, causing wrong translation key to get picked up
+
+## v2.0.0b1
+
+- Refactor to full HP Printer EWS support
+
 ## v1.0.12
 
 - Fix missing references [Issue #103](https://github.com/elad-bar/ha-hpprinter/issues/103)

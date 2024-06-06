@@ -1,16 +1,136 @@
 {
   "config": {
-    "step": {
-      "user": {
-        "title": "HP Printer instellen",
-        "data": {
-          "host": "Host",
-          "name": "Naam"
-        }
-      }
+    "abort": {
+      "already_configured": "HP Printer Integration ({Name}) al geconfigureerd"
     },
     "error": {
-      "cannot_reach_printer": "HP Printer is onbereikbaar vanwege een van de volgende redenen: de hostnaam is verkeerd, de printer is niet verbonden of de printer ondersteund de API in deze integratie niet"
+      "error_400": "Ongeldige servergegevens, probeer handmatig toegang tot `http: // {ip} // devmgmt/ProductStatusyn.xml` (Vervang Placeholder door IP of hostnaam), Rapporteer het probleem met logs met logs met logs",
+      "error_404": "Niet -ondersteunde API"
+    },
+    "step": {
+      "user": {
+        "data": {
+          "host": "Gastheer",
+          "name": "Naam",
+          "port": "Poortnummer",
+          "ssl": "Is SSL"
+        },
+        "title": "HP -printer instellen"
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "cloud_services_switch_status": {
+        "name": "ePrint Toestand"
+      },
+      "consumable_life_state_consumable_state": {
+        "name": "Toestand"
+      },
+      "hardware_config_is_connected": {
+        "name": "Verbonden"
+      },
+      "registration_state": {
+        "name": "ePrint Geregistreerd"
+      }
+    },
+    "sensor": {
+      "adf_images": {
+        "name": "Totale pagina's van ADF"
+      },
+      "color_impressions": {
+        "name": "Totale kleurpagina's"
+      },
+      "consumable_percentage_level_remaining": {
+        "name": "Niveau"
+      },
+      "consumable_station": {
+        "name": "Station"
+      },
+      "consumable_type_enum": {
+        "name": "Type",
+        "state": {
+          "ink": "Inkt",
+          "inkcartridge": "Inkt",
+          "printhead": "Printhead",
+          "toner": "Toner"
+        }
+      },
+      "duplex_sheets": {
+        "name": "Totale dubbelzijdige pagina's"
+      },
+      "estimated_pages_remaining": {
+        "name": "Overig"
+      },
+      "flatbed_images": {
+        "name": "Totale pagina's van scannerglas"
+      },
+      "hardware_config_device_connectivity_port_type": {
+        "name": "Poorttype"
+      },
+      "installation_date": {
+        "name": "Installatie datum"
+      },
+      "jam_events": {
+        "name": "Totale jam"
+      },
+      "manufacture_at": {
+        "name": "Productiedatum"
+      },
+      "mispick_events": {
+        "name": "Totale Miss Picks"
+      },
+      "monochrome_impressions": {
+        "name": "Totaal zwart-witpagina's"
+      },
+      "refilled_count_counterfeit_refilled_count": {
+        "name": "Vervalste bijgevuld"
+      },
+      "refilled_count_genuine_refilled_count": {
+        "name": "Echt bijgevuld"
+      },
+      "scan_images": {
+        "name": "Totale pagina's"
+      },
+      "simplex_sheets": {
+        "name": "Totaal enkelzijdige pagina's"
+      },
+      "total_impressions": {
+        "name": "Totale pagina's"
+      },
+      "warranty_expiration_date": {
+        "name": "uiterste houdbaarheidsdatum"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "already_configured": "HP Printer Integration ({Name}) al geconfigureerd",
+      "error_400": "Ongeldige servergegevens, probeer handmatig toegang tot `http: // {ip} // devmgmt/ProductStatusyn.xml` (Vervang Placeholder door IP of hostnaam), Rapporteer het probleem met logs met logs met logs",
+      "error_404": "Niet -ondersteunde API"
+    },
+    "step": {
+      "hp_printer_additional_settings": {
+        "data": {
+          "host": "Gastheer",
+          "log_level": "Log niveau",
+          "name": "Naam",
+          "store_data": "Moeten de reacties opslaan?",
+          "update_interval": "Update interval (seconden)"
+        },
+        "description": "Definieer extra instellingen voor HP -printerintegratie",
+        "title": "Opties voor HP -printer."
+      },
+      "init": {
+        "data": {
+          "host": "Hostnaam of ip",
+          "port": "Poortnummer",
+          "ssl": "Is SSL",
+          "update_interval": "Update interval (seconden)"
+        },
+        "description": "Definieer extra instellingen voor HP -printerintegratie",
+        "title": "Opties voor HP -printer."
+      }
     }
   }
 }

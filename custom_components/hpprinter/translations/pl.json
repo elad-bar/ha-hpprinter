@@ -1,40 +1,136 @@
 {
   "config": {
-    "step": {
-      "user": {
-        "title": "Skonfiguruj drukarkę HP",
-        "data": {
-          "host": "Host lub IP",
-          "name": "Nazwa"
-        }
-      }
-    },
     "abort": {
-      "already_configured": "Integracja drukarki HP ({name}) jest już skonfigurowana"
+      "already_configured": "Integracja drukarki HP ({name}) ju\u017c skonfigurowana"
     },
     "error": {
-      "error_400": "Nieprawidłowe dane serwera, spróbuj ręcznie uzyskać otworzyć `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Zamień tekst zastępczy na IP lub nazwę hosta), jeśli to możliwe - zgłoś problem wraz z logami.",
-      "error_404": "Niewspierane API"
+      "error_400": "Nieprawid\u0142owe szczeg\u00f3\u0142y serwera, spr\u00f3buj r\u0119cznie uzyska\u0107 dost\u0119p do `http: // {ip} // devmgmt/productStatusdyn.xml` (zamie\u0144 symbol zast\u0119pczy na IP lub nazwa hosta), je\u015bli jest dost\u0119pny, zg\u0142o\u015b problem z dziennikami",
+      "error_404": "Nieobs\u0142ugiwany API"
+    },
+    "step": {
+      "user": {
+        "data": {
+          "host": "Gospodarz",
+          "name": "Nazwa",
+          "port": "Numer portu",
+          "ssl": "Jest SSL"
+        },
+        "title": "Skonfiguruj drukark\u0119 HP"
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "cloud_services_switch_status": {
+        "name": "ePrint Status"
+      },
+      "consumable_life_state_consumable_state": {
+        "name": "Status"
+      },
+      "hardware_config_is_connected": {
+        "name": "Po\u0142\u0105czony"
+      },
+      "registration_state": {
+        "name": "ePrint Zarejestrowany"
+      }
+    },
+    "sensor": {
+      "adf_images": {
+        "name": "Ca\u0142kowite strony z ADF"
+      },
+      "color_impressions": {
+        "name": "Ca\u0142kowite strony kolorowe"
+      },
+      "consumable_percentage_level_remaining": {
+        "name": "Poziom"
+      },
+      "consumable_station": {
+        "name": "Stacja"
+      },
+      "consumable_type_enum": {
+        "name": "Typ",
+        "state": {
+          "ink": "Atrament",
+          "inkcartridge": "Atrament",
+          "printhead": "Printhead",
+          "toner": "Toner"
+        }
+      },
+      "duplex_sheets": {
+        "name": "Ca\u0142kowita dwustronna strony"
+      },
+      "estimated_pages_remaining": {
+        "name": "Pozosta\u0142y"
+      },
+      "flatbed_images": {
+        "name": "Ca\u0142kowite strony ze szk\u0142a skanera"
+      },
+      "hardware_config_device_connectivity_port_type": {
+        "name": "Typ portu"
+      },
+      "installation_date": {
+        "name": "Data instalacji"
+      },
+      "jam_events": {
+        "name": "Ca\u0142kowite zaci\u0119cia"
+      },
+      "manufacture_at": {
+        "name": "Data produkcji"
+      },
+      "mispick_events": {
+        "name": "Total Miss Pick"
+      },
+      "monochrome_impressions": {
+        "name": "Ca\u0142kowite czarno-bia\u0142e strony"
+      },
+      "refilled_count_counterfeit_refilled_count": {
+        "name": "FRAKTHICE FOLOKLED"
+      },
+      "refilled_count_genuine_refilled_count": {
+        "name": "Oryginalny nape\u0142niony"
+      },
+      "scan_images": {
+        "name": "Wszystkie strony"
+      },
+      "simplex_sheets": {
+        "name": "Ca\u0142kowita jednostronna strony"
+      },
+      "total_impressions": {
+        "name": "Wszystkie strony"
+      },
+      "warranty_expiration_date": {
+        "name": "Termin wa\u017cno\u015bci"
+      }
     }
   },
   "options": {
+    "error": {
+      "already_configured": "Integracja drukarki HP ({name}) ju\u017c skonfigurowana",
+      "error_400": "Nieprawid\u0142owe szczeg\u00f3\u0142y serwera, spr\u00f3buj r\u0119cznie uzyska\u0107 dost\u0119p do `http: // {ip} // devmgmt/productStatusdyn.xml` (zamie\u0144 symbol zast\u0119pczy na IP lub nazwa hosta), je\u015bli jest dost\u0119pny, zg\u0142o\u015b problem z dziennikami",
+      "error_404": "Nieobs\u0142ugiwany API"
+    },
     "step": {
       "hp_printer_additional_settings": {
-        "title": "Opcje dla drukarki HP.",
-        "description": "Zdefiniuj dodatkowe ustawienia dla integracji drukarki HP",
         "data": {
-          "host": "Host lub IP",
+          "host": "Gospodarz",
+          "log_level": "Poziom dziennika",
           "name": "Nazwa",
-          "update_interval": "Interwał aktualizacji (sekundy)",
-          "log_level": "Poziom logowania",
-          "store_data": "Czy należy przechowywać odpowiedzi?"
-        }
+          "store_data": "Powinien przechowywa\u0107 odpowiedzi?",
+          "update_interval": "Interwa\u0142 aktualizacji (sekundy)"
+        },
+        "description": "Zdefiniuj dodatkowe ustawienia integracji drukarki HP",
+        "title": "Opcje drukarki HP."
+      },
+      "init": {
+        "data": {
+          "host": "Nazwa hosta lub IP",
+          "port": "Numer portu",
+          "ssl": "Jest SSL",
+          "update_interval": "Interwa\u0142 aktualizacji (sekundy)"
+        },
+        "description": "Zdefiniuj dodatkowe ustawienia integracji drukarki HP",
+        "title": "Opcje drukarki HP."
       }
-    },
-    "error": {
-      "error_400": "Nieprawidłowe dane serwera, spróbuj ręcznie uzyskać otworzyć `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Zamień tekst zastępczy na IP lub nazwę hosta), jeśli to możliwe - zgłoś problem wraz z logami.",
-      "error_404": "Niewspierane API",
-      "already_configured": "Integracja drukarki HP ({name}) jest już skonfigurowana"
     }
   }
 }

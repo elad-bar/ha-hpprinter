@@ -1,68 +1,54 @@
-"""
-Support for HP Printer binary sensors.
-For more details about this platform, please refer to the documentation at
-https://home-assistant.io/components/binary_sensor.hp_printer/
-"""
-from __future__ import annotations
-
 import logging
 
-from homeassistant.components.binary_sensor import (
-    BinarySensorDeviceClass,
-    BinarySensorEntity,
-)
+from homeassistant.components.binary_sensor import BinarySensorEntity
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.const import ATTR_STATE, Platform
 from homeassistant.core import HomeAssistant
 
-from .helpers.const import *
-from .models.base_entity import HPPrinterEntity, async_setup_base_entry
-from .models.entity_data import EntityData
+from .common.base_entity import BaseEntity, async_setup_base_entry
+from .common.entity_descriptions import IntegrationBinarySensorEntityDescription
+from .managers.ha_coordinator import HACoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
 
-CURRENT_DOMAIN = DOMAIN_BINARY_SENSOR
-
-
-def get_binary_sensor(hass: HomeAssistant, integration_name: str, entity: EntityData):
-    binary_sensor = HPPrinterBinarySensor()
-    binary_sensor.initialize(hass, integration_name, entity, CURRENT_DOMAIN)
-
-    return binary_sensor
-
-
-async def async_setup_entry(hass: HomeAssistant, entry, async_add_entities):
-    """Set up HP Printer based off an entry."""
+async def async_setup_entry(
+    hass: HomeAssistant, entry: ConfigEntry, async_add_entities
+):
     await async_setup_base_entry(
-        hass, entry, async_add_entities, CURRENT_DOMAIN, get_binary_sensor
+        hass,
+        entry,
+        Platform.BINARY_SENSOR,
+        HABinarySensorEntity,
+        async_add_entities,
     )
 
 
-async def async_unload_entry(_hass, config_entry):
-    _LOGGER.info(f"async_unload_entry {CURRENT_DOMAIN}: {config_entry}")
+class HABinarySensorEntity(BaseEntity, BinarySensorEntity):
+    """Representation of a sensor."""
 
-    return True
+    def __init__(
+        self,
+        entity_description: IntegrationBinarySensorEntityDescription,
+        coordinator: HACoordinator,
+        device_key: str,
+    ):
+        super().__init__(entity_description, coordinator, device_key)
 
+        self._attr_device_class = entity_description.device_class
+        self._entity_on_values = entity_description.on_values
 
-class HPPrinterBinarySensor(BinarySensorEntity, HPPrinterEntity):
-    """Representation a binary sensor that is updated by HP Printer."""
+        self._set_value()
 
-    @property
-    def is_on(self):
-        """Return true if the binary sensor is on."""
-        return bool(self.entity.state)
+    def _set_value(self):
+        state = self.get_value()
 
-    @property
-    def device_class(self) -> BinarySensorDeviceClass | str | None:
-        """Return the class of this sensor."""
-        return self.entity.binary_sensor_device_class
+        is_on = str(state).lower() in self._entity_on_values
 
-    async def async_added_to_hass_local(self):
-        _LOGGER.info(f"Added new {self.name}")
+        self._attr_is_on = is_on
+        self._attr_extra_state_attributes = {ATTR_STATE: state}
 
-    def _immediate_update(self, previous_state: bool):
-        if previous_state != self.entity.state:
-            _LOGGER.debug(
-                f"{self.name} updated from {previous_state} to {self.entity.state}"
-            )
-
-        super()._immediate_update(previous_state)
+    def _handle_coordinator_update(self) -> None:
+        """Fetch new state parameters for the sensor."""
+        self._set_value()
+        super()._handle_coordinator_update()

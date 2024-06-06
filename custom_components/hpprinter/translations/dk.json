@@ -1,40 +1,136 @@
 {
   "config": {
-    "step": {
-      "user": {
-        "title": "Konfigurer HP Printer ",
-        "data": {
-          "host": "Vært",
-          "name": "Navn"
-        }
-      }
-    },
     "abort": {
-      "already_configured": "HP Printer integration ({name}) er allerede konfigureret"
+      "already_configured": "HP -printerintegration ({navn}) allerede konfigureret"
     },
     "error": {
-      "error_400": "Ugyldige serveroplysninger, prøv venligst manuelt at få adgang til  `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Erstat pladsholder med IP eller værtsnavn ), hvis det er tilgængeligt, bedes du rapportere problemet med logfiler",
-      "error_404": "Ikke understøttet  API"
+      "error_400": "Ugyldigt serveroplysninger, pr\u00f8v manuelt adgang til `http: // {ip} // devmgmt/produktstatusdyn.xml` (udskift pladsholder med IP eller v\u00e6rtsnavn), hvis det er tilg\u00e6ngeligt, skal du rapportere problemet med logfiler",
+      "error_404": "Ikke -underst\u00f8ttet API"
+    },
+    "step": {
+      "user": {
+        "data": {
+          "host": "V\u00e6rt",
+          "name": "Navn",
+          "port": "Portnummer",
+          "ssl": "Er SSL"
+        },
+        "title": "Opret HP -printer"
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "cloud_services_switch_status": {
+        "name": "ePrint Status"
+      },
+      "consumable_life_state_consumable_state": {
+        "name": "Status"
+      },
+      "hardware_config_is_connected": {
+        "name": "Tilsluttet"
+      },
+      "registration_state": {
+        "name": "ePrint Registreret"
+      }
+    },
+    "sensor": {
+      "adf_images": {
+        "name": "Samlede sider fra ADF"
+      },
+      "color_impressions": {
+        "name": "Samlede farvesider"
+      },
+      "consumable_percentage_level_remaining": {
+        "name": "Niveau"
+      },
+      "consumable_station": {
+        "name": "Station"
+      },
+      "consumable_type_enum": {
+        "name": "Type",
+        "state": {
+          "ink": "Bl\u00e6k",
+          "inkcartridge": "Bl\u00e6k",
+          "printhead": "Printhead",
+          "toner": "Toner"
+        }
+      },
+      "duplex_sheets": {
+        "name": "Samlede dobbeltsidede sider"
+      },
+      "estimated_pages_remaining": {
+        "name": "Resterende"
+      },
+      "flatbed_images": {
+        "name": "Samlede sider fra scannerglas"
+      },
+      "hardware_config_device_connectivity_port_type": {
+        "name": "Porttype"
+      },
+      "installation_date": {
+        "name": "Installationsdato"
+      },
+      "jam_events": {
+        "name": "Samlede syltet\u00f8j"
+      },
+      "manufacture_at": {
+        "name": "Fremstillingsdato"
+      },
+      "mispick_events": {
+        "name": "Total Miss Picks"
+      },
+      "monochrome_impressions": {
+        "name": "Samlede sort-hvide sider"
+      },
+      "refilled_count_counterfeit_refilled_count": {
+        "name": "Forfalsket genopfyldt"
+      },
+      "refilled_count_genuine_refilled_count": {
+        "name": "\u00c6gte genopfyldt"
+      },
+      "scan_images": {
+        "name": "Samlede sider"
+      },
+      "simplex_sheets": {
+        "name": "Samlede enkeltsidede sider"
+      },
+      "total_impressions": {
+        "name": "Samlede sider"
+      },
+      "warranty_expiration_date": {
+        "name": "Udl\u00f8bsdato"
+      }
     }
   },
   "options": {
+    "error": {
+      "already_configured": "HP -printerintegration ({navn}) allerede konfigureret",
+      "error_400": "Ugyldigt serveroplysninger, pr\u00f8v manuelt adgang til `http: // {ip} // devmgmt/produktstatusdyn.xml` (udskift pladsholder med IP eller v\u00e6rtsnavn), hvis det er tilg\u00e6ngeligt, skal du rapportere problemet med logfiler",
+      "error_404": "Ikke -underst\u00f8ttet API"
+    },
     "step": {
       "hp_printer_additional_settings": {
-        "title": "Indstillinger for HP Printer.",
-        "description": "Definer yderligere indstillinger for HP Printer integration ",
         "data": {
-          "host": "Vært",
+          "host": "V\u00e6rt",
+          "log_level": "Logniveau",
           "name": "Navn",
-          "update_interval": "Opdateringsinterval (sekunder)",
-          "log_level": "Log level",
-          "store_data": "Skal svar gemmes?"
-        }
+          "store_data": "Skal gemme svar?",
+          "update_interval": "Opdateringsinterval (sekunder)"
+        },
+        "description": "Definer yderligere indstillinger til HP -printerintegration",
+        "title": "Valgmuligheder til HP -printer."
+      },
+      "init": {
+        "data": {
+          "host": "V\u00e6rtsnavn eller IP",
+          "port": "Portnummer",
+          "ssl": "Er SSL",
+          "update_interval": "Opdateringsinterval (sekunder)"
+        },
+        "description": "Definer yderligere indstillinger til HP -printerintegration",
+        "title": "Valgmuligheder til HP -printer."
       }
-    },
-    "error": {
-      "error_400": "Ugyldige serveroplysninger, prøv venligst manuelt at få adgang til  `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Erstat pladsholder med IP eller værtsnavn ), hvis det er tilgængeligt, bedes du rapportere problemet med logfiler",
-      "error_404": "Ikke understøttet  API",
-      "already_configured": "HP Printer integration ({name}) er allerede konfigureret"
     }
   }
 }

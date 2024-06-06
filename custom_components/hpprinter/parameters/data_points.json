@@ -1,0 +1,375 @@
+[
+  {
+    "name": "Main",
+    "endpoint": "/DevMgmt/ProductConfigDyn.xml",
+    "path": "ProductConfigDyn.ProductInformation",
+    "device_type": "Main",
+    "properties": {
+      "make_and_model": {
+        "path": "MakeAndModel"
+      },
+      "make_and_model_family": {
+        "path": "MakeAndModelFamily"
+      },
+      "sku_identifier": {
+        "path": "SKUIdentifier"
+      },
+      "serial_number": {
+        "path": "SerialNumber"
+      },
+      "product_number": {
+        "path": "ProductNumber"
+      },
+      "manufacturer_name": {
+        "path": "Manufacturer.Name"
+      },
+      "manufacture_at": {
+        "path": "Manufacturer.Date",
+        "platform": "sensor",
+        "device_class": "timestamp"
+      }
+    }
+  },
+  {
+    "name": "Consumable",
+    "endpoint": "/DevMgmt/ConsumableConfigDyn.xml",
+    "path": "ConsumableConfigDyn.ConsumableInfo",
+    "device_type": "Consumable",
+    "identifier": {
+      "key": "consumable_label_code"
+    },
+    "properties": {
+      "consumable_label_code": {
+        "path": "ConsumableLabelCode"
+      },
+      "consumable_life_state_consumable_state": {
+        "path": "ConsumableLifeState.ConsumableState",
+        "platform": "binary_sensor",
+        "on_values": ["ok", "newGenuineHP"],
+        "device_class": "plug"
+      },
+      "consumable_life_state_brand": {
+        "path": "ConsumableLifeState.Brand"
+      },
+      "consumable_station": {
+        "path": "ConsumableStation",
+        "platform": "sensor"
+      },
+      "consumable_type_enum": {
+        "path": "ConsumableTypeEnum",
+        "platform": "sensor",
+        "device_class": "enum",
+        "options": ["ink", "inkcartridge", "printhead", "toner"]
+      },
+      "installation_date": {
+        "path": "Installation.Date",
+        "platform": "sensor",
+        "device_class": "timestamp"
+      },
+      "capacity_max_capacity": {
+        "path": "Capacity.MaxCapacity"
+      },
+      "consumable_percentage_level_remaining": {
+        "path": "ConsumablePercentageLevelRemaining",
+        "platform": "sensor",
+        "unit_of_measurement": "%",
+        "exclude": {
+          "consumable_type_enum": "printhead"
+        }
+      },
+      "consumable_selectibility_number": {
+        "path": "ConsumableSelectibilityNumber"
+      },
+      "manufacturer_name": {
+        "path": "Manufacturer.Name"
+      },
+      "manufacture_at": {
+        "path": "Manufacturer.Date",
+        "platform": "sensor",
+        "device_class": "timestamp",
+        "exclude": {
+          "consumable_type_enum": "printhead"
+        }
+      },
+      "serial_number": {
+        "path": "SerialNumber"
+      },
+      "product_number": {
+        "path": "ProductNumber"
+      },
+      "warranty_expiration_date": {
+        "path": "Warranty.ExpirationDate",
+        "platform": "sensor",
+        "device_class": "timestamp",
+        "exclude": {
+          "consumable_type_enum": "printhead"
+        }
+      },
+      "consumable_unique_id": {
+        "path": "ConsumableUniqueID"
+      }
+    }
+  },
+  {
+    "name": "Consumable Usage",
+    "endpoint": "/DevMgmt/ProductUsageDyn.xml",
+    "path": "ProductUsageDyn.ConsumableSubunit.Consumable",
+    "device_type": "Consumable",
+    "identifier": {
+      "key": "marker_color",
+      "mapping": {
+        "Cyan": "C",
+        "Yellow": "Y",
+        "Magenta": "M",
+        "CyanMagentaYellow": "CMY",
+        "Black": "K"
+      }
+    },
+    "properties": {
+      "consumable_station": {
+        "path": "ConsumableStation"
+      },
+      "marker_color": {
+        "path": "MarkerColor"
+      },
+      "estimated_pages_remaining": {
+        "path": "EstimatedPagesRemaining",
+        "platform": "sensor",
+        "unit_of_measurement": "pages",
+        "exclude": {
+          "consumable_type_enum": "printhead"
+        }
+      },
+      "consumable_state": {
+        "path": "ConsumableState"
+      },
+      "consumable_raw_percentage_level_remaining": {
+        "path": "ConsumableRawPercentageLevelRemaining"
+      },
+      "supply_serial_number": {
+        "path": "SupplySerialNumber.#text"
+      },
+      "refilled_count_counterfeit_refilled_count": {
+        "path": "RefilledCount.CounterfeitRefilledCount.#text",
+        "platform": "sensor",
+        "unit_of_measurement": "refills",
+        "icon": "mdi:format-color-fill"
+      },
+      "refilled_count_genuine_refilled_count": {
+        "path": "RefilledCount.GenuineRefilledCount",
+        "platform": "sensor",
+        "unit_of_measurement": "refills",
+        "icon": "mdi:format-color-fill"
+      }
+    }
+  },
+  {
+    "name": "Printer",
+    "endpoint": "/DevMgmt/ProductUsageDyn.xml",
+    "path": "ProductUsageDyn.PrinterSubunit",
+    "device_type": "Printer",
+    "properties": {
+      "total_impressions": {
+        "path": "TotalImpressions.#text",
+        "platform": "sensor",
+        "unit_of_measurement": "pages",
+        "icon": "mdi:file-document-check"
+      },
+      "monochrome_impressions": {
+        "path": "MonochromeImpressions",
+        "platform": "sensor",
+        "unit_of_measurement": "pages",
+        "icon": "mdi:file-document-check"
+      },
+      "color_impressions": {
+        "path": "ColorImpressions",
+        "platform": "sensor",
+        "unit_of_measurement": "pages",
+        "icon": "mdi:file-document-check"
+      },
+      "simplex_sheets": {
+        "path": "SimplexSheets",
+        "platform": "sensor",
+        "unit_of_measurement": "pages",
+        "icon": "mdi:file-document-check"
+      },
+      "duplex_sheets": {
+        "path": "DuplexSheets.#text",
+        "platform": "sensor",
+        "unit_of_measurement": "pages",
+        "icon": "mdi:file-document-multiple"
+      },
+      "jam_events": {
+        "path": "JamEvents.#text",
+        "platform": "sensor",
+        "unit_of_measurement": "pages",
+        "icon": "mdi:file-document-remove"
+      },
+      "mispick_events": {
+        "path": "MispickEvents",
+        "platform": "sensor",
+        "unit_of_measurement": "pages",
+        "icon": "mdi:file-document-minus"
+      }
+    }
+  },
+  {
+    "name": "Scanner",
+    "endpoint": "/DevMgmt/ProductUsageDyn.xml",
+    "path": "ProductUsageDyn.ScannerEngineSubunit",
+    "device_type": "Scanner",
+    "properties": {
+      "scan_images": {
+        "path": "ScanImages.#text",
+        "platform": "sensor",
+        "unit_of_measurement": "pages",
+        "icon": "mdi:credit-card-scan"
+      },
+      "adf_images": {
+        "path": "AdfImages.#text",
+        "platform": "sensor",
+        "unit_of_measurement": "pages",
+        "icon": "mdi:credit-card-scan"
+      },
+      "duplex_sheets": {
+        "path": "DuplexSheets.#text",
+        "platform": "sensor",
+        "unit_of_measurement": "pages",
+        "icon": "mdi:credit-card-scan"
+      },
+      "flatbed_images": {
+        "path": "FlatbedImages",
+        "platform": "sensor",
+        "unit_of_measurement": "pages",
+        "icon": "mdi:credit-card-scan"
+      },
+      "jam_events": {
+        "path": "JamEvents",
+        "platform": "sensor",
+        "unit_of_measurement": "pages",
+        "icon": "mdi:credit-card-scan"
+      },
+      "mispick_events": {
+        "path": "MispickEvents",
+        "platform": "sensor",
+        "unit_of_measurement": "pages",
+        "icon": "mdi:credit-card-scan"
+      }
+    }
+  },
+  {
+    "name": "Copy",
+    "endpoint": "/DevMgmt/ProductUsageDyn.xml",
+    "path": "ProductUsageDyn.CopyApplicationSubunit",
+    "device_type": "Copy",
+    "properties": {
+      "total_impressions": {
+        "path": "TotalImpressions.#text",
+        "platform": "sensor",
+        "unit_of_measurement": "pages",
+        "icon": "mdi:content-copy"
+      },
+      "adf_images": {
+        "path": "AdfImages",
+        "platform": "sensor",
+        "unit_of_measurement": "pages",
+        "icon": "mdi:content-copy"
+      },
+      "flatbed_images": {
+        "path": "FlatbedImages",
+        "platform": "sensor",
+        "unit_of_measurement": "pages",
+        "icon": "mdi:content-copy"
+      },
+      "monochrome_impressions": {
+        "path": "MonochromeImpressions",
+        "platform": "sensor",
+        "unit_of_measurement": "pages",
+        "icon": "mdi:content-copy"
+      },
+      "color_impressions": {
+        "path": "ColorImpressions",
+        "platform": "sensor",
+        "unit_of_measurement": "pages",
+        "icon": "mdi:content-copy"
+      }
+    }
+  },
+  {
+    "name": "Fax",
+    "endpoint": "/DevMgmt/ProductUsageDyn.xml",
+    "path": "ProductUsageDyn.FaxApplicationSubunit",
+    "device_type": "Fax",
+    "properties": {
+      "total_impressions": {
+        "path": "TotalImpressions.#text",
+        "platform": "sensor",
+        "unit_of_measurement": "pages",
+        "icon": "mdi:email-fast"
+      }
+    }
+  },
+  {
+    "name": "Adapter",
+    "endpoint": "/IoMgmt/Adapters",
+    "path": "Adapters.Adapter",
+    "device_type": "Main",
+    "identifier": {
+      "key": "hardware_config_name"
+    },
+    "flat": true,
+    "properties": {
+      "hardware_config_name": {
+        "path": "HardwareConfig.Name"
+      },
+      "hardware_config_device_connectivity_port_type": {
+        "path": "HardwareConfig.DeviceConnectivityPortType",
+        "platform": "sensor"
+      },
+      "hardware_config_is_connected": {
+        "path": "HardwareConfig.IsConnected",
+        "platform": "binary_sensor",
+        "on_values": ["true"],
+        "device_class": "connectivity"
+      }
+    }
+  },
+  {
+    "name": "ePrint",
+    "endpoint": "/ePrint/ePrintConfigDyn.xml",
+    "path": "ePrintConfigDyn",
+    "device_type": "Main",
+    "properties": {
+      "printer_id": {
+        "path": "PrinterID"
+      },
+      "registration_state": {
+        "path": "RegistrationState",
+        "platform": "binary_sensor",
+        "on_values": ["registered"],
+        "device_class": "plug",
+        "icon": "mdi:cloud-print"
+      },
+      "cloud_services_switch_status": {
+        "path": "CloudServicesSwitch.Status",
+        "platform": "binary_sensor",
+        "on_values": ["enabled"],
+        "device_class": "connectivity"
+      }
+    }
+  },
+  {
+    "name": "Wifi",
+    "endpoint": "/DevMgmt/NetAppsSecureDyn.xml",
+    "path": "NetAppsSecureDyn.WirelessDirectConfig",
+    "device_type": "Main",
+    "properties": {
+      "ssid_prefix": {
+        "path": "SSIDPrefix"
+      },
+      "connection_method": {
+        "path": "ConnectionMethod"
+      }
+    }
+  }
+]

@@ -1,12 +1,135 @@
 {
   "config": {
+    "abort": {
+      "already_configured": "HP -Druckerintegration ({Name}) bereits konfiguriert"
+    },
+    "error": {
+      "error_400": "Ung\u00fcltige Serverdetails, bitte versuchen Sie manuell auf `http: // {ip} // devmgmt/productStatusdyn.xml` (Ersetzen Sie Platzhalter mit IP oder Hostname).",
+      "error_404": "Nicht unterst\u00fctzte API"
+    },
     "step": {
       "user": {
-        "title": "HP Drucker einrichten ",
         "data": {
-          "host": "Host",
-          "name": "Name"
+          "host": "Gastgeber",
+          "name": "Name",
+          "port": "Port-Nummer",
+          "ssl": "Ist SSL"
+        },
+        "title": "Richten Sie den HP -Drucker ein"
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "cloud_services_switch_status": {
+        "name": "ePrint Status"
+      },
+      "consumable_life_state_consumable_state": {
+        "name": "Status"
+      },
+      "hardware_config_is_connected": {
+        "name": "In Verbindung gebracht"
+      },
+      "registration_state": {
+        "name": "ePrint Eingetragen"
+      }
+    },
+    "sensor": {
+      "adf_images": {
+        "name": "Gesamtseiten von ADF"
+      },
+      "color_impressions": {
+        "name": "Gesamtfarbseiten"
+      },
+      "consumable_percentage_level_remaining": {
+        "name": "Ebene"
+      },
+      "consumable_station": {
+        "name": "Bahnhof"
+      },
+      "consumable_type_enum": {
+        "name": "Typ",
+        "state": {
+          "ink": "Tinte",
+          "inkcartridge": "Tinte",
+          "printhead": "Druckkopf",
+          "toner": "Toner"
         }
+      },
+      "duplex_sheets": {
+        "name": "Gesamt zweiseitige Seiten"
+      },
+      "estimated_pages_remaining": {
+        "name": "\u00dcbrig"
+      },
+      "flatbed_images": {
+        "name": "Gesamtseiten aus Scannerglas"
+      },
+      "hardware_config_device_connectivity_port_type": {
+        "name": "Port -Typ"
+      },
+      "installation_date": {
+        "name": "Installationsdatum"
+      },
+      "jam_events": {
+        "name": "Gesamtmarmelade"
+      },
+      "manufacture_at": {
+        "name": "Herstellungsdatum"
+      },
+      "mispick_events": {
+        "name": "Total Miss Picks"
+      },
+      "monochrome_impressions": {
+        "name": "Gesamtschwarz-Wei\u00df-Seiten"
+      },
+      "refilled_count_counterfeit_refilled_count": {
+        "name": "Gef\u00e4lscht nachgedacht"
+      },
+      "refilled_count_genuine_refilled_count": {
+        "name": "Echt nachgedacht"
+      },
+      "scan_images": {
+        "name": "Alle Seiten"
+      },
+      "simplex_sheets": {
+        "name": "Gesamt einseitige Seiten"
+      },
+      "total_impressions": {
+        "name": "Alle Seiten"
+      },
+      "warranty_expiration_date": {
+        "name": "Verfallsdatum"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "already_configured": "HP -Druckerintegration ({Name}) bereits konfiguriert",
+      "error_400": "Ung\u00fcltige Serverdetails, bitte versuchen Sie manuell auf `http: // {ip} // devmgmt/productStatusdyn.xml` (Ersetzen Sie Platzhalter mit IP oder Hostname).",
+      "error_404": "Nicht unterst\u00fctzte API"
+    },
+    "step": {
+      "hp_printer_additional_settings": {
+        "data": {
+          "host": "Gastgeber",
+          "log_level": "Protokollebene",
+          "name": "Name",
+          "store_data": "Sollte die Antworten speichern?",
+          "update_interval": "Aktualisierungsintervall (Sekunden)"
+        },
+        "description": "Definieren Sie zus\u00e4tzliche Einstellungen f\u00fcr die HP -Druckerintegration",
+        "title": "Optionen f\u00fcr HP -Drucker."
+      },
+      "init": {
+        "data": {
+          "host": "Hostname oder IP",
+          "port": "Port-Nummer",
+          "ssl": "Ist SSL",
+          "update_interval": "Aktualisierungsintervall (Sekunden)"
+        },
+        "description": "Definieren Sie zus\u00e4tzliche Einstellungen f\u00fcr die HP -Druckerintegration",
+        "title": "Optionen f\u00fcr HP -Drucker."
       }
     }
   }
