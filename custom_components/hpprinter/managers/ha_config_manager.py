@@ -4,6 +4,8 @@ import logging
 import os
 from pathlib import Path
 
+import aiofiles
+
 from homeassistant.config_entries import STORAGE_VERSION, ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
@@ -122,8 +124,8 @@ class HAConfigManager:
 
         self._config_data.update(entry_config)
 
-        self._load_exclude_endpoints_configuration()
-        self._load_data_points_configuration()
+        await self._load_exclude_endpoints_configuration()
+        await self._load_data_points_configuration()
 
         self._load_entity_descriptions()
 
@@ -374,10 +376,10 @@ class HAConfigManager:
 
         return is_valid
 
-    def _load_data_points_configuration(self):
+    async def _load_data_points_configuration(self):
         self._endpoints = []
 
-        self._data_points = self._get_parameters(ParameterType.DATA_POINTS)
+        self._data_points = await self._get_parameters(ParameterType.DATA_POINTS)
 
         endpoint_objects = self._data_points
 
@@ -390,23 +392,26 @@ class HAConfigManager:
             ):
                 self._endpoints.append(endpoint_uri)
 
-    def _load_exclude_endpoints_configuration(self):
-        endpoints = self._get_parameters(ParameterType.ENDPOINT_VALIDATIONS)
+    async def _load_exclude_endpoints_configuration(self):
+        endpoints = await self._get_parameters(ParameterType.ENDPOINT_VALIDATIONS)
 
         self._exclude_uri_list = endpoints.get("exclude_uri")
         self._exclude_type_list = endpoints.get("exclude_type")
 
     @staticmethod
-    def _get_parameters(parameter_type: ParameterType) -> dict:
+    async def _get_parameters(parameter_type: ParameterType) -> dict:
         config_file = f"{parameter_type}.json"
         current_path = Path(__file__)
         parent_directory = current_path.parents[1]
         file_path = os.path.join(parent_directory, "parameters", config_file)
 
-        with open(file_path) as f:
-            data = json.load(f)
+        file = await aiofiles.open(file_path)
+        content = await file.read()
+        await file.close()
 
-            return data
+        data = json.loads(content)
+
+        return data
 
     def is_valid_endpoint(self, endpoint: dict):
         endpoint_type = endpoint.get("type")

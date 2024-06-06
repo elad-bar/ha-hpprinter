@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0
+
+- Fix "detected blocking call to open inside the event loop by custom integration" error
+
 ## 2.0.0b10
 
 - Add support for mapping of multicolor consumable (CyanMagentaYellow)
