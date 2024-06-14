@@ -1,0 +1,136 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Η ενσωμάτωση HP Printer ({name}) είναι ήδη ρυθμισμένη"
+    },
+    "error": {
+      "error_400": "Μη έγκυρα στοιχεία διακομιστή, παρακαλώ δοκιμάστε χειροκίνητα πρόσβαση στο `http://{IP}/DevMgmt/ProductStatusDyn.xml` (Αντικαταστήστε το περιεχόμενο μέσα σε αγκύλες με τη διέυθυνση IP ή το Όνομα υπολογιστή), σε περίπτωση που είναι προσβάσιμο, παρακαλώ υποβάλετε αναφορά του προβλήματος με καταγραφές συμβάντων",
+      "error_404": "Μη υποστηριζόμενο API"
+    },
+    "step": {
+      "user": {
+        "data": {
+          "host": "Διεύθυνση",
+          "name": "Όνομα",
+          "port": "Αριθμός θύρας",
+          "ssl": "Είναι SSL"
+        },
+        "title": "Ρύθμιση Εκτυπωτή HP"
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "cloud_services_switch_status": {
+        "name": "Κατάσταση ePrint"
+      },
+      "consumable_life_state_consumable_state": {
+        "name": "Κατάσταση"
+      },
+      "hardware_config_is_connected": {
+        "name": "Συνδεμένο"
+      },
+      "registration_state": {
+        "name": "ePrint Εγγεγραμμένο"
+      }
+    },
+    "sensor": {
+      "adf_images": {
+        "name": "Σύνολο σελίδων από τον Αυτόματο Τροφοδότη"
+      },
+      "color_impressions": {
+        "name": "Σύνολο έγχρωμων σελίδων"
+      },
+      "consumable_percentage_level_remaining": {
+        "name": "Επίπεδο"
+      },
+      "consumable_station": {
+        "name": "Σταθμός"
+      },
+      "consumable_type_enum": {
+        "name": "Τύπος",
+        "state": {
+          "ink": "Μελάνι",
+          "inkcartridge": "Μελάνι",
+          "printhead": "ΚεφαλήΕκτύπωσης",
+          "toner": "Τόνερ"
+        }
+      },
+      "duplex_sheets": {
+        "name": "Σύνολο σελίδων διπλής όψης"
+      },
+      "estimated_pages_remaining": {
+        "name": "Απομένουν"
+      },
+      "flatbed_images": {
+        "name": "Σύνολο σελίδων από τον επίπεδο σαρωτή"
+      },
+      "hardware_config_device_connectivity_port_type": {
+        "name": "Τύπος Πόρτας"
+      },
+      "installation_date": {
+        "name": "Ημερομηνία Εγκατάστασης"
+      },
+      "jam_events": {
+        "name": "Συνολικές εμπλοκές"
+      },
+      "manufacture_at": {
+        "name": "Ημερομηνία Κατασκευής"
+      },
+      "mispick_events": {
+        "name": "Συνολικές αστοχίες"
+      },
+      "monochrome_impressions": {
+        "name": "Σύνολο ασπρόμαυρων σελίδων"
+      },
+      "refilled_count_counterfeit_refilled_count": {
+        "name": "Μη γνήσιο ξαναγεμισμένο"
+      },
+      "refilled_count_genuine_refilled_count": {
+        "name": "Γνήσιο ξαναγεμισμένο"
+      },
+      "scan_images": {
+        "name": "Σύνολο σελίδων"
+      },
+      "simplex_sheets": {
+        "name": "Σύνολο σελίδων μονής όψης"
+      },
+      "total_impressions": {
+        "name": "Σύνολο σελίδων"
+      },
+      "warranty_expiration_date": {
+        "name": "Ημερμομηνία Λήξης"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "already_configured": "Η ενσωμάτωση HP Printer ({name}) είναι ήδη ρυθμισμένη",
+      "error_400": "Μη έγκυρα στοιχεία διακομιστή, παρακαλώ δοκιμάστε χειροκίνητα πρόσβαση στο `http://{IP}/DevMgmt/ProductStatusDyn.xml` (Αντικαταστήστε το περιεχόμενο μέσα σε αγκύλες με τη διέυθυνση IP ή το Όνομα υπολογιστή), σε περίπτωση που είναι προσβάσιμο, παρακαλώ υποβάλετε αναφορά του προβλήματος με καταγραφές συμβάντων",
+      "error_404": "Μη υποστηριζόμενο API"
+    },
+    "step": {
+      "hp_printer_additional_settings": {
+        "data": {
+          "host": "Διεύθυνση",
+          "log_level": "Επίπεδο καταγραφής",
+          "name": "Όνομα",
+          "store_data": "Να αποθηκεύει απαντήσεις;",
+          "update_interval": "Μεσοδιάστημα ενημέρωσης (Δευτερόλεπτα)"
+        },
+        "description": "Ορίστε πρόσθετες ρυθμίσεις για την ενσωμάτωση HP Printer",
+        "title": "Επιλογές για το HP Printer."
+      },
+      "init": {
+        "data": {
+          "host": "Όνομα ή IP",
+          "port": "Αριθμός θύρας",
+          "ssl": "Είναι SSL",
+          "update_interval": "Μεσοδιάστημα ενημέρωσης (Δευτερόλεπτα)"
+        },
+        "description": "Ορίστε πρόσθετες ρυθμίσεις για την ενσωμάτωση HP Printer",
+        "title": "Επιλογές για το HP Printer."
+      }
+    }
+  }
+}
