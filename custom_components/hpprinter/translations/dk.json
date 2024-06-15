@@ -4,7 +4,7 @@
       "already_configured": "HP -printerintegration ({navn}) allerede konfigureret"
     },
     "error": {
-      "error_400": "Ugyldigt serveroplysninger, pr\u00f8v manuelt adgang til `http: // {ip} // devmgmt/produktstatusdyn.xml` (udskift pladsholder med IP eller v\u00e6rtsnavn), hvis det er tilg\u00e6ngeligt, skal du rapportere problemet med logfiler",
+      "error_400": "Ugyldigt serveroplysninger, pr\u00f8v manuelt adgang til `http://{IP}//DevMgmt/ProductStatusDyn.xml` (udskift pladsholder med IP eller v\u00e6rtsnavn), hvis det er tilg\u00e6ngeligt, skal du rapportere problemet med logfiler",
       "error_404": "Ikke -underst\u00f8ttet API"
     },
     "step": {
@@ -106,7 +106,7 @@
   "options": {
     "error": {
       "already_configured": "HP -printerintegration ({navn}) allerede konfigureret",
-      "error_400": "Ugyldigt serveroplysninger, pr\u00f8v manuelt adgang til `http: // {ip} // devmgmt/produktstatusdyn.xml` (udskift pladsholder med IP eller v\u00e6rtsnavn), hvis det er tilg\u00e6ngeligt, skal du rapportere problemet med logfiler",
+      "error_400": "Ugyldigt serveroplysninger, pr\u00f8v manuelt adgang til `http://{IP}//DevMgmt/ProductStatusDyn.xml` (udskift pladsholder med IP eller v\u00e6rtsnavn), hvis det er tilg\u00e6ngeligt, skal du rapportere problemet med logfiler",
       "error_404": "Ikke -underst\u00f8ttet API"
     },
     "step": {

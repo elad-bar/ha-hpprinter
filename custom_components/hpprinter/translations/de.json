@@ -4,7 +4,7 @@
       "already_configured": "HP -Druckerintegration ({Name}) bereits konfiguriert"
     },
     "error": {
-      "error_400": "Ung\u00fcltige Serverdetails, bitte versuchen Sie manuell auf `http: // {ip} // devmgmt/productStatusdyn.xml` (Ersetzen Sie Platzhalter mit IP oder Hostname).",
+      "error_400": "Ung\u00fcltige Serverdetails, bitte versuchen Sie manuell auf `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Ersetzen Sie Platzhalter mit IP oder Hostname).",
       "error_404": "Nicht unterst\u00fctzte API"
     },
     "step": {
@@ -106,7 +106,7 @@
   "options": {
     "error": {
       "already_configured": "HP -Druckerintegration ({Name}) bereits konfiguriert",
-      "error_400": "Ung\u00fcltige Serverdetails, bitte versuchen Sie manuell auf `http: // {ip} // devmgmt/productStatusdyn.xml` (Ersetzen Sie Platzhalter mit IP oder Hostname).",
+      "error_400": "Ung\u00fcltige Serverdetails, bitte versuchen Sie manuell auf `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Ersetzen Sie Platzhalter mit IP oder Hostname).",
       "error_404": "Nicht unterst\u00fctzte API"
     },
     "step": {

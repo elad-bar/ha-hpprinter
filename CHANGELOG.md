@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.1
+
+- Add translations for Russian
+- Add translations for Ukrainian
+- Fix Product Status URL for all translations (For error 404)
+
 ## 2.0.0
 
 - Fix "detected blocking call to open inside the event loop by custom integration" error
