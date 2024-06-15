@@ -53,7 +53,8 @@
           "ink": "Inkt",
           "inkcartridge": "Inkt",
           "printhead": "Printhead",
-          "toner": "Toner"
+          "toner": "Toner",
+          "tonercartridge": "Toner"
         }
       },
       "duplex_sheets": {

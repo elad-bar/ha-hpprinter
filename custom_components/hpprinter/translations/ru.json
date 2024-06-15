@@ -53,7 +53,8 @@
           "ink": "\u0427\u0435\u0440\u043d\u0438\u043b\u0430",
           "inkcartridge": "\u0427\u0435\u0440\u043d\u0438\u043b\u0430",
           "printhead": "\u041f\u0435\u0447\u0430\u0442\u043d\u0430\u044f \u0433\u043e\u043b\u043e\u0432\u0430",
-          "toner": "\u0422\u043e\u043d\u0435\u0440"
+          "toner": "\u0422\u043e\u043d\u0435\u0440",
+          "tonercartridge": "\u0422\u043e\u043d\u0435\u0440"
         }
       },
       "duplex_sheets": {
