@@ -10,6 +10,7 @@
 - Add translations for Russian, Ukrainian - Using Google Translate
 - Add translations for Greek [PR#142](https://github.com/elad-bar/ha-hpprinter/pull/142) by [@ChriZathens](https://github.com/ChriZathens)
 - Improved Dutch translations [PR#118](https://github.com/elad-bar/ha-hpprinter/pull/118) by [@hmmbob](https://github.com/hmmbob)
+- Improved German translations [PR#130](https://github.com/elad-bar/ha-hpprinter/pull/130) by [@SukramJ](https://github.com/SukramJ)
 - Fix Product Status URL for all translations (For error 404)
 
 ## 2.0.0
