@@ -59,8 +59,7 @@ if __name__ == "__main__":
     instance = APITest()
 
     try:
-        loop.create_task(instance.initialize())
-        loop.run_forever()
+        loop.run_until_complete(instance.initialize())
 
     except KeyboardInterrupt:
         _LOGGER.info("Aborted")
