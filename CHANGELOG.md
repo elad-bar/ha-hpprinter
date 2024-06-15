@@ -2,6 +2,8 @@
 
 ## 2.0.1
 
+- Set printer status to `Off` when printer is offline, instead of reset data
+- Add status sensor for main device
 - Add sensor statistics attribute
   - measurement - level, remaining level
   - total_increasing - pages, refills

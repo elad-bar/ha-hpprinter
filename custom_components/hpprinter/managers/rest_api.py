@@ -17,7 +17,12 @@ from homeassistant.helpers.dispatcher import dispatcher_send
 from homeassistant.util import slugify, ssl
 from homeassistant.util.ssl import SSLCipherList
 
-from ..common.consts import IGNORED_KEYS, SIGNAL_HA_DEVICE_DISCOVERED
+from ..common.consts import (
+    IGNORED_KEYS,
+    PRODUCT_STATUS_ENDPOINT,
+    PRODUCT_STATUS_OFFLINE_PAYLOAD,
+    SIGNAL_HA_DEVICE_DISCOVERED,
+)
 from ..models.config_data import ConfigData
 from ..models.exceptions import IntegrationAPIError, IntegrationParameterError
 from .ha_config_manager import HAConfigManager
@@ -160,7 +165,12 @@ class RestAPIv2:
         for endpoint in endpoints:
             resource_data = await self._get_request(endpoint)
 
-            self._raw_data[endpoint] = resource_data
+            if resource_data is None:
+                if endpoint == PRODUCT_STATUS_ENDPOINT:
+                    self._raw_data[endpoint] = PRODUCT_STATUS_OFFLINE_PAYLOAD
+
+            else:
+                self._raw_data[endpoint] = resource_data
 
         devices = self._get_devices_data()
 
@@ -213,6 +223,7 @@ class RestAPIv2:
                     device_key = f"{device_type}.{device_id}"
 
             data = device_data[device_key] if device_key in device_data else {}
+
             has_data = len(list(item_data.keys())) > 0
             data.update(item_data)
 
@@ -315,11 +326,26 @@ class RestAPIv2:
         for property_key in properties:
             property_details = properties.get(property_key)
             property_path = property_details.get("path")
+            property_accept = property_details.get("accept")
 
-            value = data_item_flat.get(property_path)
+            is_valid = True
 
-            if value is not None:
-                device_data[property_key] = value
+            if property_accept is not None:
+                for property_accept_key in property_accept:
+                    property_accept_data = property_accept[property_accept_key]
+
+                    if data_item.get(property_accept_key) != property_accept_data:
+                        is_valid = False
+                        _LOGGER.debug(
+                            f"Ignoring {property_key}, "
+                            f"not match to accept criteria {property_accept_key}: {property_accept_data}"
+                        )
+
+            if is_valid:
+                value = data_item_flat.get(property_path)
+
+                if value is not None:
+                    device_data[property_key] = value
 
         data = {"config": device_config, "data": device_data}
 

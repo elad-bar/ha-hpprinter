@@ -5,7 +5,7 @@ import os
 import sys
 
 from custom_components.hpprinter import HAConfigManager
-from custom_components.hpprinter.common.consts import DATA_KEYS
+from custom_components.hpprinter.common.consts import DATA_KEYS, PRINTER_MAIN_DEVICE
 from custom_components.hpprinter.managers.rest_api import RestAPIv2
 from homeassistant.core import HomeAssistant
 
@@ -44,10 +44,12 @@ class APITest:
         self._api = RestAPIv2(hass, self._config_manager)
         await self._api.initialize(True)
 
-        await self._api.update()
+        for i in range(0, 2):
+            await self._api.update()
 
-        print(json.dumps(self._api.data_config, indent=4))
-        print(json.dumps(self._api.data, indent=4))
+            # print(json.dumps(self._api.data_config, indent=4))
+            # print(json.dumps(self._api.data, indent=4))
+            print(json.dumps(self._api.data[PRINTER_MAIN_DEVICE], indent=4))
 
     async def terminate(self):
         await self._api.terminate()

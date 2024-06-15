@@ -106,11 +106,11 @@
         "name": "Status",
         "state": {
           "ready": "On",
-          "scanProcessing": "Scanning",
+          "scanprocessing": "Scanning",
           "copying": "Copying",
           "processing": "Printing",
-          "cancelJob": "Cancelling Job",
-          "inPowerSave": "Idle",
+          "canceljob": "Cancelling Job",
+          "inpowersave": "Idle",
           "": "Off"
         }
       }

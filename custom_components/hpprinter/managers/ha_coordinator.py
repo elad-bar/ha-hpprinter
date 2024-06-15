@@ -12,6 +12,7 @@ from homeassistant.util import slugify
 
 from ..common.consts import (
     DOMAIN,
+    PRINTER_MAIN_DEVICE,
     SIGNAL_HA_DEVICE_CREATED,
     SIGNAL_HA_DEVICE_DISCOVERED,
 )
@@ -46,7 +47,7 @@ class HACoordinator(DataUpdateCoordinator):
         self._main_device_id: str | None = None
 
         self._device_handlers = {
-            "Main": self.create_main_device,
+            PRINTER_MAIN_DEVICE: self.create_main_device,
             "Consumable": self.create_consumable_device,
             "Adapter": self.create_adapter_device,
         }

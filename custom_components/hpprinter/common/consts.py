@@ -25,6 +25,8 @@ PRINTER_STATUS = {
     "": "Off",
 }
 
+PRINTER_MAIN_DEVICE = "Main"
+
 IGNORED_KEYS = ["@schemaLocation", "Version"]
 
 SIGNAL_HA_DEVICE_CREATED = f"signal_{DOMAIN}_device_created"
@@ -46,3 +48,8 @@ UNIT_OF_MEASUREMENT_PAGES = "pages"
 UNIT_OF_MEASUREMENT_REFILLS = "refills"
 
 NUMERIC_UNITS_OF_MEASUREMENT = [UNIT_OF_MEASUREMENT_PAGES, UNIT_OF_MEASUREMENT_REFILLS]
+
+PRODUCT_STATUS_ENDPOINT = "/DevMgmt/ProductStatusDyn.xml"
+PRODUCT_STATUS_OFFLINE_PAYLOAD = {
+    "ProductStatusDyn": {"Status": [{"StatusCategory": ""}]}
+}

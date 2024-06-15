@@ -59,7 +59,13 @@
         "path": "ConsumableTypeEnum",
         "platform": "sensor",
         "device_class": "enum",
-        "options": ["ink", "inkcartridge", "printhead", "toner"]
+        "options": [
+          "ink",
+          "inkcartridge",
+          "printhead",
+          "toner",
+          "tonercartridge"
+        ]
       },
       "installation_date": {
         "path": "Installation.Date",
@@ -401,7 +407,21 @@
     "device_type": "Main",
     "properties": {
       "device_status": {
-        "path": "StatusCategory"
+        "path": "StatusCategory",
+        "platform": "sensor",
+        "device_class": "enum",
+        "options": [
+          "",
+          "ready",
+          "scanprocessing",
+          "copying",
+          "processing",
+          "canceljob",
+          "inpowersave"
+        ],
+        "accept": {
+          "LocString": null
+        }
       }
     }
   }
