@@ -2,11 +2,12 @@
 
 ## 2.0.1
 
-- Add translations for Russian
-- Add translations for Ukrainian
-- Fix Product Status URL for all translations (For error 404)
 - Add device hostname to unique ID
 - Add support for `tonercartridge` cartridge type
+- Add translations for Russian, Ukrainian - Using Google Translate
+- Add translations for Greek [PR#142](https://github.com/elad-bar/ha-hpprinter/pull/142) by [@ChriZathens](https://github.com/ChriZathens)
+- Improved Dutch translations [PR#118](https://github.com/elad-bar/ha-hpprinter/pull/118) by [@hmmbob](https://github.com/hmmbob)
+- Fix Product Status URL for all translations (For error 404)
 
 ## 2.0.0
 
