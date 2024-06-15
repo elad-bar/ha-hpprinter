@@ -2,6 +2,9 @@
 
 ## 2.0.1
 
+- Add sensor statistics attribute
+  - measurement - level, remaining level
+  - total_increasing - pages, refills
 - Add device hostname to unique ID
 - Add support for `tonercartridge` cartridge type
 - Add translations for Russian, Ukrainian - Using Google Translate

@@ -310,6 +310,7 @@ class HAConfigManager:
                         self._entity_descriptions.append(entity_description)
 
                     elif property_platform == str(Platform.SENSOR):
+                        state_class = property_data.get("state_class")
                         unit_of_measurement = property_data.get("unit_of_measurement")
                         options = property_data.get("options")
 
@@ -323,6 +324,7 @@ class HAConfigManager:
                             icon=icon,
                             translation_key=translation_key,
                             options=options,
+                            state_class=state_class,
                         )
 
                         self._entity_descriptions.append(entity_description)

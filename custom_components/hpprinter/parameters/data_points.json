@@ -73,6 +73,7 @@
         "path": "ConsumablePercentageLevelRemaining",
         "platform": "sensor",
         "unit_of_measurement": "%",
+        "state_class": "measurement",
         "exclude": {
           "consumable_type_enum": "printhead"
         }
@@ -136,6 +137,7 @@
         "path": "EstimatedPagesRemaining",
         "platform": "sensor",
         "unit_of_measurement": "pages",
+        "state_class": "measurement",
         "exclude": {
           "consumable_type_enum": "printhead"
         }
@@ -153,12 +155,14 @@
         "path": "RefilledCount.CounterfeitRefilledCount.#text",
         "platform": "sensor",
         "unit_of_measurement": "refills",
+        "state_class": "total_increasing",
         "icon": "mdi:format-color-fill"
       },
       "refilled_count_genuine_refilled_count": {
         "path": "RefilledCount.GenuineRefilledCount",
         "platform": "sensor",
         "unit_of_measurement": "refills",
+        "state_class": "total_increasing",
         "icon": "mdi:format-color-fill"
       }
     }
@@ -173,42 +177,49 @@
         "path": "TotalImpressions.#text",
         "platform": "sensor",
         "unit_of_measurement": "pages",
+        "state_class": "total_increasing",
         "icon": "mdi:file-document-check"
       },
       "monochrome_impressions": {
         "path": "MonochromeImpressions",
         "platform": "sensor",
         "unit_of_measurement": "pages",
+        "state_class": "total_increasing",
         "icon": "mdi:file-document-check"
       },
       "color_impressions": {
         "path": "ColorImpressions",
         "platform": "sensor",
         "unit_of_measurement": "pages",
+        "state_class": "total_increasing",
         "icon": "mdi:file-document-check"
       },
       "simplex_sheets": {
         "path": "SimplexSheets",
         "platform": "sensor",
         "unit_of_measurement": "pages",
+        "state_class": "total_increasing",
         "icon": "mdi:file-document-check"
       },
       "duplex_sheets": {
         "path": "DuplexSheets.#text",
         "platform": "sensor",
         "unit_of_measurement": "pages",
+        "state_class": "total_increasing",
         "icon": "mdi:file-document-multiple"
       },
       "jam_events": {
         "path": "JamEvents.#text",
         "platform": "sensor",
         "unit_of_measurement": "pages",
+        "state_class": "total_increasing",
         "icon": "mdi:file-document-remove"
       },
       "mispick_events": {
         "path": "MispickEvents",
         "platform": "sensor",
         "unit_of_measurement": "pages",
+        "state_class": "total_increasing",
         "icon": "mdi:file-document-minus"
       }
     }
@@ -223,36 +234,42 @@
         "path": "ScanImages.#text",
         "platform": "sensor",
         "unit_of_measurement": "pages",
+        "state_class": "total_increasing",
         "icon": "mdi:credit-card-scan"
       },
       "adf_images": {
         "path": "AdfImages.#text",
         "platform": "sensor",
         "unit_of_measurement": "pages",
+        "state_class": "total_increasing",
         "icon": "mdi:credit-card-scan"
       },
       "duplex_sheets": {
         "path": "DuplexSheets.#text",
         "platform": "sensor",
         "unit_of_measurement": "pages",
+        "state_class": "total_increasing",
         "icon": "mdi:credit-card-scan"
       },
       "flatbed_images": {
         "path": "FlatbedImages",
         "platform": "sensor",
         "unit_of_measurement": "pages",
+        "state_class": "total_increasing",
         "icon": "mdi:credit-card-scan"
       },
       "jam_events": {
         "path": "JamEvents",
         "platform": "sensor",
         "unit_of_measurement": "pages",
+        "state_class": "total_increasing",
         "icon": "mdi:credit-card-scan"
       },
       "mispick_events": {
         "path": "MispickEvents",
         "platform": "sensor",
         "unit_of_measurement": "pages",
+        "state_class": "total_increasing",
         "icon": "mdi:credit-card-scan"
       }
     }
@@ -267,30 +284,35 @@
         "path": "TotalImpressions.#text",
         "platform": "sensor",
         "unit_of_measurement": "pages",
+        "state_class": "total_increasing",
         "icon": "mdi:content-copy"
       },
       "adf_images": {
         "path": "AdfImages",
         "platform": "sensor",
         "unit_of_measurement": "pages",
+        "state_class": "total_increasing",
         "icon": "mdi:content-copy"
       },
       "flatbed_images": {
         "path": "FlatbedImages",
         "platform": "sensor",
         "unit_of_measurement": "pages",
+        "state_class": "total_increasing",
         "icon": "mdi:content-copy"
       },
       "monochrome_impressions": {
         "path": "MonochromeImpressions",
         "platform": "sensor",
         "unit_of_measurement": "pages",
+        "state_class": "total_increasing",
         "icon": "mdi:content-copy"
       },
       "color_impressions": {
         "path": "ColorImpressions",
         "platform": "sensor",
         "unit_of_measurement": "pages",
+        "state_class": "total_increasing",
         "icon": "mdi:content-copy"
       }
     }
