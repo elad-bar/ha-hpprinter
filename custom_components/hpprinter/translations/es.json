@@ -4,7 +4,7 @@
       "already_configured": "Integraci\u00f3n de la impresora HP ({nombre}) ya configurada"
     },
     "error": {
-      "error_400": "Detalles del servidor no v\u00e1lidos, intente acceso manualmente a `http: // {ip} // devmgmt/productStatusDyn.xml` (reemplace el marcador de posici\u00f3n con IP o nombre de host), en caso de que est\u00e9 accesible, informe el problema con los registros",
+      "error_400": "Detalles del servidor no v\u00e1lidos, intente acceso manualmente a `http://{IP}//DevMgmt/ProductStatusDyn.xml` (reemplace el marcador de posici\u00f3n con IP o nombre de host), en caso de que est\u00e9 accesible, informe el problema con los registros",
       "error_404": "API sin apoyo"
     },
     "step": {
@@ -106,7 +106,7 @@
   "options": {
     "error": {
       "already_configured": "Integraci\u00f3n de la impresora HP ({nombre}) ya configurada",
-      "error_400": "Detalles del servidor no v\u00e1lidos, intente acceso manualmente a `http: // {ip} // devmgmt/productStatusDyn.xml` (reemplace el marcador de posici\u00f3n con IP o nombre de host), en caso de que est\u00e9 accesible, informe el problema con los registros",
+      "error_400": "Detalles del servidor no v\u00e1lidos, intente acceso manualmente a `http://{IP}//DevMgmt/ProductStatusDyn.xml` (reemplace el marcador de posici\u00f3n con IP o nombre de host), en caso de que est\u00e9 accesible, informe el problema con los registros",
       "error_404": "API sin apoyo"
     },
     "step": {

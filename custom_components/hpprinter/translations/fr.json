@@ -4,7 +4,7 @@
       "already_configured": "HP Imprimante Integration ({name}) d\u00e9j\u00e0 configur\u00e9"
     },
     "error": {
-      "error_400": "D\u00e9tails du serveur non valides, veuillez essayer un acc\u00e8s manuellement \u00e0 `http: // {ip} // devmgmt / productStatusDyn.xml` (Remplacez l'espace r\u00e9serv\u00e9 par IP ou nom d'h\u00f4te), au cas o\u00f9 il est accessible, veuillez signaler le probl\u00e8me avec les journaux",
+      "error_400": "D\u00e9tails du serveur non valides, veuillez essayer un acc\u00e8s manuellement \u00e0 `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Remplacez l'espace r\u00e9serv\u00e9 par IP ou nom d'h\u00f4te), au cas o\u00f9 il est accessible, veuillez signaler le probl\u00e8me avec les journaux",
       "error_404": "API non pris en charge"
     },
     "step": {
@@ -106,7 +106,7 @@
   "options": {
     "error": {
       "already_configured": "HP Imprimante Integration ({name}) d\u00e9j\u00e0 configur\u00e9",
-      "error_400": "D\u00e9tails du serveur non valides, veuillez essayer un acc\u00e8s manuellement \u00e0 `http: // {ip} // devmgmt / productStatusDyn.xml` (Remplacez l'espace r\u00e9serv\u00e9 par IP ou nom d'h\u00f4te), au cas o\u00f9 il est accessible, veuillez signaler le probl\u00e8me avec les journaux",
+      "error_400": "D\u00e9tails du serveur non valides, veuillez essayer un acc\u00e8s manuellement \u00e0 `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Remplacez l'espace r\u00e9serv\u00e9 par IP ou nom d'h\u00f4te), au cas o\u00f9 il est accessible, veuillez signaler le probl\u00e8me avec les journaux",
       "error_404": "API non pris en charge"
     },
     "step": {
