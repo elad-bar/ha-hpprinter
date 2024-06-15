@@ -57,6 +57,18 @@
           "tonercartridge": "Toner"
         }
       },
+      "device_status": {
+        "name": "Status",
+        "state": {
+          "off": "Off",
+          "canceljob": "Cancelling Job",
+          "copying": "Copying",
+          "inpowersave": "Idle",
+          "processing": "Printing",
+          "ready": "On",
+          "scanprocessing": "Scanning"
+        }
+      },
       "duplex_sheets": {
         "name": "Total double-sided pages"
       },

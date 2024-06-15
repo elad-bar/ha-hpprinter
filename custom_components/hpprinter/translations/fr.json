@@ -57,6 +57,18 @@
           "tonercartridge": "Toner"
         }
       },
+      "device_status": {
+        "name": "Statut",
+        "state": {
+          "off": "D\u00e9sactiv\u00e9",
+          "canceljob": "Emploi d'annulation",
+          "copying": "Copier",
+          "inpowersave": "Inactive Inactif",
+          "processing": "Impression",
+          "ready": "Sur",
+          "scanprocessing": "Balayage"
+        }
+      },
       "duplex_sheets": {
         "name": "Pages totales double face"
       },

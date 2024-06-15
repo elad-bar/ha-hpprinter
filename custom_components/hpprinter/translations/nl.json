@@ -57,6 +57,18 @@
           "tonercartridge": "Toner"
         }
       },
+      "device_status": {
+        "name": "Toestand",
+        "state": {
+          "off": "Uit",
+          "canceljob": "Job annuleren",
+          "copying": "Kopieer",
+          "inpowersave": "Inactief",
+          "processing": "Afdrukken",
+          "ready": "Op",
+          "scanprocessing": "Het scannen"
+        }
+      },
       "duplex_sheets": {
         "name": "Totaal aantal dubbelzijdige pagina's"
       },
