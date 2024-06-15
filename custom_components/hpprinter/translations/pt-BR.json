@@ -4,7 +4,7 @@
       "already_configured": "Integra\u00e7\u00e3o da impressora HP ({nome}) j\u00e1 configurada"
     },
     "error": {
-      "error_400": "Detalhes do servidor inv\u00e1lido, tente acessar manualmente para `http: // {ip} // devmgmt/productStatusdyn.xml` (substitua o espa\u00e7o reservado por IP ou nome de host), caso esteja acess\u00edvel, relate o problema com os logs",
+      "error_400": "Detalhes do servidor inv\u00e1lido, tente acessar manualmente para `http://{IP}//DevMgmt/ProductStatusDyn.xml` (substitua o espa\u00e7o reservado por IP ou nome de host), caso esteja acess\u00edvel, relate o problema com os logs",
       "error_404": "API n\u00e3o suportada"
     },
     "step": {
@@ -51,9 +51,10 @@
         "name": "Tipo",
         "state": {
           "ink": "Tinta",
-          "inkCartridge": "Tinta",
+          "inkcartridge": "Tinta",
           "printhead": "Cabe\u00e7ote de impress\u00e3o",
-          "toner": "Toner"
+          "toner": "Toner",
+          "tonercartridge": "Toner"
         }
       },
       "duplex_sheets": {
@@ -106,7 +107,7 @@
   "options": {
     "error": {
       "already_configured": "Integra\u00e7\u00e3o da impressora HP ({nome}) j\u00e1 configurada",
-      "error_400": "Detalhes do servidor inv\u00e1lido, tente acessar manualmente para `http: // {ip} // devmgmt/productStatusdyn.xml` (substitua o espa\u00e7o reservado por IP ou nome de host), caso esteja acess\u00edvel, relate o problema com os logs",
+      "error_400": "Detalhes do servidor inv\u00e1lido, tente acessar manualmente para `http://{IP}//DevMgmt/ProductStatusDyn.xml` (substitua o espa\u00e7o reservado por IP ou nome de host), caso esteja acess\u00edvel, relate o problema com os logs",
       "error_404": "API n\u00e3o suportada"
     },
     "step": {

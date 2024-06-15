@@ -35,7 +35,9 @@ DESTINATION_LANGUAGES = {
     "nb": "no",
     "nl": "nl",
     "pl": "pl",
-    "pt-BR": "pt"
+    "pt-BR": "pt",
+    "ru": "ru",
+    "ua": "uk"
 }
 
 TRANSLATION_PROVIDER = "google"
@@ -175,7 +177,7 @@ class TranslationGenerator:
         parent_directory = current_path.parents[1]
         file_path = os.path.join(parent_directory, "custom_components", "hpprinter", "translations", f"{lang}.json")
 
-        with open(file_path, "w+") as file:
+        with open(file_path, "w+", encoding="utf-8") as file:
             file.write(json.dumps(data, indent=4))
 
         _LOGGER.info(f"Translation for {lang.upper()} stored")

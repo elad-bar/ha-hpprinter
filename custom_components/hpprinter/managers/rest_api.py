@@ -13,7 +13,7 @@ from homeassistant.helpers.aiohttp_client import (
     MAXIMUM_CONNECTIONS,
     MAXIMUM_CONNECTIONS_PER_HOST,
 )
-from homeassistant.helpers.dispatcher import async_dispatcher_send
+from homeassistant.helpers.dispatcher import dispatcher_send
 from homeassistant.util import slugify, ssl
 from homeassistant.util.ssl import SSLCipherList
 
@@ -182,18 +182,28 @@ class RestAPIv2:
             device_key = device_type
 
             if identifier is not None:
-                device_id = item_data.get(identifier)
+                identifier_key = identifier.get("key")
+                identifier_mapping = identifier.get("mapping")
+
+                key_data = item_data.get(identifier_key)
+
+                device_id = (
+                    item_data.get(identifier_key)
+                    if identifier_mapping is None
+                    else identifier_mapping.get(key_data)
+                )
+
                 if flat:
                     new_items_data = {
                         slugify(f"{device_id}_{key}"): item_data[key]
                         for key in item_data
-                        if key != identifier
+                        if key != identifier_key
                     }
 
                     new_properties = {
                         slugify(f"{device_id}_{key}"): properties[key]
                         for key in properties
-                        if key != identifier
+                        if key != identifier_key
                     }
 
                     item_data = new_items_data
@@ -346,12 +356,21 @@ class RestAPIv2:
                 _LOGGER.debug(f"Request to {url}")
 
         except ClientResponseError as cre:
-            if not ignore_error:
-                exc_type, exc_obj, tb = sys.exc_info()
-                line_number = tb.tb_lineno
-                _LOGGER.error(
-                    f"Failed to get response from {endpoint}, Error: {cre}, Line: {line_number}"
-                )
+            if cre.status == 404:
+                if not ignore_error:
+                    exc_type, exc_obj, tb = sys.exc_info()
+                    line_number = tb.tb_lineno
+                    _LOGGER.debug(
+                        f"Failed to get response from {endpoint}, Error: {cre}, Line: {line_number}"
+                    )
+
+            else:
+                if not ignore_error:
+                    exc_type, exc_obj, tb = sys.exc_info()
+                    line_number = tb.tb_lineno
+                    _LOGGER.error(
+                        f"Failed to get response from {endpoint}, Error: {cre}, Line: {line_number}"
+                    )
 
         except Exception as ex:
             if not ignore_error:
@@ -394,7 +413,7 @@ class RestAPIv2:
         if device_key not in self._device_dispatched:
             self._device_dispatched.append(device_key)
 
-            async_dispatcher_send(
+            dispatcher_send(
                 self._hass,
                 SIGNAL_HA_DEVICE_DISCOVERED,
                 self._config_manager.entry_id,

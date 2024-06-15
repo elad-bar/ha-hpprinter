@@ -4,7 +4,7 @@
       "already_configured": "HP Printer Integration ({name}) allerede konfigurert"
     },
     "error": {
-      "error_400": "Ugyldige serverdetaljer, pr\u00f8v manuelt tilgang til `http: // {ip} // devmgmt/produktstatusdyn.xml` (erstatt plassholder med IP eller vertsnavn), i tilfelle det er tilgjengelig, vennligst rapporter problemet med logger",
+      "error_400": "Ugyldige serverdetaljer, pr\u00f8v manuelt tilgang til `http://{IP}//DevMgmt/ProductStatusDyn.xml` (erstatt plassholder med IP eller vertsnavn), i tilfelle det er tilgjengelig, vennligst rapporter problemet med logger",
       "error_404": "Ikke st\u00f8ttet API"
     },
     "step": {
@@ -51,9 +51,10 @@
         "name": "Type",
         "state": {
           "ink": "Blekk",
-          "inkCartridge": "Blekk",
+          "inkcartridge": "Blekk",
           "printhead": "Skrivehode",
-          "toner": "Toner"
+          "toner": "Toner",
+          "tonercartridge": "Toner"
         }
       },
       "duplex_sheets": {
@@ -106,7 +107,7 @@
   "options": {
     "error": {
       "already_configured": "HP Printer Integration ({name}) allerede konfigurert",
-      "error_400": "Ugyldige serverdetaljer, pr\u00f8v manuelt tilgang til `http: // {ip} // devmgmt/produktstatusdyn.xml` (erstatt plassholder med IP eller vertsnavn), i tilfelle det er tilgjengelig, vennligst rapporter problemet med logger",
+      "error_400": "Ugyldige serverdetaljer, pr\u00f8v manuelt tilgang til `http://{IP}//DevMgmt/ProductStatusDyn.xml` (erstatt plassholder med IP eller vertsnavn), i tilfelle det er tilgjengelig, vennligst rapporter problemet med logger",
       "error_404": "Ikke st\u00f8ttet API"
     },
     "step": {

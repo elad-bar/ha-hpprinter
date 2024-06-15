@@ -4,7 +4,7 @@
       "already_configured": "Integracja drukarki HP ({name}) ju\u017c skonfigurowana"
     },
     "error": {
-      "error_400": "Nieprawid\u0142owe szczeg\u00f3\u0142y serwera, spr\u00f3buj r\u0119cznie uzyska\u0107 dost\u0119p do `http: // {ip} // devmgmt/productStatusdyn.xml` (zamie\u0144 symbol zast\u0119pczy na IP lub nazwa hosta), je\u015bli jest dost\u0119pny, zg\u0142o\u015b problem z dziennikami",
+      "error_400": "Nieprawid\u0142owe szczeg\u00f3\u0142y serwera, spr\u00f3buj r\u0119cznie uzyska\u0107 dost\u0119p do `http://{IP}//DevMgmt/ProductStatusDyn.xml` (zamie\u0144 symbol zast\u0119pczy na IP lub nazwa hosta), je\u015bli jest dost\u0119pny, zg\u0142o\u015b problem z dziennikami",
       "error_404": "Nieobs\u0142ugiwany API"
     },
     "step": {
@@ -51,9 +51,10 @@
         "name": "Typ",
         "state": {
           "ink": "Atrament",
-          "inkCartridge": "Atrament",
+          "inkcartridge": "Atrament",
           "printhead": "Printhead",
-          "toner": "Toner"
+          "toner": "Toner",
+          "tonercartridge": "Toner"
         }
       },
       "duplex_sheets": {
@@ -106,7 +107,7 @@
   "options": {
     "error": {
       "already_configured": "Integracja drukarki HP ({name}) ju\u017c skonfigurowana",
-      "error_400": "Nieprawid\u0142owe szczeg\u00f3\u0142y serwera, spr\u00f3buj r\u0119cznie uzyska\u0107 dost\u0119p do `http: // {ip} // devmgmt/productStatusdyn.xml` (zamie\u0144 symbol zast\u0119pczy na IP lub nazwa hosta), je\u015bli jest dost\u0119pny, zg\u0142o\u015b problem z dziennikami",
+      "error_400": "Nieprawid\u0142owe szczeg\u00f3\u0142y serwera, spr\u00f3buj r\u0119cznie uzyska\u0107 dost\u0119p do `http://{IP}//DevMgmt/ProductStatusDyn.xml` (zamie\u0144 symbol zast\u0119pczy na IP lub nazwa hosta), je\u015bli jest dost\u0119pny, zg\u0142o\u015b problem z dziennikami",
       "error_404": "Nieobs\u0142ugiwany API"
     },
     "step": {

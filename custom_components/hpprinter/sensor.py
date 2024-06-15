@@ -47,14 +47,23 @@ class HASensorEntity(BaseEntity, SensorEntity):
     def _set_value(self):
         state = self.get_value()
 
-        if self.native_unit_of_measurement in [PERCENTAGE]:
-            state = float(state)
+        if state is not None:
+            if self.native_unit_of_measurement in [PERCENTAGE]:
+                state = float(state)
 
-        elif self.native_unit_of_measurement in NUMERIC_UNITS_OF_MEASUREMENT:
-            state = int(state)
+            elif self.native_unit_of_measurement in NUMERIC_UNITS_OF_MEASUREMENT:
+                state = int(state)
 
-        if self.device_class == SensorDeviceClass.DATE:
-            state = datetime.fromisoformat(state)
+            if self.device_class == SensorDeviceClass.DATE:
+                state = datetime.fromisoformat(state)
+
+            elif self.device_class == SensorDeviceClass.TIMESTAMP:
+                tz = datetime.now().astimezone().tzinfo
+                ts = datetime.fromisoformat(state).timestamp()
+                state = datetime.fromtimestamp(ts, tz=tz)
+
+            elif self.device_class == SensorDeviceClass.ENUM:
+                state = state.lower()
 
         self._attr_native_value = state
 

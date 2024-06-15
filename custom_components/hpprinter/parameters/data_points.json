@@ -26,7 +26,7 @@
       "manufacture_at": {
         "path": "Manufacturer.Date",
         "platform": "sensor",
-        "device_class": "date"
+        "device_class": "timestamp"
       }
     }
   },
@@ -35,7 +35,9 @@
     "endpoint": "/DevMgmt/ConsumableConfigDyn.xml",
     "path": "ConsumableConfigDyn.ConsumableInfo",
     "device_type": "Consumable",
-    "identifier": "consumable_station",
+    "identifier": {
+      "key": "consumable_label_code"
+    },
     "properties": {
       "consumable_label_code": {
         "path": "ConsumableLabelCode"
@@ -57,12 +59,12 @@
         "path": "ConsumableTypeEnum",
         "platform": "sensor",
         "device_class": "enum",
-        "options": ["ink", "inkCartridge", "printhead", "toner"]
+        "options": ["ink", "inkcartridge", "printhead", "toner"]
       },
       "installation_date": {
         "path": "Installation.Date",
         "platform": "sensor",
-        "device_class": "date"
+        "device_class": "timestamp"
       },
       "capacity_max_capacity": {
         "path": "Capacity.MaxCapacity"
@@ -84,7 +86,7 @@
       "manufacture_at": {
         "path": "Manufacturer.Date",
         "platform": "sensor",
-        "device_class": "date",
+        "device_class": "timestamp",
         "exclude": {
           "consumable_type_enum": "printhead"
         }
@@ -98,7 +100,7 @@
       "warranty_expiration_date": {
         "path": "Warranty.ExpirationDate",
         "platform": "sensor",
-        "device_class": "date",
+        "device_class": "timestamp",
         "exclude": {
           "consumable_type_enum": "printhead"
         }
@@ -113,7 +115,16 @@
     "endpoint": "/DevMgmt/ProductUsageDyn.xml",
     "path": "ProductUsageDyn.ConsumableSubunit.Consumable",
     "device_type": "Consumable",
-    "identifier": "consumable_station",
+    "identifier": {
+      "key": "marker_color",
+      "mapping": {
+        "Cyan": "C",
+        "Yellow": "Y",
+        "Magenta": "M",
+        "CyanMagentaYellow": "CMY",
+        "Black": "K"
+      }
+    },
     "properties": {
       "consumable_station": {
         "path": "ConsumableStation"
@@ -303,7 +314,9 @@
     "endpoint": "/IoMgmt/Adapters",
     "path": "Adapters.Adapter",
     "device_type": "Main",
-    "identifier": "hardware_config_name",
+    "identifier": {
+      "key": "hardware_config_name"
+    },
     "flat": true,
     "properties": {
       "hardware_config_name": {

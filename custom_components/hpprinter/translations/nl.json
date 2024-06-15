@@ -4,7 +4,7 @@
       "already_configured": "HP Printer Integration ({name}) is al geconfigureerd"
     },
     "error": {
-      "error_400": "Ongeldige servergegevens, probeer handmatig toegang tot `http: // {IP} // devmgmt/ProductStatusyn.xml` (vervang placeholder door IP of hostnaam) te krijgen. Rapporteer het probleem met logs",
+      "error_400": "Ongeldige servergegevens, probeer handmatig toegang tot `http://{IP}//DevMgmt/ProductStatusDyn.xml` (vervang placeholder door IP of hostnaam) te krijgen. Rapporteer het probleem met logs",
       "error_404": "Niet-ondersteunde API"
     },
     "step": {
@@ -51,9 +51,10 @@
         "name": "Type",
         "state": {
           "ink": "Inkt",
-          "inkCartridge": "Inkt",
+          "inkcartridge": "Inkt",
           "printhead": "Printhead",
-          "toner": "Toner"
+          "toner": "Toner",
+          "tonercartridge": "Toner"
         }
       },
       "duplex_sheets": {
@@ -106,7 +107,7 @@
   "options": {
     "error": {
       "already_configured": "HP Printer Integration ({name}) al geconfigureerd",
-      "error_400": "Ongeldige servergegevens, probeer handmatig toegang tot `http: // {IP} // devmgmt/ProductStatusyn.xml` (Vervang Placeholder door IP of hostnaam) te krijgen. Rapporteer het probleem met logs",
+      "error_400": "Ongeldige servergegevens, probeer handmatig toegang tot `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Vervang Placeholder door IP of hostnaam) te krijgen. Rapporteer het probleem met logs",
       "error_404": "Niet-ondersteunde API"
     },
     "step": {

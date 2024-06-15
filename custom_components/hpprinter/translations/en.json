@@ -51,9 +51,10 @@
         "name": "Type",
         "state": {
           "ink": "Ink",
-          "inkCartridge": "Ink",
+          "inkcartridge": "Ink",
           "printhead": "Printhead",
-          "toner": "Toner"
+          "toner": "Toner",
+          "tonercartridge": "Toner"
         }
       },
       "duplex_sheets": {
