@@ -53,7 +53,8 @@
           "ink": "Blekk",
           "inkcartridge": "Blekk",
           "printhead": "Skrivehode",
-          "toner": "Toner"
+          "toner": "Toner",
+          "tonercartridge": "Toner"
         }
       },
       "duplex_sheets": {

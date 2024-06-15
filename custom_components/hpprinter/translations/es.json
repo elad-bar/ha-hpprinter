@@ -53,7 +53,8 @@
           "ink": "Tinta",
           "inkcartridge": "Tinta",
           "printhead": "Cabezal",
-          "toner": "Virador"
+          "toner": "Virador",
+          "tonercartridge": "Virador"
         }
       },
       "duplex_sheets": {

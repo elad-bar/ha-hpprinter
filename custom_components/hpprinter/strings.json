@@ -47,7 +47,8 @@
           "ink": "Ink",
           "inkcartridge": "Ink",
           "printhead": "Printhead",
-          "toner": "Toner"
+          "toner": "Toner",
+          "tonercartridge": "Toner"
         }
       },
       "estimated_pages_remaining": {
