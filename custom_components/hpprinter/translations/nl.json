@@ -60,13 +60,13 @@
       "device_status": {
         "name": "Toestand",
         "state": {
-          "": "Uit",
-          "cancelJob": "Job annuleren",
+          "off": "Uit",
+          "canceljob": "Job annuleren",
           "copying": "Kopieer",
-          "inPowerSave": "Inactief",
+          "inpowersave": "Inactief",
           "processing": "Afdrukken",
           "ready": "Op",
-          "scanProcessing": "Het scannen"
+          "scanprocessing": "Het scannen"
         }
       },
       "duplex_sheets": {

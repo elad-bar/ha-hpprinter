@@ -111,7 +111,7 @@
           "processing": "Printing",
           "canceljob": "Cancelling Job",
           "inpowersave": "Idle",
-          "": "Off"
+          "off": "Off"
         }
       }
     }

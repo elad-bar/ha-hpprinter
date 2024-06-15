@@ -60,13 +60,13 @@
       "device_status": {
         "name": "Status",
         "state": {
-          "": "Wy\u0142\u0105czony",
-          "cancelJob": "Anulowanie pracy",
+          "off": "Wy\u0142\u0105czony",
+          "canceljob": "Anulowanie pracy",
           "copying": "Biurowy",
-          "inPowerSave": "Bezczynny",
+          "inpowersave": "Bezczynny",
           "processing": "Druk",
           "ready": "NA",
-          "scanProcessing": "\u0141\u00f3w"
+          "scanprocessing": "\u0141\u00f3w"
         }
       },
       "duplex_sheets": {

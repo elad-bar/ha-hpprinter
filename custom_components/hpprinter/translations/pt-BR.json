@@ -60,13 +60,13 @@
       "device_status": {
         "name": "Status",
         "state": {
-          "": "Desligada Desligado",
-          "cancelJob": "Cancelamento de trabalho",
+          "off": "Desligada Desligado",
+          "canceljob": "Cancelamento de trabalho",
           "copying": "C\u00f3pia",
-          "inPowerSave": "Parada Parado",
+          "inpowersave": "Parada Parado",
           "processing": "Impress\u00e3o",
           "ready": "Sobre",
-          "scanProcessing": "Varredura"
+          "scanprocessing": "Varredura"
         }
       },
       "duplex_sheets": {

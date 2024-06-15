@@ -60,13 +60,13 @@
       "device_status": {
         "name": "Status",
         "state": {
-          "": "Av",
-          "cancelJob": "Avbryt jobb",
+          "off": "Av",
+          "canceljob": "Avbryt jobb",
           "copying": "Kopiering",
-          "inPowerSave": "Tomgang",
+          "inpowersave": "Tomgang",
           "processing": "Printing",
           "ready": "P\u00e5",
-          "scanProcessing": "Skanning"
+          "scanprocessing": "Skanning"
         }
       },
       "duplex_sheets": {

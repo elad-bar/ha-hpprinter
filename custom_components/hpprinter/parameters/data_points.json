@@ -411,7 +411,7 @@
         "platform": "sensor",
         "device_class": "enum",
         "options": [
-          "",
+          "off",
           "ready",
           "scanprocessing",
           "copying",

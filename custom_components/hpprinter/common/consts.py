@@ -17,12 +17,12 @@ NOT_AVAILABLE = "N/A"
 
 PRINTER_STATUS = {
     "ready": "On",
-    "scanProcessing": "Scanning",
+    "scanprocessing": "Scanning",
     "copying": "Copying",
     "processing": "Printing",
-    "cancelJob": "Cancelling Job",
-    "inPowerSave": "Idle",
-    "": "Off",
+    "canceljob": "Cancelling Job",
+    "inpowersave": "Idle",
+    "off": "Off",
 }
 
 PRINTER_MAIN_DEVICE = "Main"
@@ -51,5 +51,5 @@ NUMERIC_UNITS_OF_MEASUREMENT = [UNIT_OF_MEASUREMENT_PAGES, UNIT_OF_MEASUREMENT_R
 
 PRODUCT_STATUS_ENDPOINT = "/DevMgmt/ProductStatusDyn.xml"
 PRODUCT_STATUS_OFFLINE_PAYLOAD = {
-    "ProductStatusDyn": {"Status": [{"StatusCategory": ""}]}
+    "ProductStatusDyn": {"Status": [{"StatusCategory": "off"}]}
 }

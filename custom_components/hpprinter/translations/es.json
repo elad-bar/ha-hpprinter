@@ -60,13 +60,13 @@
       "device_status": {
         "name": "Estado",
         "state": {
-          "": "Apagada Apagado",
-          "cancelJob": "Cancelar trabajo",
+          "off": "Apagada Apagado",
+          "canceljob": "Cancelar trabajo",
           "copying": "Proceso de copiar",
-          "inPowerSave": "Inactiva Inactivo",
+          "inpowersave": "Inactiva Inactivo",
           "processing": "Impresi\u00f3n",
           "ready": "En",
-          "scanProcessing": "Exploraci\u00f3n"
+          "scanprocessing": "Exploraci\u00f3n"
         }
       },
       "duplex_sheets": {
