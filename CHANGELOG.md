@@ -5,6 +5,7 @@
 - Add translations for Russian
 - Add translations for Ukrainian
 - Fix Product Status URL for all translations (For error 404)
+- Add device hostname to unique ID
 
 ## 2.0.0
 
