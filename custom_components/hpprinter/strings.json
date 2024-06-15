@@ -101,6 +101,18 @@
       },
       "scan_images": {
         "name": "Total pages"
+      },
+      "device_status": {
+        "name": "Status",
+        "state": {
+          "ready": "On",
+          "scanProcessing": "Scanning",
+          "copying": "Copying",
+          "processing": "Printing",
+          "cancelJob": "Cancelling Job",
+          "inPowerSave": "Idle",
+          "": "Off"
+        }
       }
     }
   },

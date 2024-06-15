@@ -393,5 +393,16 @@
         "path": "ConnectionMethod"
       }
     }
+  },
+  {
+    "name": "Status",
+    "endpoint": "/DevMgmt/ProductStatusDyn.xml",
+    "path": "ProductStatusDyn.Status",
+    "device_type": "Main",
+    "properties": {
+      "device_status": {
+        "path": "StatusCategory"
+      }
+    }
   }
 ]
