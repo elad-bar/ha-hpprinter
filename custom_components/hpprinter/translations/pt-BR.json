@@ -57,6 +57,18 @@
           "tonercartridge": "Toner"
         }
       },
+      "device_status": {
+        "name": "Status",
+        "state": {
+          "": "Desligada Desligado",
+          "cancelJob": "Cancelamento de trabalho",
+          "copying": "C\u00f3pia",
+          "inPowerSave": "Parada Parado",
+          "processing": "Impress\u00e3o",
+          "ready": "Sobre",
+          "scanProcessing": "Varredura"
+        }
+      },
       "duplex_sheets": {
         "name": "P\u00e1ginas totais de dupla face"
       },

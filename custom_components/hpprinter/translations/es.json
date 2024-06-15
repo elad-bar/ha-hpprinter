@@ -57,6 +57,18 @@
           "tonercartridge": "Virador"
         }
       },
+      "device_status": {
+        "name": "Estado",
+        "state": {
+          "": "Apagada Apagado",
+          "cancelJob": "Cancelar trabajo",
+          "copying": "Proceso de copiar",
+          "inPowerSave": "Inactiva Inactivo",
+          "processing": "Impresi\u00f3n",
+          "ready": "En",
+          "scanProcessing": "Exploraci\u00f3n"
+        }
+      },
       "duplex_sheets": {
         "name": "P\u00e1ginas totales de doble cara"
       },

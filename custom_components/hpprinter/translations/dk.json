@@ -57,6 +57,18 @@
           "tonercartridge": "Toner"
         }
       },
+      "device_status": {
+        "name": "Status",
+        "state": {
+          "": "Af",
+          "cancelJob": "Annullering af job",
+          "copying": "Kopiering",
+          "inPowerSave": "Ledig",
+          "processing": "Trykning",
+          "ready": "P\u00e5",
+          "scanProcessing": "Scanning"
+        }
+      },
       "duplex_sheets": {
         "name": "Samlede dobbeltsidede sider"
       },

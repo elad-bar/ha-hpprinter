@@ -57,6 +57,18 @@
           "tonercartridge": "Toner"
         }
       },
+      "device_status": {
+        "name": "Status",
+        "state": {
+          "": "Wy\u0142\u0105czony",
+          "cancelJob": "Anulowanie pracy",
+          "copying": "Biurowy",
+          "inPowerSave": "Bezczynny",
+          "processing": "Druk",
+          "ready": "NA",
+          "scanProcessing": "\u0141\u00f3w"
+        }
+      },
       "duplex_sheets": {
         "name": "Ca\u0142kowita dwustronna strony"
       },

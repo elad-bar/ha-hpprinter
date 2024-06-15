@@ -57,6 +57,18 @@
           "tonercartridge": "Toner"
         }
       },
+      "device_status": {
+        "name": "Status",
+        "state": {
+          "": "Av",
+          "cancelJob": "Avbryt jobb",
+          "copying": "Kopiering",
+          "inPowerSave": "Tomgang",
+          "processing": "Printing",
+          "ready": "P\u00e5",
+          "scanProcessing": "Skanning"
+        }
+      },
       "duplex_sheets": {
         "name": "Totalt tosidige sider"
       },
