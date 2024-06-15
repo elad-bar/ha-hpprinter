@@ -6,6 +6,7 @@
 - Add translations for Ukrainian
 - Fix Product Status URL for all translations (For error 404)
 - Add device hostname to unique ID
+- Add support for `tonercartridge` cartridge type
 
 ## 2.0.0
 
