@@ -15,7 +15,6 @@ from ..common.consts import (
     PRINTER_MAIN_DEVICE,
     SIGNAL_HA_DEVICE_CREATED,
     SIGNAL_HA_DEVICE_DISCOVERED,
-    UPDATE_API_INTERVAL,
 )
 from .ha_config_manager import HAConfigManager
 from .rest_api import RestAPIv2
@@ -36,7 +35,7 @@ class HACoordinator(DataUpdateCoordinator):
             hass,
             _LOGGER,
             name=config_manager.entry_title,
-            update_interval=UPDATE_API_INTERVAL,
+            update_interval=config_manager.minimum_update_interval,
             update_method=self._async_update_data,
         )
 

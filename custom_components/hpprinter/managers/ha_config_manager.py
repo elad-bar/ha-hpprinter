@@ -1,3 +1,4 @@
+from datetime import timedelta
 import json
 import logging
 import os
@@ -13,7 +14,14 @@ from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.json import JSONEncoder
 from homeassistant.helpers.storage import Store
 
-from ..common.consts import CONFIGURATION_FILE, DEFAULT_ENTRY_ID, DEFAULT_NAME, DOMAIN
+from ..common.consts import (
+    CONFIGURATION_FILE,
+    DEFAULT_ENTRY_ID,
+    DEFAULT_INTERVAL,
+    DEFAULT_NAME,
+    DOMAIN,
+    DURATION_UNITS,
+)
 from ..common.entity_descriptions import (
     IntegrationBinarySensorEntityDescription,
     IntegrationEntityDescription,
@@ -32,6 +40,13 @@ class HAConfigManager:
     _entry_title: str
     _config_data: ConfigData
     _store: Store | None
+    _update_intervals: dict[str, int] | None
+    _data_points: dict | None
+    _endpoints: list[str] | None
+    _exclude_uri_list: list[str] | None
+    _exclude_type_list: list[str] | None
+    _entity_descriptions: list[IntegrationEntityDescription] | None
+    _minimum_update_interval: timedelta
 
     def __init__(self, hass: HomeAssistant | None, entry: ConfigEntry | None):
         self._hass = hass
@@ -39,15 +54,19 @@ class HAConfigManager:
         self._data = None
         self.platforms = []
 
-        self._entity_descriptions: list[IntegrationEntityDescription] | None = None
+        self._entity_descriptions = None
 
         self._translations = None
 
-        self._endpoints: list[str] | None = None
+        self._endpoints = None
 
-        self._data_points: dict | None = None
-        self._exclude_uri_list: list[str] | None = None
-        self._exclude_type_list: list[str] | None = None
+        self._default_update_interval = self._convert_to_seconds(DEFAULT_INTERVAL)
+
+        self._update_intervals = None
+        self._minimum_update_interval = timedelta(seconds=self._default_update_interval)
+        self._data_points = None
+        self._exclude_uri_list = None
+        self._exclude_type_list = None
 
         self._entry = entry
         self._entry_id = DEFAULT_ENTRY_ID if entry is None else entry.entry_id
@@ -80,6 +99,10 @@ class HAConfigManager:
         entry_title = self._entry_title
 
         return entry_title
+
+    @property
+    def minimum_update_interval(self) -> timedelta:
+        return self._minimum_update_interval
 
     @property
     def entry(self) -> ConfigEntry:
@@ -358,26 +381,40 @@ class HAConfigManager:
         return is_valid
 
     async def _load_data_points_configuration(self):
-        self._endpoints = []
-
+        self._update_intervals = {}
         self._data_points = await self._get_parameters(ParameterType.DATA_POINTS)
 
         endpoint_objects = self._data_points
 
         for endpoint in endpoint_objects:
             endpoint_uri = endpoint.get("endpoint")
+            interval = endpoint.get("interval", DEFAULT_INTERVAL)
 
             if (
-                endpoint_uri not in self._endpoints
+                endpoint_uri not in self._update_intervals
                 and endpoint_uri not in self._exclude_uri_list
             ):
-                self._endpoints.append(endpoint_uri)
+                self._update_intervals[endpoint_uri] = self._convert_to_seconds(
+                    interval
+                )
+
+        minimum_update_interval = min(self._update_intervals.values())
+        self._minimum_update_interval = timedelta(seconds=minimum_update_interval)
+
+        self._endpoints = list(self._update_intervals.keys())
 
     async def _load_exclude_endpoints_configuration(self):
         endpoints = await self._get_parameters(ParameterType.ENDPOINT_VALIDATIONS)
 
         self._exclude_uri_list = endpoints.get("exclude_uri")
         self._exclude_type_list = endpoints.get("exclude_type")
+
+    def get_update_interval(self, endpoint: str) -> int:
+        update_interval = self._update_intervals.get(
+            endpoint, self._default_update_interval
+        )
+
+        return update_interval
 
     @staticmethod
     async def _get_parameters(parameter_type: ParameterType) -> dict:
@@ -393,6 +430,18 @@ class HAConfigManager:
         data = json.loads(content)
 
         return data
+
+    @staticmethod
+    def _convert_to_seconds(duration: str | None) -> int:
+        if duration is None:
+            duration = DEFAULT_INTERVAL
+
+        count = int(duration[:-1])
+        unit = DURATION_UNITS[duration[-1]]
+        td = timedelta(**{unit: count})
+        seconds = td.seconds + 60 * 60 * 24 * td.days
+
+        return seconds
 
     def is_valid_endpoint(self, endpoint: dict):
         endpoint_type = endpoint.get("type")

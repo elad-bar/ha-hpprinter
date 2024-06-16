@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 import json
 import logging
 import sys
@@ -20,8 +20,6 @@ from homeassistant.util import slugify, ssl
 from homeassistant.util.ssl import SSLCipherList
 
 from ..common.consts import (
-    DEFAULT_INTERVAL,
-    DURATION_UNITS,
     IGNORED_KEYS,
     PRODUCT_STATUS_ENDPOINT,
     PRODUCT_STATUS_OFFLINE_PAYLOAD,
@@ -45,7 +43,6 @@ class RestAPIv2:
         self._data: dict = {}
         self._data_config: dict = {}
         self._last_update: dict[str, float] = {}
-        self._update_intervals: dict[str, int] = {}
 
         self._raw_data: dict = {}
 
@@ -95,7 +92,6 @@ class RestAPIv2:
                 else:
                     self._session = async_create_clientsession(hass=self._hass)
 
-            self._load_update_intervals()
             await self._load_metadata()
 
         except Exception as ex:
@@ -188,15 +184,9 @@ class RestAPIv2:
                 self._last_update.get(endpoint, 0) if connectivity_check else 0
             )
             last_update_diff = int(now_ts - last_update)
-            interval = self._update_intervals.get(endpoint, 0)
+            interval = self._config_manager.get_update_interval(endpoint)
 
             if interval > last_update_diff:
-                _LOGGER.debug(
-                    f"Skip updating '{endpoint}', "
-                    f"it's too soon, "
-                    f"interval: {interval}s, "
-                    f"time since last update: {last_update_diff}s"
-                )
                 continue
 
             resource_data = await self._get_request(endpoint)
@@ -327,13 +317,6 @@ class RestAPIv2:
                 result = result.get(path_part)
 
         return result
-
-    def _load_update_intervals(self):
-        for data_point in self._config_manager.data_points:
-            endpoint = data_point.get("endpoint")
-            interval = data_point.get("interval", DEFAULT_INTERVAL)
-
-            self._update_intervals[endpoint] = self._convert_to_seconds(interval)
 
     def _get_devices_data(self):
         devices = []
@@ -514,15 +497,3 @@ class RestAPIv2:
                 device_data,
                 device_config,
             )
-
-    @staticmethod
-    def _convert_to_seconds(duration: str | None) -> int:
-        if duration is None:
-            duration = DEFAULT_INTERVAL
-
-        count = int(duration[:-1])
-        unit = DURATION_UNITS[duration[-1]]
-        td = timedelta(**{unit: count})
-        seconds = td.seconds + 60 * 60 * 24 * td.days
-
-        return seconds
