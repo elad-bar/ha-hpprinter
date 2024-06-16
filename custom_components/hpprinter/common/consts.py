@@ -34,10 +34,9 @@ SIGNAL_HA_DEVICE_DISCOVERED = f"signal_{DOMAIN}_device_discovered"
 CONFIGURATION_FILE = f"{DOMAIN}.config.json"
 LEGACY_KEY_FILE = f"{DOMAIN}.key"
 
-UPDATE_API_INTERVAL = timedelta(minutes=5)
+UPDATE_API_INTERVAL = timedelta(seconds=1)
 
 DEFAULT_ENTRY_ID = "config"
-CONF_UPDATE_INTERVAL = "update_interval"
 CONF_TITLE = "title"
 
 DEFAULT_PORT = 80
@@ -53,3 +52,13 @@ PRODUCT_STATUS_ENDPOINT = "/DevMgmt/ProductStatusDyn.xml"
 PRODUCT_STATUS_OFFLINE_PAYLOAD = {
     "ProductStatusDyn": {"Status": [{"StatusCategory": "off"}]}
 }
+
+DURATION_UNITS = {
+    "s": "seconds",
+    "m": "minutes",
+    "h": "hours",
+    "d": "days",
+    "w": "weeks",
+}
+
+DEFAULT_INTERVAL = "5m"

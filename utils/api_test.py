@@ -1,11 +1,10 @@
 import asyncio
-import json
 import logging
 import os
 import sys
 
 from custom_components.hpprinter import HAConfigManager
-from custom_components.hpprinter.common.consts import DATA_KEYS, PRINTER_MAIN_DEVICE
+from custom_components.hpprinter.common.consts import DATA_KEYS
 from custom_components.hpprinter.managers.rest_api import RestAPIv2
 from homeassistant.core import HomeAssistant
 
@@ -49,10 +48,9 @@ class APITest:
 
             # print(json.dumps(self._api.data_config, indent=4))
             # print(json.dumps(self._api.data, indent=4))
-            print(json.dumps(self._api.data[PRINTER_MAIN_DEVICE], indent=4))
+            # print(json.dumps(self._api.data[PRINTER_MAIN_DEVICE], indent=4))
 
-    async def terminate(self):
-        await self._api.terminate()
+            await asyncio.sleep(5)
 
 
 if __name__ == "__main__":
@@ -68,6 +66,3 @@ if __name__ == "__main__":
 
     except Exception as rex:
         _LOGGER.error(f"Error: {rex}")
-
-    finally:
-        loop.run_until_complete(instance.terminate())
