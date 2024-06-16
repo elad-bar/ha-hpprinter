@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 import json
 import logging
 import sys
@@ -12,12 +13,15 @@ from homeassistant.helpers.aiohttp_client import (
     ENABLE_CLEANUP_CLOSED,
     MAXIMUM_CONNECTIONS,
     MAXIMUM_CONNECTIONS_PER_HOST,
+    async_create_clientsession,
 )
 from homeassistant.helpers.dispatcher import dispatcher_send
 from homeassistant.util import slugify, ssl
 from homeassistant.util.ssl import SSLCipherList
 
 from ..common.consts import (
+    DEFAULT_INTERVAL,
+    DURATION_UNITS,
     IGNORED_KEYS,
     PRODUCT_STATUS_ENDPOINT,
     PRODUCT_STATUS_OFFLINE_PAYLOAD,
@@ -40,6 +44,8 @@ class RestAPIv2:
 
         self._data: dict = {}
         self._data_config: dict = {}
+        self._last_update: dict[str, float] = {}
+        self._update_intervals: dict[str, int] = {}
 
         self._raw_data: dict = {}
 
@@ -84,10 +90,12 @@ class RestAPIv2:
                 raise IntegrationParameterError(CONF_HOST)
 
             if self._session is None:
-                self._session = ClientSession(
-                    loop=self._loop, connector=self._get_ssl_connector()
-                )
+                if self._hass is None:
+                    self._session = ClientSession(loop=self._loop)
+                else:
+                    self._session = async_create_clientsession(hass=self._hass)
 
+            self._load_update_intervals()
             await self._load_metadata()
 
         except Exception as ex:
@@ -134,7 +142,9 @@ class RestAPIv2:
         else:
             self._all_endpoints = self._config_manager.endpoints.copy()
 
-            await self._update_data(self._config_manager.endpoints, False)
+            updates = await self._update_data(self._config_manager.endpoints, False)
+
+            _LOGGER.debug(f"Startup: {updates} endpoints were updated")
 
             endpoints_found = len(self._raw_data.keys())
             is_connected = endpoints_found > 0
@@ -153,17 +163,44 @@ class RestAPIv2:
         self._is_connected = is_connected
 
     async def update(self):
-        await self._update_data(self._config_manager.endpoints)
+        updates = await self._update_data(self._config_manager.endpoints)
+
+        _LOGGER.debug(f"Scheduled update: {updates} endpoints were updated")
 
     async def update_full(self):
-        await self._update_data(self._all_endpoints)
+        updates = await self._update_data(self._all_endpoints)
 
-    async def _update_data(self, endpoints: list[str], connectivity_check: bool = True):
+        _LOGGER.debug(f"Full update: {updates} endpoints were updated")
+
+    async def _update_data(
+        self, endpoints: list[str], connectivity_check: bool = True
+    ) -> int:
+        endpoints_updated = 0
+
         if not self._is_connected and connectivity_check:
-            return
+            return endpoints_updated
+
+        now = datetime.now()
+        now_ts = now.timestamp()
 
         for endpoint in endpoints:
+            last_update = (
+                self._last_update.get(endpoint, 0) if connectivity_check else 0
+            )
+            last_update_diff = int(now_ts - last_update)
+            interval = self._update_intervals.get(endpoint, 0)
+
+            if interval > last_update_diff:
+                _LOGGER.debug(
+                    f"Skip updating '{endpoint}', "
+                    f"it's too soon, "
+                    f"interval: {interval}s, "
+                    f"time since last update: {last_update_diff}s"
+                )
+                continue
+
             resource_data = await self._get_request(endpoint)
+            endpoints_updated += 1
 
             if resource_data is None:
                 if endpoint == PRODUCT_STATUS_ENDPOINT:
@@ -172,9 +209,14 @@ class RestAPIv2:
             else:
                 self._raw_data[endpoint] = resource_data
 
+                if connectivity_check:
+                    self._last_update[endpoint] = now.timestamp()
+
         devices = self._get_devices_data()
 
         self._extract_data(devices)
+
+        return endpoints_updated
 
     def _extract_data(self, devices: list[dict]):
         device_data = {}
@@ -286,6 +328,13 @@ class RestAPIv2:
 
         return result
 
+    def _load_update_intervals(self):
+        for data_point in self._config_manager.data_points:
+            endpoint = data_point.get("endpoint")
+            interval = data_point.get("interval", DEFAULT_INTERVAL)
+
+            self._update_intervals[endpoint] = self._convert_to_seconds(interval)
+
     def _get_devices_data(self):
         devices = []
 
@@ -326,26 +375,21 @@ class RestAPIv2:
         for property_key in properties:
             property_details = properties.get(property_key)
             property_path = property_details.get("path")
-            property_accept = property_details.get("accept")
+            options = property_details.get("options")
+            validation_warning = property_details.get("validationWarning", False)
+            value = data_item_flat.get(property_path)
 
-            is_valid = True
+            is_valid = True if options is None else str(value).lower() in options
 
-            if property_accept is not None:
-                for property_accept_key in property_accept:
-                    property_accept_data = property_accept[property_accept_key]
-
-                    if data_item.get(property_accept_key) != property_accept_data:
-                        is_valid = False
-                        _LOGGER.debug(
-                            f"Ignoring {property_key}, "
-                            f"not match to accept criteria {property_accept_key}: {property_accept_data}"
-                        )
-
-            if is_valid:
-                value = data_item_flat.get(property_path)
-
-                if value is not None:
+            if value is not None:
+                if is_valid:
                     device_data[property_key] = value
+                else:
+                    log = _LOGGER.warning if validation_warning else _LOGGER.debug
+
+                    log(
+                        f"Unsupported value of {property_key}, expecting: {options}, received: {value}"
+                    )
 
         data = {"config": device_config, "data": device_data}
 
@@ -355,10 +399,12 @@ class RestAPIv2:
         self, endpoint: str, ignore_error: bool = False
     ) -> dict | None:
         result: dict | None = None
+        start_ts = datetime.now().timestamp()
+
         try:
             url = f"{self.config_data.url}{endpoint}"
 
-            timeout = ClientTimeout(connect=3, sock_read=10)
+            timeout = ClientTimeout(total=5)
 
             async with self._session.get(url, timeout=timeout) as response:
                 response.raise_for_status()
@@ -379,31 +425,52 @@ class RestAPIv2:
                             if ignored_key in result[root_key]:
                                 del result[root_key][ignored_key]
 
-                _LOGGER.debug(f"Request to {url}")
+                completed_ts = datetime.now().timestamp()
+                time_taken = completed_ts - start_ts
+                _LOGGER.debug(f"Request to {url} completed, Time: {time_taken:.3f}s")
 
         except ClientResponseError as cre:
             if cre.status == 404:
                 if not ignore_error:
                     exc_type, exc_obj, tb = sys.exc_info()
                     line_number = tb.tb_lineno
+                    completed_ts = datetime.now().timestamp()
+                    time_taken = completed_ts - start_ts
+
                     _LOGGER.debug(
-                        f"Failed to get response from {endpoint}, Error: {cre}, Line: {line_number}"
+                        f"Failed to get response from {endpoint}, "
+                        f"Error: {cre}, "
+                        f"Line: {line_number}, "
+                        f"Time: {time_taken:.3f}s"
                     )
 
             else:
                 if not ignore_error:
                     exc_type, exc_obj, tb = sys.exc_info()
                     line_number = tb.tb_lineno
+                    completed_ts = datetime.now().timestamp()
+                    time_taken = completed_ts - start_ts
+
                     _LOGGER.error(
-                        f"Failed to get response from {endpoint}, Error: {cre}, Line: {line_number}"
+                        f"Failed to get response from {endpoint}, "
+                        f"Error: {cre}, "
+                        f"Line: {line_number}, "
+                        f"Time: {time_taken:.3f}s"
                     )
 
         except Exception as ex:
             if not ignore_error:
                 exc_type, exc_obj, tb = sys.exc_info()
                 line_number = tb.tb_lineno
+
+                completed_ts = datetime.now().timestamp()
+                time_taken = completed_ts - start_ts
+
                 _LOGGER.error(
-                    f"Failed to get {endpoint}, Error: {ex}, Line: {line_number}"
+                    f"Failed to get {endpoint}, "
+                    f"Error: {ex}, "
+                    f"Line: {line_number}, "
+                    f"Time: {time_taken:.3f}s"
                 )
 
         return result
@@ -447,3 +514,15 @@ class RestAPIv2:
                 device_data,
                 device_config,
             )
+
+    @staticmethod
+    def _convert_to_seconds(duration: str | None) -> int:
+        if duration is None:
+            duration = DEFAULT_INTERVAL
+
+        count = int(duration[:-1])
+        unit = DURATION_UNITS[duration[-1]]
+        td = timedelta(**{unit: count})
+        seconds = td.seconds + 60 * 60 * 24 * td.days
+
+        return seconds

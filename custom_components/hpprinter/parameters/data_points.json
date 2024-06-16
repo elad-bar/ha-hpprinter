@@ -4,6 +4,7 @@
     "endpoint": "/DevMgmt/ProductConfigDyn.xml",
     "path": "ProductConfigDyn.ProductInformation",
     "device_type": "Main",
+    "interval": "52w",
     "properties": {
       "make_and_model": {
         "path": "MakeAndModel"
@@ -59,6 +60,7 @@
         "path": "ConsumableTypeEnum",
         "platform": "sensor",
         "device_class": "enum",
+        "validationWarning": true,
         "options": [
           "ink",
           "inkcartridge",
@@ -404,6 +406,7 @@
     "name": "Status",
     "endpoint": "/DevMgmt/ProductStatusDyn.xml",
     "path": "ProductStatusDyn.Status",
+    "interval": "10s",
     "device_type": "Main",
     "properties": {
       "device_status": {
@@ -418,10 +421,7 @@
           "processing",
           "canceljob",
           "inpowersave"
-        ],
-        "accept": {
-          "LocString": null
-        }
+        ]
       }
     }
   }

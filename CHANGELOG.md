@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.0.2
+
+- Use HA client session instead of aiohttp directly
+- Improved validation for enum sensors (Status and Consumable Type)
+- Set update interval per endpoint (Default - 5m), instead of 5 minutes as configuration
+
+| Endpoint                         | Data                                       | Interval | Times a day |
+| -------------------------------- | ------------------------------------------ | -------- | ----------- |
+| /DevMgmt/ProductConfigDyn.xml    | Main device details                        | 52w      | 0.0027      |
+| /DevMgmt/ProductStatusDyn.xml    | Device status                              | 10s      | 8,640       |
+| /DevMgmt/ConsumableConfigDyn.xml | Consumables                                | 5m       | 288         |
+| /DevMgmt/ProductUsageDyn.xml     | Consumables, Printer, Scanner, Copier, Fax | 5m       | 288         |
+| /ePrint/ePrintConfigDyn.xml      | ePrint                                     | 5m       | 288         |
+| /IoMgmt/Adapters                 | Network Adapters                           | 5m       | 288         |
+| /DevMgmt/NetAppsSecureDyn.xml    | Wifi                                       | 5m       | 288         |
+
 ## 2.0.1
 
 - Set printer status to `Off` when printer is offline, instead of reset data

@@ -1,4 +1,3 @@
-from datetime import timedelta
 import json
 import logging
 import os
@@ -14,13 +13,7 @@ from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.json import JSONEncoder
 from homeassistant.helpers.storage import Store
 
-from ..common.consts import (
-    CONF_UPDATE_INTERVAL,
-    CONFIGURATION_FILE,
-    DEFAULT_ENTRY_ID,
-    DEFAULT_NAME,
-    DOMAIN,
-)
+from ..common.consts import CONFIGURATION_FILE, DEFAULT_ENTRY_ID, DEFAULT_NAME, DOMAIN
 from ..common.entity_descriptions import (
     IntegrationBinarySensorEntityDescription,
     IntegrationEntityDescription,
@@ -99,13 +92,6 @@ class HAConfigManager:
         config_data = self._config_data
 
         return config_data
-
-    @property
-    def update_interval(self) -> timedelta:
-        interval = self._data.get(CONF_UPDATE_INTERVAL, 5)
-        result = timedelta(minutes=interval)
-
-        return result
 
     @property
     def endpoints(self) -> list[str] | None:
@@ -191,13 +177,6 @@ class HAConfigManager:
 
         return entity_name
 
-    async def set_update_interval(self, value: int):
-        _LOGGER.debug(f"Set update interval in minutes to to {value}")
-
-        self._data[CONF_UPDATE_INTERVAL] = value
-
-        await self._save()
-
     def get_debug_data(self) -> dict:
         data = self._config_data.to_dict()
 
@@ -233,7 +212,7 @@ class HAConfigManager:
 
     @staticmethod
     def _get_defaults() -> dict:
-        data = {CONF_UPDATE_INTERVAL: 5}
+        data = {}
 
         return data
 

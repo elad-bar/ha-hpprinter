@@ -17,3 +17,6 @@ translators~= 5.4
 deep-translator~=1.9
 
 python-slugify~=4.0.1
+
+custom_components~=0.0.0
+aiofiles~=23.2.1
