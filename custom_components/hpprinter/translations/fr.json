@@ -10,10 +10,10 @@
     "step": {
       "user": {
         "data": {
-          "host": "H\u00f4tesse H\u00f4te",
+          "host": "Nom d'h\u00f4te ou IP",
           "name": "Nom",
           "port": "Num\u00e9ro de port",
-          "ssl": "Est ssl"
+          "ssl": "Utiliser SSL"
         },
         "title": "Configurer l'imprimante HP"
       }
@@ -22,7 +22,7 @@
   "entity": {
     "binary_sensor": {
       "cloud_services_switch_status": {
-        "name": "ePrint Statut"
+        "name": "Statut ePrint"
       },
       "consumable_life_state_consumable_state": {
         "name": "Statut"
@@ -39,16 +39,16 @@
         "name": "Pages totales de l'ADF"
       },
       "color_impressions": {
-        "name": "Pages de couleur totale"
+        "name": "Total pages couleur"
       },
       "consumable_percentage_level_remaining": {
         "name": "Niveau"
       },
       "consumable_station": {
-        "name": "Gare"
+        "name": "Emplacement"
       },
       "consumable_type_enum": {
-        "name": "Taper",
+        "name": "Type",
         "state": {
           "ink": "Encre",
           "inkcartridge": "Encre",
@@ -61,22 +61,22 @@
         "name": "Statut",
         "state": {
           "off": "D\u00e9sactiv\u00e9",
-          "canceljob": "Emploi d'annulation",
-          "copying": "Copier",
-          "inpowersave": "Inactive Inactif",
+          "canceljob": "Annulation travail",
+          "copying": "Copie",
+          "inpowersave": "Inactif",
           "processing": "Impression",
-          "ready": "Sur",
-          "scanprocessing": "Balayage"
+          "ready": "Pr\u00eat",
+          "scanprocessing": "Numérisation"
         }
       },
       "duplex_sheets": {
-        "name": "Pages totales double face"
+        "name": "Total pages recto verso"
       },
       "estimated_pages_remaining": {
-        "name": "Restante Restant"
+        "name": "Restant"
       },
       "flatbed_images": {
-        "name": "Pages totales du verre du scanner"
+        "name": "Total pages de la vitre du scanner"
       },
       "hardware_config_device_connectivity_port_type": {
         "name": "Type de port"
@@ -85,16 +85,16 @@
         "name": "Date d'installation"
       },
       "jam_events": {
-        "name": "Jams totaux"
+        "name": "Total bourrages"
       },
       "manufacture_at": {
         "name": "Date de fabrication"
       },
       "mispick_events": {
-        "name": "Picks Miss Total"
+        "name": "Total bourrages entrants"
       },
       "monochrome_impressions": {
-        "name": "Pages totales en noir et blanc"
+        "name": "Total pages en noir et blanc"
       },
       "refilled_count_counterfeit_refilled_count": {
         "name": "Contrefait rempli"
@@ -103,13 +103,13 @@
         "name": "Authentique rempli"
       },
       "scan_images": {
-        "name": "Pages totales"
+        "name": "Total pages"
       },
       "simplex_sheets": {
-        "name": "Pages totales \u00e0 un c\u00f4t\u00e9 unique"
+        "name": "Total pages recto"
       },
       "total_impressions": {
-        "name": "Pages totales"
+        "name": "Total pages"
       },
       "warranty_expiration_date": {
         "name": "Date d'expiration"
@@ -125,10 +125,10 @@
     "step": {
       "hp_printer_additional_settings": {
         "data": {
-          "host": "H\u00f4tesse H\u00f4te",
+          "host": "Nom d'h\u00f4te ou IP",
           "log_level": "Niveau de journal",
           "name": "Nom",
-          "store_data": "Doit les r\u00e9ponses du magasin?",
+          "store_data": "Doit stocker les r\u00e9ponses ?",
           "update_interval": "Mettre \u00e0 jour l'intervalle (secondes)"
         },
         "description": "D\u00e9finir des param\u00e8tres suppl\u00e9mentaires pour l'int\u00e9gration de l'imprimante HP",
@@ -138,8 +138,8 @@
         "data": {
           "host": "Nom d'h\u00f4te ou IP",
           "port": "Num\u00e9ro de port",
-          "ssl": "Est ssl",
-          "update_interval": "Mettre \u00e0 jour l'intervalle (secondes)"
+          "ssl": "Utiliser SSL",
+          "update_interval": "Interval de mise \u00e0 jour (secondes)"
         },
         "description": "D\u00e9finir des param\u00e8tres suppl\u00e9mentaires pour l'int\u00e9gration de l'imprimante HP",
         "title": "Options pour l'imprimante HP."
