@@ -4,18 +4,18 @@
       "already_configured": "HP -Druckerintegration ({name}) bereits konfiguriert"
     },
     "error": {
-      "error_400": "Ung\u00fcltige Serverdetails, bitte versuchen Sie manuell auf `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Ersetzen Sie Platzhalter mit IP oder Hostname).",
+      "error_400": "Ung\u00fcltige Serverdetails, bitte versuchen Sie manuell auf `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Ersetzen Sie den Platzhalter mit der IP oder dem Hostname).",
       "error_404": "Nicht unterst\u00fctzte API"
     },
     "step": {
       "user": {
         "data": {
-          "host": "Gastgeber",
+          "host": "Host",
           "name": "Name",
           "port": "Port-Nummer",
-          "ssl": "Ist SSL"
+          "ssl": "SSL nutzen"
         },
-        "title": "Richten Sie den HP -Drucker ein"
+        "title": "Richten Sie den HP-Drucker ein"
       }
     }
   },
@@ -28,24 +28,24 @@
         "name": "Status"
       },
       "hardware_config_is_connected": {
-        "name": "In Verbindung gebracht"
+        "name": "Verbunden"
       },
       "registration_state": {
-        "name": "ePrint Eingetragen"
+        "name": "ePrint Registriert"
       }
     },
     "sensor": {
       "adf_images": {
-        "name": "Gesamtseiten von ADF"
+        "name": "Gesamtseiten ADF"
       },
       "color_impressions": {
-        "name": "Gesamtfarbseiten"
+        "name": "Gesamtseiten farbig"
       },
       "consumable_percentage_level_remaining": {
-        "name": "Ebene"
+        "name": "Level"
       },
       "consumable_station": {
-        "name": "Bahnhof"
+        "name": "Station"
       },
       "consumable_type_enum": {
         "name": "Typ",
@@ -61,7 +61,7 @@
         "name": "Status",
         "state": {
           "off": "Aus",
-          "canceljob": "Aufgabe stornieren",
+          "canceljob": "Aufgabe abbrechen",
           "copying": "Kopieren",
           "inpowersave": "Leerlauf",
           "processing": "Drucken",
@@ -70,22 +70,22 @@
         }
       },
       "duplex_sheets": {
-        "name": "Gesamt zweiseitige Seiten"
+        "name": "Gesamtseiten Doppelseitig"
       },
       "estimated_pages_remaining": {
-        "name": "\u00dcbrig"
+        "name": "Verbleibend"
       },
       "flatbed_images": {
-        "name": "Gesamtseiten aus Scannerglas"
+        "name": "Gesamtseiten Scannerglas"
       },
       "hardware_config_device_connectivity_port_type": {
-        "name": "Port -Typ"
+        "name": "Port-Typ"
       },
       "installation_date": {
         "name": "Installationsdatum"
       },
       "jam_events": {
-        "name": "Gesamtmarmelade"
+        "name": "Gesamt Papierstaus"
       },
       "manufacture_at": {
         "name": "Herstellungsdatum"
@@ -94,55 +94,55 @@
         "name": "Total Miss Picks"
       },
       "monochrome_impressions": {
-        "name": "Gesamtschwarz-Wei\u00df-Seiten"
+        "name": "Gesamtseiten Schwarz-Wei\u00df"
       },
       "refilled_count_counterfeit_refilled_count": {
-        "name": "Gef\u00e4lscht nachgedacht"
+        "name": "Gef\u00e4lscht nachgef\u00fcllt"
       },
       "refilled_count_genuine_refilled_count": {
-        "name": "Echt nachgedacht"
+        "name": "Original nachgef\u00fcllt"
       },
       "scan_images": {
-        "name": "Alle Seiten"
+        "name": "Gesamtseiten"
       },
       "simplex_sheets": {
-        "name": "Gesamt einseitige Seiten"
+        "name": "Gesamtseiten Einseitig"
       },
       "total_impressions": {
-        "name": "Alle Seiten"
+        "name": "Gesamtseiten"
       },
       "warranty_expiration_date": {
-        "name": "Verfallsdatum"
+        "name": "Ablaufsdatum"
       }
     }
   },
   "options": {
     "error": {
-      "already_configured": "HP -Druckerintegration ({name}) bereits konfiguriert",
-      "error_400": "Ung\u00fcltige Serverdetails, bitte versuchen Sie manuell auf `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Ersetzen Sie Platzhalter mit IP oder Hostname).",
+      "already_configured": "HP-Druckerintegration ({name}) bereits konfiguriert",
+      "error_400": "Ung\u00fcltige Serverdetails, bitte versuchen Sie manuell auf `http://{IP}//DevMgmt/ProductStatusDyn.xml` zuzugreifen (ersetzen Sie den Platzhalter mit der IP oder dem Hostname).",
       "error_404": "Nicht unterst\u00fctzte API"
     },
     "step": {
       "hp_printer_additional_settings": {
         "data": {
-          "host": "Gastgeber",
+          "host": "Host",
           "log_level": "Protokollebene",
           "name": "Name",
-          "store_data": "Sollte die Antworten speichern?",
+          "store_data": "Antworten speichern?",
           "update_interval": "Aktualisierungsintervall (Sekunden)"
         },
-        "description": "Definieren Sie zus\u00e4tzliche Einstellungen f\u00fcr die HP -Druckerintegration",
-        "title": "Optionen f\u00fcr HP -Drucker."
+        "description": "Definieren Sie zus\u00e4tzliche Einstellungen f\u00fcr die HP-Druckerintegration",
+        "title": "Optionen f\u00fcr HP-Drucker."
       },
       "init": {
         "data": {
           "host": "Hostname oder IP",
           "port": "Port-Nummer",
-          "ssl": "Ist SSL",
+          "ssl": "SSL nutzen",
           "update_interval": "Aktualisierungsintervall (Sekunden)"
         },
-        "description": "Definieren Sie zus\u00e4tzliche Einstellungen f\u00fcr die HP -Druckerintegration",
-        "title": "Optionen f\u00fcr HP -Drucker."
+        "description": "Definieren Sie zus\u00e4tzliche Einstellungen f\u00fcr die HP-Druckerintegration",
+        "title": "Optionen f\u00fcr HP-Drucker."
       }
     }
   }
