@@ -52,6 +52,7 @@
         "state": {
           "ink": "Ink",
           "inkcartridge": "Ink",
+          "inktank": "Ink Tank",
           "printhead": "Printhead",
           "toner": "Toner",
           "tonercartridge": "Toner"
@@ -60,10 +61,10 @@
       "device_status": {
         "name": "Status",
         "state": {
-          "off": "Off",
           "canceljob": "Cancelling Job",
           "copying": "Copying",
           "inpowersave": "Idle",
+          "off": "Off",
           "processing": "Printing",
           "ready": "On",
           "scanprocessing": "Scanning"

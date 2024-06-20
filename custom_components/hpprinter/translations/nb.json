@@ -52,6 +52,7 @@
         "state": {
           "ink": "Blekk",
           "inkcartridge": "Blekk",
+          "inktank": "Blekkbeholder",
           "printhead": "Skrivehode",
           "toner": "Toner",
           "tonercartridge": "Toner"
@@ -60,10 +61,10 @@
       "device_status": {
         "name": "Status",
         "state": {
-          "off": "Av",
           "canceljob": "Avbryt jobb",
           "copying": "Kopiering",
           "inpowersave": "Tomgang",
+          "off": "Av",
           "processing": "Printing",
           "ready": "P\u00e5",
           "scanprocessing": "Skanning"

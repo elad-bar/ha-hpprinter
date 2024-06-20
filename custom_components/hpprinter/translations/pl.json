@@ -52,6 +52,7 @@
         "state": {
           "ink": "Atrament",
           "inkcartridge": "Atrament",
+          "inktank": "Zbiornik atramentowy",
           "printhead": "Printhead",
           "toner": "Toner",
           "tonercartridge": "Toner"
@@ -60,10 +61,10 @@
       "device_status": {
         "name": "Status",
         "state": {
-          "off": "Wy\u0142\u0105czony",
           "canceljob": "Anulowanie pracy",
           "copying": "Biurowy",
           "inpowersave": "Bezczynny",
+          "off": "Wy\u0142\u0105czony",
           "processing": "Druk",
           "ready": "NA",
           "scanprocessing": "\u0141\u00f3w"

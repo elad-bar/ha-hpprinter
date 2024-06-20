@@ -66,7 +66,8 @@
           "inkcartridge",
           "printhead",
           "toner",
-          "tonercartridge"
+          "tonercartridge",
+          "inktank"
         ]
       },
       "installation_date": {
