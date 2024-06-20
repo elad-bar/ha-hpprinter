@@ -37,6 +37,7 @@ class RestAPIv2:
         self._loop = hass.loop
         self._config_manager = config_manager
         self._hass = hass
+        self._endpoints = self._config_manager.endpoints
 
         self._session: ClientSession | None = None
 
@@ -49,8 +50,9 @@ class RestAPIv2:
         self._is_connected: bool = False
 
         self._device_dispatched: list[str] = []
-        self._all_endpoints: list[str] = []
         self._support_prefetch: bool = False
+
+        self._is_printer_online: bool = False
 
     @property
     def data(self) -> dict | None:
@@ -119,77 +121,61 @@ class RestAPIv2:
         return connector
 
     async def _load_metadata(self):
-        self._all_endpoints = []
+        status = await self._revalidate_printer_status()
 
-        endpoints = await self._get_request("/Prefetch?type=dtree", True)
+        if status is None:
+            raise IntegrationAPIError(PRODUCT_STATUS_ENDPOINT)
 
-        self._support_prefetch = endpoints is not None
-        is_connected = self._support_prefetch
+    async def _revalidate_printer_status(self):
+        now = datetime.now()
+        now_ts = now.timestamp()
 
-        if self._support_prefetch:
-            for endpoint in endpoints:
-                is_valid = self._config_manager.is_valid_endpoint(endpoint)
+        status_endpoint = PRODUCT_STATUS_ENDPOINT
+        last_update = self._last_update.get(status_endpoint, 0)
 
-                if is_valid:
-                    endpoint_uri = endpoint.get("uri")
+        last_update_diff = int(now_ts - last_update)
+        interval = self._config_manager.get_update_interval(status_endpoint)
 
-                    self._all_endpoints.append(endpoint_uri)
+        if interval > last_update_diff:
+            return None
 
-        else:
-            self._all_endpoints = self._config_manager.endpoints.copy()
+        product_status_data = await self._get_request(status_endpoint)
+        self._is_printer_online = product_status_data is not None
 
-            updates = await self._update_data(self._config_manager.endpoints, False)
+        if self._is_printer_online:
+            self._last_update = {}
 
-            _LOGGER.debug(f"Startup: {updates} endpoints were updated")
+            return product_status_data
 
-            endpoints_found = len(self._raw_data.keys())
-            is_connected = endpoints_found > 0
-            available_endpoints = len(self._all_endpoints)
-
-            if is_connected:
-                _LOGGER.info(
-                    "No support for prefetch endpoint, "
-                    f"{endpoints_found}/{available_endpoints} Endpoints found"
-                )
-            else:
-                endpoint_urls = ", ".join(self._all_endpoints)
-
-                raise IntegrationAPIError(endpoint_urls)
-
-        self._is_connected = is_connected
+        return None
 
     async def update(self):
-        updates = await self._update_data(self._config_manager.endpoints)
-
-        _LOGGER.debug(f"Scheduled update: {updates} endpoints were updated")
-
-    async def update_full(self):
-        updates = await self._update_data(self._all_endpoints)
-
-        _LOGGER.debug(f"Full update: {updates} endpoints were updated")
-
-    async def _update_data(
-        self, endpoints: list[str], connectivity_check: bool = True
-    ) -> int:
+        product_status_data: dict | None = None
         endpoints_updated = 0
 
-        if not self._is_connected and connectivity_check:
-            return endpoints_updated
+        if not self._is_printer_online:
+            product_status_data = await self._revalidate_printer_status()
+
+            if product_status_data is None:
+                return endpoints_updated
 
         now = datetime.now()
         now_ts = now.timestamp()
 
-        for endpoint in endpoints:
-            last_update = (
-                self._last_update.get(endpoint, 0) if connectivity_check else 0
-            )
+        for endpoint in self._endpoints:
+            last_update = self._last_update.get(endpoint, 0)
             last_update_diff = int(now_ts - last_update)
             interval = self._config_manager.get_update_interval(endpoint)
 
             if interval > last_update_diff:
                 continue
 
-            resource_data = await self._get_request(endpoint)
+            if endpoint == PRODUCT_STATUS_ENDPOINT and product_status_data is not None:
+                resource_data = product_status_data
+
+            else:
+                resource_data = await self._get_request(endpoint)
+
             endpoints_updated += 1
 
             if resource_data is None:
@@ -198,15 +184,13 @@ class RestAPIv2:
 
             else:
                 self._raw_data[endpoint] = resource_data
-
-                if connectivity_check:
-                    self._last_update[endpoint] = now.timestamp()
+                self._last_update[endpoint] = now.timestamp()
 
         devices = self._get_devices_data()
 
         self._extract_data(devices)
 
-        return endpoints_updated
+        _LOGGER.debug(f"Scheduled update: {endpoints_updated} endpoints were updated")
 
     def _extract_data(self, devices: list[dict]):
         device_data = {}
