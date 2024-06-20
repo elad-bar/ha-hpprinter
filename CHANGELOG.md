@@ -3,6 +3,7 @@
 ## 2.0.3
 
 - Add support for `inktank` cartridge type
+- Add sensor of total printed pages per consumable, available for toner only
 
 ## 2.0.2
 

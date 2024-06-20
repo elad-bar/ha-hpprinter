@@ -173,6 +173,22 @@
         "unit_of_measurement": "refills",
         "state_class": "total_increasing",
         "icon": "mdi:format-color-fill"
+      },
+      "total_impression": {
+        "path": "TotalImpressions",
+        "platform": "sensor",
+        "unit_of_measurement": "pages",
+        "state_class": "total_increasing",
+        "icon": "mdi:file-document-check",
+        "exclude": {
+          "consumable_type_enum": [
+            "ink",
+            "inkcartridge",
+            "printhead",
+            "tonercartridge",
+            "inktank"
+          ]
+        }
       }
     }
   },
