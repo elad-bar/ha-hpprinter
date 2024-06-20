@@ -389,7 +389,9 @@ class RestAPIv2:
 
             timeout = ClientTimeout(total=5)
 
-            async with self._session.get(url, timeout=timeout) as response:
+            async with self._session.get(
+                url, timeout=timeout, verify_ssl=False
+            ) as response:
                 response.raise_for_status()
 
                 if response.content_type == "application/javascript":
