@@ -300,9 +300,7 @@ class HACoordinator(DataUpdateCoordinator):
 
         return data
 
-    async def get_debug_data(self) -> dict:
-        await self._api.update_full()
-
+    def get_debug_data(self) -> dict:
         data = {
             "rawData": self._api.raw_data,
             "devicesData": self._api.data,
@@ -310,6 +308,9 @@ class HACoordinator(DataUpdateCoordinator):
         }
 
         return data
+
+    def get_devices(self) -> dict[str, DeviceInfo]:
+        return self._devices
 
     async def _async_update_data(self):
         try:
