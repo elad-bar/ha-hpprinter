@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.3
+
+- Add support for `inktank` cartridge type
+
 ## 2.0.2
 
 - Use HA client session instead of aiohttp directly

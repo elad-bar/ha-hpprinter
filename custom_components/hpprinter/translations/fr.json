@@ -52,6 +52,7 @@
         "state": {
           "ink": "Encre",
           "inkcartridge": "Encre",
+          "inktank": "R\u00e9servoir d'encre",
           "printhead": "T\u00eate d'impression",
           "toner": "Toner",
           "tonercartridge": "Toner"
@@ -60,13 +61,13 @@
       "device_status": {
         "name": "Statut",
         "state": {
-          "off": "D\u00e9sactiv\u00e9",
           "canceljob": "Annulation travail",
           "copying": "Copie",
           "inpowersave": "Inactif",
+          "off": "D\u00e9sactiv\u00e9",
           "processing": "Impression",
           "ready": "Pr\u00eat",
-          "scanprocessing": "Numérisation"
+          "scanprocessing": "Num\u00c3\u00a9risation"
         }
       },
       "duplex_sheets": {

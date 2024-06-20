@@ -52,6 +52,7 @@
         "state": {
           "ink": "Tinta",
           "inkcartridge": "Tinta",
+          "inktank": "Tanque de tinta",
           "printhead": "Cabezal",
           "toner": "Virador",
           "tonercartridge": "Virador"
@@ -60,10 +61,10 @@
       "device_status": {
         "name": "Estado",
         "state": {
-          "off": "Apagada Apagado",
           "canceljob": "Cancelar trabajo",
           "copying": "Proceso de copiar",
           "inpowersave": "Inactiva Inactivo",
+          "off": "Apagada Apagado",
           "processing": "Impresi\u00f3n",
           "ready": "En",
           "scanprocessing": "Exploraci\u00f3n"

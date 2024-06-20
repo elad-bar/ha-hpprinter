@@ -52,6 +52,7 @@
         "state": {
           "ink": "Bl\u00e6k",
           "inkcartridge": "Bl\u00e6k",
+          "inktank": "Bl\u00e6kbeholder",
           "printhead": "Printhead",
           "toner": "Toner",
           "tonercartridge": "Toner"
@@ -60,10 +61,10 @@
       "device_status": {
         "name": "Status",
         "state": {
-          "off": "Af",
           "canceljob": "Annullering af job",
           "copying": "Kopiering",
           "inpowersave": "Ledig",
+          "off": "Af",
           "processing": "Trykning",
           "ready": "P\u00e5",
           "scanprocessing": "Scanning"
