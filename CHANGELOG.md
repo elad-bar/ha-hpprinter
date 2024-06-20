@@ -3,7 +3,7 @@
 ## 2.0.3
 
 - Add support for `inktank` cartridge type [#162](https://github.com/elad-bar/ha-hpprinter/issues/162)
-- Add sensor of total printed pages per consumable, available for toner only [#129](https://github.com/elad-bar/ha-hpprinter/issues/129)
+- Add sensor of total printed pages per consumable, available for toner only [#72](https://github.com/elad-bar/ha-hpprinter/issues/72)
 - Fix HTTPS requests [#160](https://github.com/elad-bar/ha-hpprinter/issues/160)
 
 ## 2.0.2
