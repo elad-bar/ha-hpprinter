@@ -1,7 +1,7 @@
 import logging
 import sys
 
-from homeassistant.core import Event
+from homeassistant.core import Event, callback
 from homeassistant.helpers.dispatcher import (
     async_dispatcher_connect,
     async_dispatcher_send,
@@ -52,11 +52,7 @@ class HACoordinator(DataUpdateCoordinator):
             "Adapter": self.create_adapter_device,
         }
 
-        self.config_entry.async_on_unload(
-            async_dispatcher_connect(
-                hass, SIGNAL_HA_DEVICE_DISCOVERED, self._on_device_discovered
-            )
-        )
+        self._load_signal_handlers()
 
     @property
     def api(self) -> RestAPIv2:
@@ -92,6 +88,25 @@ class HACoordinator(DataUpdateCoordinator):
         await self._api.initialize()
 
         await self.async_config_entry_first_refresh()
+
+    def _load_signal_handlers(self):
+        loop = self.hass.loop
+
+        @callback
+        def on_device_discovered(
+            entry_id: str, device_key: str, device_data: dict, device_config: dict
+        ):
+            loop.create_task(
+                self._on_device_discovered(
+                    entry_id, device_key, device_data, device_config
+                )
+            ).__await__()
+
+        self.config_entry.async_on_unload(
+            async_dispatcher_connect(
+                self.hass, SIGNAL_HA_DEVICE_DISCOVERED, self._on_device_discovered
+            )
+        )
 
     def create_main_device(
         self, device_key: str, device_data: dict, device_config: dict
