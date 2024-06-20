@@ -374,9 +374,15 @@ class HAConfigManager:
             for exclude_key in exclude:
                 exclude_value = exclude[exclude_key]
 
-                if data.get(exclude_key) == exclude_value:
-                    is_valid = False
-                    break
+                if isinstance(exclude_value, list):
+                    if data.get(exclude_key) in exclude_value:
+                        is_valid = False
+                        break
+
+                else:
+                    if data.get(exclude_key) == exclude_value:
+                        is_valid = False
+                        break
 
         return is_valid
 
