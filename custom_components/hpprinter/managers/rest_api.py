@@ -8,7 +8,6 @@ from defusedxml import ElementTree
 from flatten_json import flatten
 import xmltodict
 
-from homeassistant.const import CONF_HOST
 from homeassistant.helpers.aiohttp_client import (
     ENABLE_CLEANUP_CLOSED,
     MAXIMUM_CONNECTIONS,
@@ -26,7 +25,6 @@ from ..common.consts import (
     SIGNAL_HA_DEVICE_DISCOVERED,
 )
 from ..models.config_data import ConfigData
-from ..models.exceptions import IntegrationAPIError, IntegrationParameterError
 from .ha_config_manager import HAConfigManager
 
 _LOGGER = logging.getLogger(__name__)
@@ -47,12 +45,10 @@ class RestAPIv2:
 
         self._raw_data: dict = {}
 
-        self._is_connected: bool = False
-
         self._device_dispatched: list[str] = []
         self._support_prefetch: bool = False
 
-        self._is_printer_online: bool = False
+        self._is_online: bool = False
 
     @property
     def data(self) -> dict | None:
@@ -73,33 +69,29 @@ class RestAPIv2:
 
         return None
 
+    @property
+    def is_online(self) -> bool:
+        return self._is_online
+
     async def terminate(self):
         _LOGGER.info("Terminating session to HP Printer EWS")
-
-        self._is_connected = False
 
         if self._session is not None:
             await self._session.close()
 
             self._session = None
 
-    async def initialize(self, throw_exception: bool = False):
+    async def initialize(self):
         try:
-            if not self.config_data.hostname:
-                raise IntegrationParameterError(CONF_HOST)
-
             if self._session is None:
                 if self._hass is None:
                     self._session = ClientSession(loop=self._loop)
                 else:
                     self._session = async_create_clientsession(hass=self._hass)
 
-            await self._load_metadata()
+            await self._update_product_status_endpoint_data()
 
         except Exception as ex:
-            if throw_exception:
-                raise ex
-
             exc_type, exc_obj, tb = sys.exc_info()
             line_number = tb.tb_lineno
 
@@ -120,77 +112,101 @@ class RestAPIv2:
 
         return connector
 
-    async def _load_metadata(self):
-        status = await self._revalidate_printer_status()
+    async def _update_endpoint_data(self, endpoint: str) -> bool:
+        can_update = False
 
-        if status is None:
-            raise IntegrationAPIError(PRODUCT_STATUS_ENDPOINT)
+        try:
+            now = datetime.now()
+            now_ts = now.timestamp()
 
-    async def _revalidate_printer_status(self):
-        now = datetime.now()
-        now_ts = now.timestamp()
-
-        status_endpoint = PRODUCT_STATUS_ENDPOINT
-        last_update = self._last_update.get(status_endpoint, 0)
-
-        last_update_diff = int(now_ts - last_update)
-        interval = self._config_manager.get_update_interval(status_endpoint)
-
-        if interval > last_update_diff:
-            return None
-
-        product_status_data = await self._get_request(status_endpoint)
-        self._is_printer_online = product_status_data is not None
-
-        if self._is_printer_online:
-            self._last_update = {}
-
-            return product_status_data
-
-        return None
-
-    async def update(self):
-        product_status_data: dict | None = None
-        endpoints_updated = 0
-
-        if not self._is_printer_online:
-            product_status_data = await self._revalidate_printer_status()
-
-            if product_status_data is None:
-                return endpoints_updated
-
-        now = datetime.now()
-        now_ts = now.timestamp()
-
-        for endpoint in self._endpoints:
             last_update = self._last_update.get(endpoint, 0)
+
             last_update_diff = int(now_ts - last_update)
             interval = self._config_manager.get_update_interval(endpoint)
 
-            if interval > last_update_diff:
-                continue
+            can_update = last_update_diff >= interval
 
-            if endpoint == PRODUCT_STATUS_ENDPOINT and product_status_data is not None:
-                resource_data = product_status_data
+            if can_update:
+                data = await self._get_request(endpoint)
 
-            else:
-                resource_data = await self._get_request(endpoint)
+                self._raw_data[endpoint] = data
+                self._last_update[endpoint] = now_ts
 
-            endpoints_updated += 1
+        except Exception as ex:
+            exc_type, exc_obj, tb = sys.exc_info()
+            line_number = tb.tb_lineno
 
-            if resource_data is None:
-                if endpoint == PRODUCT_STATUS_ENDPOINT:
-                    self._raw_data[endpoint] = PRODUCT_STATUS_OFFLINE_PAYLOAD
+            _LOGGER.error(
+                f"Failed to update endpoint {endpoint} data, Error: {ex}, Line: {line_number}"
+            )
 
-            else:
-                self._raw_data[endpoint] = resource_data
-                self._last_update[endpoint] = now.timestamp()
+        return can_update
 
-        devices = self._get_devices_data()
+    async def _update_product_status_endpoint_data(self) -> bool:
+        was_changed = False
 
-        self._extract_data(devices)
+        try:
+            status_endpoint = PRODUCT_STATUS_ENDPOINT
 
-        _LOGGER.debug(f"Scheduled update: {endpoints_updated} endpoints were updated")
+            was_online = self.is_online
+            was_updated = await self._update_endpoint_data(status_endpoint)
+
+            if was_updated:
+                product_status_data = self._raw_data.get(status_endpoint)
+                self._is_online = product_status_data is not None
+
+                if not self._is_online:
+                    self._raw_data[status_endpoint] = PRODUCT_STATUS_OFFLINE_PAYLOAD
+
+                was_changed = self._is_online != was_online
+
+            if was_changed:
+                _LOGGER.debug(f"Device online state changed to {self._is_online}")
+
+                got_online = not was_online and self._is_online
+
+                if got_online:
+                    for endpoint in self._last_update:
+                        if endpoint != PRODUCT_STATUS_ENDPOINT:
+                            self._last_update[endpoint] = 0
+
+        except Exception as ex:
+            exc_type, exc_obj, tb = sys.exc_info()
+            line_number = tb.tb_lineno
+
+            _LOGGER.error(
+                f"Failed to update product status data, Error: {ex}, Line: {line_number}"
+            )
+
+        return was_changed
+
+    async def update(self, endpoints: list[str] = None):
+        try:
+            _LOGGER.debug(f"Updating data from {self.config_data.hostname}")
+
+            was_changed = await self._update_product_status_endpoint_data()
+            update_counter = 1 if was_changed else 0
+
+            if self._is_online:
+                if endpoints is None:
+                    endpoints = self._config_manager.endpoints
+
+                for endpoint in endpoints:
+                    was_updated = await self._update_endpoint_data(endpoint)
+
+                    if was_updated:
+                        update_counter += 1
+
+            if update_counter > 0:
+                devices = self._get_devices_data()
+
+                self._extract_data(devices)
+
+        except Exception as ex:
+            exc_type, exc_obj, tb = sys.exc_info()
+            line_number = tb.tb_lineno
+
+            _LOGGER.error(f"Failed to update data, Error: {ex}, Line: {line_number}")
 
     def _extract_data(self, devices: list[dict]):
         device_data = {}
@@ -362,9 +378,7 @@ class RestAPIv2:
 
         return data
 
-    async def _get_request(
-        self, endpoint: str, ignore_error: bool = False
-    ) -> dict | None:
+    async def _get_request(self, endpoint: str) -> dict | None:
         result: dict | None = None
         start_ts = datetime.now().timestamp()
 
@@ -400,47 +414,47 @@ class RestAPIv2:
 
         except ClientResponseError as cre:
             if cre.status == 404:
-                if not ignore_error:
-                    exc_type, exc_obj, tb = sys.exc_info()
-                    line_number = tb.tb_lineno
-                    completed_ts = datetime.now().timestamp()
-                    time_taken = completed_ts - start_ts
-
-                    _LOGGER.debug(
-                        f"Failed to get response from {endpoint}, "
-                        f"Error: {cre}, "
-                        f"Line: {line_number}, "
-                        f"Time: {time_taken:.3f}s"
-                    )
-
-            else:
-                if not ignore_error:
-                    exc_type, exc_obj, tb = sys.exc_info()
-                    line_number = tb.tb_lineno
-                    completed_ts = datetime.now().timestamp()
-                    time_taken = completed_ts - start_ts
-
-                    _LOGGER.error(
-                        f"Failed to get response from {endpoint}, "
-                        f"Error: {cre}, "
-                        f"Line: {line_number}, "
-                        f"Time: {time_taken:.3f}s"
-                    )
-
-        except Exception as ex:
-            if not ignore_error:
                 exc_type, exc_obj, tb = sys.exc_info()
                 line_number = tb.tb_lineno
+                completed_ts = datetime.now().timestamp()
+                time_taken = completed_ts - start_ts
 
+                _LOGGER.debug(
+                    f"Failed to get response from {endpoint}, "
+                    f"Error: {cre.status}, "
+                    f"Line: {line_number}, "
+                    f"Time: {time_taken:.3f}s"
+                )
+
+            else:
+                exc_type, exc_obj, tb = sys.exc_info()
+                line_number = tb.tb_lineno
                 completed_ts = datetime.now().timestamp()
                 time_taken = completed_ts - start_ts
 
                 _LOGGER.error(
-                    f"Failed to get {endpoint}, "
-                    f"Error: {ex}, "
+                    f"Failed to get response from {endpoint}, "
+                    f"Error: {cre.status}, "
                     f"Line: {line_number}, "
                     f"Time: {time_taken:.3f}s"
                 )
+
+        except TimeoutError:
+            _LOGGER.error(f"Failed to get {endpoint} due to timeout")
+
+        except Exception as ex:
+            exc_type, exc_obj, tb = sys.exc_info()
+            line_number = tb.tb_lineno
+
+            completed_ts = datetime.now().timestamp()
+            time_taken = completed_ts - start_ts
+
+            _LOGGER.error(
+                f"Failed to get {endpoint}, "
+                f"Error: {ex}, "
+                f"Line: {line_number}, "
+                f"Time: {time_taken:.3f}s"
+            )
 
         return result
 

@@ -9,9 +9,14 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowHandler
 
-from ..common.consts import DATA_KEYS, DEFAULT_NAME
+from ..common.consts import (
+    DATA_KEYS,
+    DEFAULT_NAME,
+    MODEL_PROPERTY,
+    PRINTER_MAIN_DEVICE,
+    PRODUCT_MAIN_ENDPOINT,
+)
 from ..models.config_data import ConfigData
-from ..models.exceptions import IntegrationAPIError, IntegrationParameterError
 from .ha_config_manager import HAConfigManager
 from .rest_api import RestAPIv2
 
@@ -58,29 +63,35 @@ class IntegrationFlowManager:
 
                 api = RestAPIv2(self._hass, self._config_manager)
 
-                await api.initialize(True)
+                await api.initialize()
 
-                _LOGGER.debug("User inputs are valid")
-                title = DEFAULT_NAME
+                if api.is_online:
+                    _LOGGER.debug("User inputs are valid")
 
-                if self._entry is None:
-                    data = copy(user_input)
+                    await api.update([PRODUCT_MAIN_ENDPOINT])
+
+                    main_device = api.data.get(PRINTER_MAIN_DEVICE, {})
+                    model = main_device.get(MODEL_PROPERTY, DEFAULT_NAME)
+                    title = f"{model} ({api.config_data.hostname})"
+
+                    if self._entry is None:
+                        data = copy(user_input)
+
+                    else:
+                        data = await self.remap_entry_data(user_input)
+                        title = self._entry.title
+
+                    return self._flow_handler.async_create_entry(title=title, data=data)
 
                 else:
-                    data = await self.remap_entry_data(user_input)
-                    title = self._entry.title
+                    form_errors = {"base": "error_404"}
 
-                return self._flow_handler.async_create_entry(title=title, data=data)
+                    _LOGGER.warning("Failed to setup integration")
 
-            except IntegrationParameterError as ipex:
+            except Exception as ex:
                 form_errors = {"base": "error_400"}
 
-                _LOGGER.warning(f"Failed to setup integration, Error: {ipex}")
-
-            except IntegrationAPIError as iapiex:
-                form_errors = {"base": "error_404"}
-
-                _LOGGER.warning(f"Failed to setup integration, Error: {iapiex}")
+                _LOGGER.error(f"Failed to setup integration, Error: {ex}")
 
         schema = ConfigData.default_schema(user_input)
 

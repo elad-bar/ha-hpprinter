@@ -12,6 +12,7 @@ from homeassistant.util import slugify
 
 from ..common.consts import (
     DOMAIN,
+    MODEL_PROPERTY,
     PRINTER_MAIN_DEVICE,
     SIGNAL_HA_DEVICE_CREATED,
     SIGNAL_HA_DEVICE_DISCOVERED,
@@ -115,7 +116,7 @@ class HACoordinator(DataUpdateCoordinator):
             self._main_device_data = device_data
             self._main_device_id = device_key
 
-            model = device_data.get("make_and_model")
+            model = device_data.get(MODEL_PROPERTY)
             serial_number = device_data.get("serial_number")
             manufacturer = device_data.get("manufacturer_name")
 
@@ -147,7 +148,7 @@ class HACoordinator(DataUpdateCoordinator):
         self, device_key: str, device_data: dict, device_config: dict
     ):
         try:
-            model = self._main_device_data.get("make_and_model")
+            model = self._main_device_data.get(MODEL_PROPERTY)
             serial_number = self._main_device_data.get("serial_number")
             manufacturer = self._main_device_data.get("manufacturer_name")
 
