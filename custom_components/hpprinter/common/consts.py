@@ -48,7 +48,11 @@ UNIT_OF_MEASUREMENT_REFILLS = "refills"
 
 NUMERIC_UNITS_OF_MEASUREMENT = [UNIT_OF_MEASUREMENT_PAGES, UNIT_OF_MEASUREMENT_REFILLS]
 
+MODEL_PROPERTY = "make_and_model"
+
 PRODUCT_STATUS_ENDPOINT = "/DevMgmt/ProductStatusDyn.xml"
+PRODUCT_MAIN_ENDPOINT = "/DevMgmt/ProductConfigDyn.xml"
+
 PRODUCT_STATUS_OFFLINE_PAYLOAD = {
     "ProductStatusDyn": {"Status": [{"StatusCategory": "off"}]}
 }

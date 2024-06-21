@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.4
+
+- Fix update data when printer goes online [#161](https://github.com/elad-bar/ha-hpprinter/issues/161)
+- Set integration title as `{make_and_model} ({hostname})`
+
 ## 2.0.3
 
 - Add support for `inktank` cartridge type [#162](https://github.com/elad-bar/ha-hpprinter/issues/162)

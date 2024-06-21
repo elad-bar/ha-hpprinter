@@ -4,7 +4,12 @@ import os
 import sys
 
 from custom_components.hpprinter import HAConfigManager
-from custom_components.hpprinter.common.consts import DATA_KEYS
+from custom_components.hpprinter.common.consts import (
+    DATA_KEYS,
+    MODEL_PROPERTY,
+    PRINTER_MAIN_DEVICE,
+    PRODUCT_MAIN_ENDPOINT,
+)
 from custom_components.hpprinter.managers.rest_api import RestAPIv2
 from homeassistant.core import HomeAssistant
 
@@ -41,16 +46,34 @@ class APITest:
         await self._config_manager.initialize(self._config_data)
 
         self._api = RestAPIv2(hass, self._config_manager)
-        await self._api.initialize(True)
+        await self._api.initialize()
 
-        for i in range(0, 2):
-            await self._api.update()
+        if self._api.is_online:
 
-            # print(json.dumps(self._api.data_config, indent=4))
-            # print(json.dumps(self._api.data, indent=4))
-            # print(json.dumps(self._api.data[PRINTER_MAIN_DEVICE], indent=4))
+            await self._api.update([PRODUCT_MAIN_ENDPOINT])
 
-            await asyncio.sleep(5)
+            main_device = self._api.data.get(PRINTER_MAIN_DEVICE)
+            model = main_device.get(MODEL_PROPERTY)
+            title = f"{model} ({self._api.config_data.hostname})"
+
+            print(title)
+
+            for i in range(0, 1):
+                # self._api.config_data.update({
+                #    key: os.environ.get(key) if i % 2 == 0 or key != "host" else "127.0.0.1"
+                #    for key in self._api.config_data.to_dict()
+                #})
+
+                await self._api.update()
+
+                # print(json.dumps(self._api.data_config, indent=4))
+                # print(json.dumps(self._api.data, indent=4))
+                # print(json.dumps(self._api.data[PRINTER_MAIN_DEVICE], indent=4))
+
+                await asyncio.sleep(10)
+
+        else:
+            _LOGGER.warning("Failed to connect")
 
 
 if __name__ == "__main__":
