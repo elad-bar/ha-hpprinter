@@ -1,6 +1,7 @@
 import logging
 import sys
 
+from homeassistant.config_entries import ConfigEntryState
 from homeassistant.core import Event, callback
 from homeassistant.helpers.dispatcher import (
     async_dispatcher_connect,
@@ -88,7 +89,10 @@ class HACoordinator(DataUpdateCoordinator):
 
         await self._api.initialize()
 
-        await self.async_config_entry_first_refresh()
+        if entry.state == ConfigEntryState.LOADED:
+            await self.async_refresh()
+        else:
+            await self.async_config_entry_first_refresh()
 
     def _load_signal_handlers(self):
         loop = self.hass.loop
