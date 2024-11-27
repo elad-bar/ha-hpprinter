@@ -1,0 +1,40 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Configurar HP Printer",
+        "data": {
+          "host": "Host",
+          "name": "Nome"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Integração HP Printer ({name}) já configurada"
+    },
+    "error": {
+      "error_400": "Detalhes do servidor inválidos, tente aceder manualmente `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Substituir o marcador de host posição por IP ou Hostname), caso esteja acessível, verifique o problema nos logs",
+      "error_404": "Impressora Sem API"
+    }
+  },
+  "options": {
+    "step": {
+      "hp_printer_additional_settings": {
+        "title": "Opções para HP Printer.",
+        "description": "Defina configurações adicionais para a integração HP Printer",
+        "data": {
+          "host": "Host",
+          "name": "Nome",
+          "update_interval": "Intervalo de atualização (segundos)",
+          "log_level": "Nível de registo",
+          "store_data": "Deve guardar respostas?"
+        }
+      }
+    },
+    "error": {
+      "error_400": "Detalhes do servidor inválidos, tente acessar manualmente `http://{IP}//DevMgmt/ProductStatusDyn.xml` (Substituir o marcador de posição por IP ou Hostname), caso esteja acessível, verifique  o problema nos logs",
+      "error_404": "Impressora Sem API",
+      "already_configured": "Integração HP Printer ({name}) já configurada"
+    }
+  }
+}
