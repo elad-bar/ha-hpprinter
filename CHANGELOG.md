@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.5
+
+- Initialize data using `async_request_refresh` instead of `async_config_entry_first_refresh` to remove warning message
+
 ## 2.0.4
 
 - Fix update data when printer goes online [#161](https://github.com/elad-bar/ha-hpprinter/issues/161)
