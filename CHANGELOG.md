@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.5
+
+- New feature: Print pages (according to printer's supported jobs) buttons [#161](https://github.com/elad-bar/ha-hpprinter/issues/161)
+
 ## 2.0.4
 
 - Fix update data when printer goes online [#161](https://github.com/elad-bar/ha-hpprinter/issues/161)

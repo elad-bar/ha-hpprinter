@@ -278,22 +278,6 @@ class RestAPIv2:
         for device_key in self._data:
             self.device_data_changed(device_key)
 
-    @staticmethod
-    def _get_device_from_list(
-        data: list[dict], identifier_key: str, device_id
-    ) -> dict | None:
-        data_items = [
-            data_item
-            for data_item in data
-            if data_item.get(identifier_key) == device_id
-        ]
-
-        if data_items:
-            return data_items[0]
-
-        else:
-            return None
-
     def _get_device_config(self, device_type: str) -> dict | None:
         data_configs = [
             data_point
@@ -358,11 +342,23 @@ class RestAPIv2:
         for property_key in properties:
             property_details = properties.get(property_key)
             property_path = property_details.get("path")
+            property_type = property_details.get("type")
             options = property_details.get("options")
             validation_warning = property_details.get("validationWarning", False)
-            value = data_item_flat.get(property_path)
 
-            is_valid = True if options is None else str(value).lower() in options
+            if property_type == "list":
+                value = [
+                    data_item_flat.get(item)
+                    for item in data_item_flat
+                    if item.startswith(f"{property_path}.")
+                ]
+
+                is_valid = True
+
+            else:
+                value = data_item_flat.get(property_path)
+
+                is_valid = True if options is None else str(value).lower() in options
 
             if value is not None:
                 if is_valid:
@@ -497,3 +493,6 @@ class RestAPIv2:
                 device_data,
                 device_config,
             )
+
+    async def async_print_job(self, job: str):
+        _LOGGER.debug(f"Start job, Name: {job}")

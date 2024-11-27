@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 from homeassistant.components.binary_sensor import BinarySensorEntityDescription
+from homeassistant.components.button import ButtonEntityDescription
 from homeassistant.components.sensor import SensorEntityDescription
 from homeassistant.const import Platform
 from homeassistant.helpers.entity import EntityDescription
@@ -11,6 +12,13 @@ class IntegrationEntityDescription(EntityDescription):
     platform: Platform | None = None
     device_type: str | None = None
     exclude: dict | None = None
+
+
+@dataclass(frozen=True, kw_only=True)
+class IntegrationButtonEntityDescription(
+    ButtonEntityDescription, IntegrationEntityDescription
+):
+    platform: Platform | None = Platform.BUTTON
 
 
 @dataclass(frozen=True, kw_only=True)

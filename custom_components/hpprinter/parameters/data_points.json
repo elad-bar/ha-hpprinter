@@ -32,6 +32,23 @@
     }
   },
   {
+    "name": "PrintJobs",
+    "endpoint": "/DevMgmt/InternalPrintCap.xml",
+    "path": "InternalPrintCap",
+    "device_type": "Main",
+    "interval": "52w",
+    "properties": {
+      "job_url": {
+        "path": "JobUrl"
+      },
+      "job_types": {
+        "path": "JobTypesSupport.JobType",
+        "type": "list",
+        "platform": "button"
+      }
+    }
+  },
+  {
     "name": "Consumable",
     "endpoint": "/DevMgmt/ConsumableConfigDyn.xml",
     "path": "ConsumableConfigDyn.ConsumableInfo",

@@ -1,4 +1,5 @@
 import asyncio
+import json
 import logging
 import os
 import sys
@@ -48,27 +49,26 @@ class APITest:
         self._api = RestAPIv2(hass, self._config_manager)
         await self._api.initialize()
 
+        await self._api.update([PRODUCT_MAIN_ENDPOINT])
+
+        main_device = self._api.data.get(PRINTER_MAIN_DEVICE)
+        model = main_device.get(MODEL_PROPERTY)
+        title = f"{model} ({self._api.config_data.hostname})"
+
+        _LOGGER.info(f"Title: {title}")
+
+    def _modify_connection(self, index: int):
+        self._api.config_data.update({
+            key: os.environ.get(key) if index % 2 == 0 or key != "host" else "127.0.0.1"
+            for key in self._api.config_data.to_dict()
+        })
+
+    async def update(self, times: int):
         if self._api.is_online:
-
-            await self._api.update([PRODUCT_MAIN_ENDPOINT])
-
-            main_device = self._api.data.get(PRINTER_MAIN_DEVICE)
-            model = main_device.get(MODEL_PROPERTY)
-            title = f"{model} ({self._api.config_data.hostname})"
-
-            print(title)
-
-            for i in range(0, 1):
-                # self._api.config_data.update({
-                #    key: os.environ.get(key) if i % 2 == 0 or key != "host" else "127.0.0.1"
-                #    for key in self._api.config_data.to_dict()
-                #})
-
+            for i in range(0, times):
                 await self._api.update()
 
-                # print(json.dumps(self._api.data_config, indent=4))
-                # print(json.dumps(self._api.data, indent=4))
-                # print(json.dumps(self._api.data[PRINTER_MAIN_DEVICE], indent=4))
+                _LOGGER.debug(json.dumps(self._api.data[PRINTER_MAIN_DEVICE], indent=4))
 
                 await asyncio.sleep(10)
 
@@ -83,6 +83,7 @@ if __name__ == "__main__":
 
     try:
         loop.run_until_complete(instance.initialize())
+        loop.run_until_complete(instance.update(1))
 
     except KeyboardInterrupt:
         _LOGGER.info("Aborted")

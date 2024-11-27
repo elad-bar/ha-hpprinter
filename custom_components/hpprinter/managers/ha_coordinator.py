@@ -88,7 +88,7 @@ class HACoordinator(DataUpdateCoordinator):
 
         await self._api.initialize()
 
-        await self.async_config_entry_first_refresh()
+        await self.async_request_refresh()
 
     def _load_signal_handlers(self):
         loop = self.hass.loop
@@ -105,7 +105,7 @@ class HACoordinator(DataUpdateCoordinator):
 
         self.config_entry.async_on_unload(
             async_dispatcher_connect(
-                self.hass, SIGNAL_HA_DEVICE_DISCOVERED, self._on_device_discovered
+                self.hass, SIGNAL_HA_DEVICE_DISCOVERED, on_device_discovered
             )
         )
 
@@ -310,6 +310,9 @@ class HACoordinator(DataUpdateCoordinator):
 
         return data
 
+    async def async_print_job(self, job: str):
+        await self._api.async_print_job(job)
+
     def get_devices(self) -> dict[str, DeviceInfo]:
         return self._devices
 
@@ -342,6 +345,9 @@ class HACoordinator(DataUpdateCoordinator):
 
         else:
             self.create_sub_unit_device(device_key, device_data, device_config)
+
+        job_types: list[str] = device_data.get("job_types", [])
+        self.config_manager.load_buttons_entity_descriptions(job_types)
 
         async_dispatcher_send(
             self.hass,

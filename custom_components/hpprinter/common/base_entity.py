@@ -94,6 +94,7 @@ def _async_handle_device_created(
 
 
 class BaseEntity(CoordinatorEntity):
+    _entity_description: IntegrationEntityDescription
     _translations: dict
 
     def __init__(
@@ -105,6 +106,7 @@ class BaseEntity(CoordinatorEntity):
         super().__init__(coordinator)
 
         self.entity_description = entity_description
+        self._entity_description = entity_description
 
         self._device_key = device_key
         self._device_type = entity_description.device_type

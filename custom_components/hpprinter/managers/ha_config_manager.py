@@ -6,6 +6,7 @@ from pathlib import Path
 
 import aiofiles
 
+from homeassistant.components.button import ButtonDeviceClass
 from homeassistant.config_entries import STORAGE_VERSION, ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
@@ -13,6 +14,7 @@ from homeassistant.helpers import translation
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.json import JSONEncoder
 from homeassistant.helpers.storage import Store
+from homeassistant.util import slugify
 
 from ..common.consts import (
     CONFIGURATION_FILE,
@@ -21,9 +23,11 @@ from ..common.consts import (
     DEFAULT_NAME,
     DOMAIN,
     DURATION_UNITS,
+    PRINTER_MAIN_DEVICE,
 )
 from ..common.entity_descriptions import (
     IntegrationBinarySensorEntityDescription,
+    IntegrationButtonEntityDescription,
     IntegrationEntityDescription,
     IntegrationSensorEntityDescription,
 )
@@ -330,6 +334,20 @@ class HAConfigManager:
                         )
 
                         self._entity_descriptions.append(entity_description)
+
+        self._update_platforms()
+
+    def load_buttons_entity_descriptions(self, job_types: list[str]):
+        for job_type in job_types:
+            entity_description = IntegrationButtonEntityDescription(
+                key=job_type,
+                name=job_type,
+                device_type=PRINTER_MAIN_DEVICE,
+                device_class=ButtonDeviceClass.IDENTIFY,
+                translation_key=slugify(job_type),
+            )
+
+            self._entity_descriptions.append(entity_description)
 
         self._update_platforms()
 
