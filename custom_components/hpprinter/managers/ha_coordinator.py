@@ -88,7 +88,7 @@ class HACoordinator(DataUpdateCoordinator):
 
         await self._api.initialize()
 
-        await self.async_config_entry_first_refresh()
+        await self.async_request_refresh()
 
     def _load_signal_handlers(self):
         loop = self.hass.loop
