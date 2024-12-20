@@ -1,19 +1,19 @@
 {
   "config": {
     "abort": {
-      "already_configured": "Integraci\u00f3n de la impresora HP ({nombre}) ya configurada"
+      "already_configured": "Integraci\u00f3n de la impresora HP ({name}) ya configurada"
     },
     "error": {
-      "error_400": "Detalles del servidor no v\u00e1lidos, intente acceso manualmente a `http://{IP}//DevMgmt/ProductStatusDyn.xml` (reemplace el marcador de posici\u00f3n con IP o nombre de host), en caso de que est\u00e9 accesible, informe el problema con los registros",
-      "error_404": "API sin apoyo"
+      "error_400": "Detalles del servidor no v\u00e1lidos, intente acceso manualmente a `http://{IP}/DevMgmt/ProductStatusDyn.xml` (reemplace el marcador de posici\u00f3n con IP o nombre de host), en caso de que est\u00e9 accesible, informe el problema con los registros",
+      "error_404": "API no soportada"
     },
     "step": {
       "user": {
         "data": {
-          "host": "Anfitriona Anfitri\u00f3n",
+          "host": "Host",
           "name": "Nombre",
           "port": "N\u00famero de puerto",
-          "ssl": "Es ssl"
+          "ssl": "SSL"
         },
         "title": "Configurar la impresora HP"
       }
@@ -119,17 +119,17 @@
   },
   "options": {
     "error": {
-      "already_configured": "Integraci\u00f3n de la impresora HP ({nombre}) ya configurada",
-      "error_400": "Detalles del servidor no v\u00e1lidos, intente acceso manualmente a `http://{IP}//DevMgmt/ProductStatusDyn.xml` (reemplace el marcador de posici\u00f3n con IP o nombre de host), en caso de que est\u00e9 accesible, informe el problema con los registros",
-      "error_404": "API sin apoyo"
+      "already_configured": "Integraci\u00f3n de la impresora HP ({name}) ya configurada",
+      "error_400": "Detalles del servidor no v\u00e1lidos, intente acceso manualmente a `http://{IP}/DevMgmt/ProductStatusDyn.xml` (reemplace el marcador de posici\u00f3n con IP o nombre de host), en caso de que est\u00e9 accesible, informe el problema con los registros",
+      "error_404": "API no soportada"
     },
     "step": {
       "hp_printer_additional_settings": {
         "data": {
-          "host": "Anfitriona Anfitri\u00f3n",
+          "host": "Host",
           "log_level": "Nivel de registro",
           "name": "Nombre",
-          "store_data": "\u00bfDeber\u00edan las respuestas de la tienda?",
+          "store_data": "\u00bfDeber\u00ed guardar las respuestas?",
           "update_interval": "Intervalo de actualizaci\u00f3n (segundos)"
         },
         "description": "Definir configuraciones adicionales para la integraci\u00f3n de la impresora HP",
@@ -139,7 +139,7 @@
         "data": {
           "host": "Nombre de host o IP",
           "port": "N\u00famero de puerto",
-          "ssl": "Es ssl",
+          "ssl": "SSL",
           "update_interval": "Intervalo de actualizaci\u00f3n (segundos)"
         },
         "description": "Definir configuraciones adicionales para la integraci\u00f3n de la impresora HP",
