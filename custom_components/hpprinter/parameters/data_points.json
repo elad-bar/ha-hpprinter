@@ -186,7 +186,9 @@
             "inkcartridge",
             "printhead",
             "tonercartridge",
-            "inktank"
+            "inktank",
+            "rechargeabletoner",
+            "imagedrum"
           ]
         }
       }
