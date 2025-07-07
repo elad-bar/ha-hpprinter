@@ -50,7 +50,7 @@
           "toner": "Toner",
           "tonercartridge": "Toner",
           "inktank": "Ink Tank",
-          "rechargeabletoner": "Toner tank",
+          "rechargeableToner": "Toner tank",
           "imagedrum": "Image Drum"
         }
       },
