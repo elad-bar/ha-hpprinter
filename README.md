@@ -1,6 +1,6 @@
 # HP Printer integration for Home Assistant
 
-## 📌 Maintenance Notice
+### 📌 Maintenance Notice
 
 This integration is no longer actively developed, as I no longer have access to an HP printer for testing.  
 However, I will review and approve community contributions (issues and pull requests) if they are tested and confirmed to work.  
