@@ -8,7 +8,7 @@ However, I will review and approve community contributions (issues and pull requ
 If you rely on this integration, please consider contributing fixes and improvements.  
 pull requests are welcome!
 
-### Description
+## Description
 
 Configuration support multiple HP Printer devices through Configuration -> Integrations
 
