@@ -62,9 +62,11 @@
         "device_class": "enum",
         "validationWarning": true,
         "options": [
+          "imagedrum",
           "ink",
           "inkcartridge",
           "printhead",
+          "rechargeabletoner",
           "toner",
           "tonercartridge",
           "inktank"
@@ -186,7 +188,8 @@
             "inkcartridge",
             "printhead",
             "tonercartridge",
-            "inktank"
+            "inktank",
+            "rechargeabletoner"
           ]
         }
       }
