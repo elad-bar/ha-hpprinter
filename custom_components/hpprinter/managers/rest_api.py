@@ -30,7 +30,7 @@ _LOGGER = logging.getLogger(__name__)
 
 class RestAPIv2:
     def __init__(self, hass, config_manager: HAConfigManager):
-	self._loop = hass.loop if hass else None
+        self._loop = hass.loop if hass else None
         self._config_manager = config_manager
         self._hass = hass
         self._endpoints = self._config_manager.endpoints
