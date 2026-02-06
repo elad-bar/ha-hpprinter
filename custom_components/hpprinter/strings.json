@@ -49,7 +49,9 @@
           "printhead": "Printhead",
           "toner": "Toner",
           "tonercartridge": "Toner",
-          "inktank": "Ink Tank"
+          "inktank": "Ink Tank",
+          "rechargeabletoner": "Toner tank",
+          "imagedrum": "Image Drum"
         }
       },
       "estimated_pages_remaining": {
