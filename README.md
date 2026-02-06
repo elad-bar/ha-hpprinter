@@ -1,5 +1,7 @@
 # HP Printer integration for Home Assistant
 
+## This is a fork with updates so this integration works with HA 2026.2
+
 ### 📌 Maintenance Notice
 
 This integration is no longer actively developed, as I no longer have access to an HP printer for testing.  
