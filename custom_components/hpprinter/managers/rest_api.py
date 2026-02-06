@@ -9,11 +9,9 @@ from flatten_json import flatten
 import xmltodict
 
 from homeassistant.helpers.aiohttp_client import (
-    ENABLE_CLEANUP_CLOSED,
-    MAXIMUM_CONNECTIONS,
-    MAXIMUM_CONNECTIONS_PER_HOST,
     async_create_clientsession,
 )
+
 from homeassistant.helpers.dispatcher import dispatcher_send
 from homeassistant.util import slugify, ssl
 from homeassistant.util.ssl import SSLCipherList
@@ -32,7 +30,7 @@ _LOGGER = logging.getLogger(__name__)
 
 class RestAPIv2:
     def __init__(self, hass, config_manager: HAConfigManager):
-        self._loop = hass.loop
+        self._loop = hass.loop if hass else None
         self._config_manager = config_manager
         self._hass = hass
         self._endpoints = self._config_manager.endpoints
@@ -104,10 +102,8 @@ class RestAPIv2:
 
         connector = TCPConnector(
             loop=self._loop,
-            enable_cleanup_closed=ENABLE_CLEANUP_CLOSED,
+            enable_cleanup_closed=True, # Hardcoded op True aangezien de constante weg is
             ssl=ssl_context,
-            limit=MAXIMUM_CONNECTIONS,
-            limit_per_host=MAXIMUM_CONNECTIONS_PER_HOST,
         )
 
         return connector
